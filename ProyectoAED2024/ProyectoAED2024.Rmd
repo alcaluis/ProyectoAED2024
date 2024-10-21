@@ -1,7 +1,7 @@
 ---
 title: ProyectoAED2024
 authors:
-  - name: LUIS ALBACETE CABALLERO, CARLOS RIBES GARCÍA
+  - name: LUIS ALBACETE CABALLERO, CARLOS RIBES GARCÍA, JOAN PEDRO BRUIXOLA
     affiliation: Universitat de València
     email: alcaluis@alumni.uv.es
 abstract: |
