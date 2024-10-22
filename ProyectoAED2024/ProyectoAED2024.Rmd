@@ -1,129 +1,75 @@
 ---
 title: ProyectoAED2024
 authors:
-  - name: LUIS ALBACETE CABALLERO, CARLOS RIBES GARCÍA, JOAN PEDRO BRUIXOLA
+  - name: LUIS ALBACETE CABALLERO
     affiliation: Universitat de València
     email: alcaluis@alumni.uv.es
+  - name: CARLOS RIBES GARCÍA
+    affiliation: Universitat de València
+    email: carigar4@alumni.uv.es
+  - name: JOAN PEDRO BRUIXOLA
+    affiliation: Universitat de València
+    email: jopebrui@alumni.uv.es
 abstract: |
   Proyecto de tratamiento de datos para la asignatura de Análisis exploratorio
   de datos. El tópico es la delincuencia en España.
 output: rticles::arxiv_article
 ---
 
-# Introduction
+# Introducción
 
-Here goes an introduction text
+## Definición proyecto y planteamiento de preguntas (objetivos)
+WIP: Definir el problema y los objetivos del estudio
 
-# Headings: first level
-\label{sec:headings}
-
-You can use directly LaTeX command or Markdown text. 
-
-LaTeX command can be used to reference other section. See Section \ref{sec:headings}.
-However, you can also use **bookdown** extensions mechanism for this.
-
-## Headings: second level
-
-You can use equation in blocks
-
-$$
-\xi _{ij}(t)=P(x_{t}=i,x_{t+1}=j|y,v,w;\theta)= {\frac {\alpha _{i}(t)a^{w_t}_{ij}\beta _{j}(t+1)b^{v_{t+1}}_{j}(y_{t+1})}{\sum _{i=1}^{N} \sum _{j=1}^{N} \alpha _{i}(t)a^{w_t}_{ij}\beta _{j}(t+1)b^{v_{t+1}}_{j}(y_{t+1})}}
-$$
-
-But also inline i.e $z=x+y$
-
-### Headings: third level
-
-Another paragraph. 
-
-
-# Examples of citations, figures, tables, references
-\label{sec:others}
-
-You can insert references. Here is some text [@kour2014real; @kour2014fast] and see @hadash2018estimate.
-
-The documentation for \verb+natbib+ may be found at
-
-You can use custom blocks with LaTeX support from **rmarkdown** to create environment.
-
-::: {.center latex=true}
-  <http://mirrors.ctan.org/macros/latex/contrib/natbib/natnotes.pdf}>
-:::
-
-Of note is the command \verb+\citet+, which produces citations
-appropriate for use in inline text.  
-
-You can insert LaTeX environment directly too.
-
-\begin{verbatim}
-   \citet{hasselmo} investigated\dots
-\end{verbatim}
-
-produces
-
-\begin{quote}
-  Hasselmo, et al.\ (1995) investigated\dots
-\end{quote}
-
-\begin{center}
-  \url{https://www.ctan.org/pkg/booktabs}
-\end{center}
-
-
-## Figures
-
-You can insert figure using LaTeX directly. 
-
-See Figure \ref{fig:fig1}. Here is how you add footnotes. [^Sample of the first footnote.]
-
-\begin{figure}
-  \centering
-  \fbox{\rule[-.5cm]{4cm}{4cm} \rule[-.5cm]{4cm}{0cm}}
-  \caption{Sample figure caption.}
-  \label{fig:fig1}
-\end{figure}
-
-But you can also do that using R.
-
-```{r fig2, fig.cap = "Another sample figure"}
-plot(mtcars$mpg)
+## Carga de librerías y datos
+```{r intro_librerias_datos_setup}
+# WIP:
+#  - Carga librerias
+#  - Carga datos
 ```
 
-You can use **bookdown** to allow references for Tables and Figures.
-
-
-## Tables
-
-Below we can see how to use tables. 
-
-See awesome Table~\ref{tab:table} which is written directly in LaTeX in source Rmd file.
-
-\begin{table}
- \caption{Sample table title}
-  \centering
-  \begin{tabular}{lll}
-    \toprule
-    \multicolumn{2}{c}{Part}                   \\
-    \cmidrule(r){1-2}
-    Name     & Description     & Size ($\mu$m) \\
-    \midrule
-    Dendrite & Input terminal  & $\sim$100     \\
-    Axon     & Output terminal & $\sim$10      \\
-    Soma     & Cell body       & up to $10^6$  \\
-    \bottomrule
-  \end{tabular}
-  \label{tab:table}
-\end{table}
-
-You can also use R code for that.
-
-```{r}
-knitr::kable(head(mtcars), caption = "Head of mtcars table")
+## Estudio y acondicionamiento de los datos
+```{r intro_est_acond_datos}
+# WIP:
+#   - Análisis de la estructura y valores iniciales de los datos.
+#   - Acondicionamiento y preparación de los datos.
+#   - Validación datos acondicionados
 ```
 
+# Análisis
 
-## Lists
+## Análisis de las variables
+```{r analisis_variables}
+# WIP:
+#   - Análisis de las variables (individualmente, explicación de los datos,
+#                                estadísticos.)
+#   - Análisis de las variables (relaciones)
+# 
+#
+# - NOTA: Se debe hacer uso de una "Visualización temprana (exploratoria)"
+#   de los datos. 
+# - NOTA: Junto a la visualización se debe aportar una explicación.
+```
 
-- Item 1
-- Item 2 
-- Item 3
+## Análisis de 'outliers', métodos de imputación aplicados y análisis de datos perdidos
+```{r analisis_outliers_imputacion}
+# WIP:
+#   - Análisis de outliers, métodos de imputación y datos perdidos.
+# (si procede)
+```
+
+## Visualización Explicatoria
+```{r visualizacion_explicatoria}
+# WIP:
+#   - Visualización enfocada a los objetivos (encontrar una respuesta al problema).
+#
+# - NOTA: Junto a la visualización se debe aportar una explicación.
+```
+
+# Conclusiones
+
+WIP:
+ - Conclusiones finales.
+   - Objetivos.
+   - Proyecto.
+ - NOTA: Visualizaciones interactivas para finalizar/resumir, puede ser un buen punto.
