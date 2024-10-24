@@ -1,5 +1,6 @@
 ---
 title: ProyectoAED2024
+subtitle: "Análisis Exploratorio de Datos. Máster en Ciencia de Datos - UV"
 authors:
   - name: LUIS ALBACETE CABALLERO
     affiliation: Universitat de València
@@ -13,8 +14,10 @@ authors:
 abstract: |
   Proyecto de tratamiento de datos para la asignatura de Análisis exploratorio
   de datos. El tópico es la delincuencia en España.
+header-includes: \usepackage[spanish]{babel}
 output: rticles::arxiv_article
 ---
+\keywords{Delitos \and Menores \and Datos \and Ciencia de Datos}
 
 # Introducción
 
@@ -23,17 +26,83 @@ WIP: Definir el problema y los objetivos del estudio
 
 ## Carga de librerías y datos
 ```{r intro_librerias_datos_setup}
-# WIP:
-#  - Carga librerias
-#  - Carga datos
+# Carga de librerias
+librerias <- c("readr",       # Lectura de ficheros con formato
+               "dplyr",       # Gramática de manipulación de datos
+               "ggplot2")     # Visualización mediante gráficas elegantes
+pacman::p_load(char=librerias)
+
+# Carga de datos
+col_names <- c("Delitos N1", "Delitos N2", "Delitos N3",
+               "Delitos N4", "Delitos N5", "Edad",
+               "Año", "Total")
+col_types <- list(col_character(), col_character(), col_character(),
+                  col_character(), col_character(), col_character(),
+                  col_number(), col_number())
+delitos_menores_raw <- read_delim(
+  "../data/delitos_menores_2013_2023.csv", 
+  delim = ";",
+  escape_double = FALSE,
+  trim_ws = TRUE,                        # Espacios y tabulaciones eliminados.
+  show_col_types = FALSE,                # Omitir mensajes en carga de datos.
+  col_names = col_names,                 # Si proporcionamos nombres de columnas hemos de
+                                         # saltarnos la primera fila (skip=1).
+  skip=1,
+  locale = locale(grouping_mark = "."))  # Locale nos permitirá leer debidamente
+                                         # los millares.
 ```
 
 ## Estudio y acondicionamiento de los datos
-```{r intro_est_acond_datos}
-# WIP:
-#   - Análisis de la estructura y valores iniciales de los datos.
-#   - Acondicionamiento y preparación de los datos.
-#   - Validación datos acondicionados
+WIP:
+   - Análisis de la estructura y valores iniciales de los datos.
+   - Acondicionamiento y preparación de los datos.
+   - Validación datos acondicionados
+
+### Análisis de la estructura y valores iniciales de los datos.
+```{r intro_est_acond_datos__analisis_inicial_1}
+# Análisis de la estructura y valores iniciales de los datos.
+summary(delitos_menores_raw)
+str(delitos_menores_raw)
+```
+Gracias a "summary" podemos apreciar qué columnas contienen NAs y si
+los valores (de las columnas numéricas) entran dentro de lo esperado
+(min, max, median, ...).
+
+Teniendo para la columna **Año** valores esperados, desde 2013 hasta 2023 y la media
+obviamente en 2018. Respecto a la columna **Total**, podemos apreciar que tiene un número
+importante de valores faltantes y confirmamos que los valores se han importado
+correctamente (manteniendo los millares).
+
+Además hemos identificado que la columna **Edad** se ha importado como tipo "character".
+Tras hacer una visualización del archivo nos damos cuenta que los años se han importado
+como "14 años" agregando el sustantivo para todos los valores y en algunos casos agregando
+un "Total". Acondicionamiento de la columna será necesario.
+
+Las columnas restantes, que son de tipo "character", representan el delito en sus
+distintos niveles. Habremos de factorizar estas variable categóricas.
+
+El uso de la función "str" en este caso no nos ha aportado información adicional.
+
+
+```{r intro_est_acond_datos__analisis_inicial_2}
+# 1. Delitos N1
+# Esta columna no nos aporta valor alguno al solo tener un valor.
+# Más adelante será eliminada.
+unique(delitos_menores_raw$'Delitos N1')
+
+# 2. Delitos N2
+# Esta columna nos servirá para hacer el primer filtrado y quedarnos
+# con solo los delitos cometidos y no las faltas o los totales calculados.
+unique(delitos_menores_raw$'Delitos N2')
+
+# 3. Delitos N3, N4, N5
+
+# 4. Edad
+
+# 5. Año
+
+# 6. Total
+
 ```
 
 # Análisis
