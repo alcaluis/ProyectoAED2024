@@ -23,14 +23,14 @@ WIP: Definir el problema y los objetivos del estudio
 
 ## Carga de librerías y datos
 ```{r intro_librerias_datos_setup}
-# WIP:
+# WIP (TODOS):
 #  - Carga librerias
 #  - Carga datos
 ```
 
 ## Estudio y acondicionamiento de los datos
 ```{r intro_est_acond_datos}
-# WIP:
+# WIP (TODOS, #01-Introduccion):
 #   - Análisis de la estructura y valores iniciales de los datos.
 #   - Acondicionamiento y preparación de los datos.
 #   - Validación datos acondicionados
@@ -42,8 +42,8 @@ WIP: Definir el problema y los objetivos del estudio
 ```{r analisis_variables}
 # WIP:
 #   - Análisis de las variables (individualmente, explicación de los datos,
-#                                estadísticos.)
-#   - Análisis de las variables (relaciones)
+#                                estadísticos.) (CARLOS)
+#   - Análisis de las variables (relaciones) (JOAN)
 # 
 #
 # - NOTA: Se debe hacer uso de una "Visualización temprana (exploratoria)"
@@ -55,19 +55,19 @@ WIP: Definir el problema y los objetivos del estudio
 ```{r analisis_outliers_imputacion}
 # WIP:
 #   - Análisis de outliers, métodos de imputación y datos perdidos.
-# (si procede)
+# (si procede) (LUIS)
 ```
 
 ## Visualización Explicatoria
 ```{r visualizacion_explicatoria}
 # WIP:
-#   - Visualización enfocada a los objetivos (encontrar una respuesta al problema).
+#   - Visualización enfocada a los objetivos (encontrar una respuesta al problema). (TODOS)
 #
 # - NOTA: Junto a la visualización se debe aportar una explicación.
 ```
 
 # Conclusiones
-
+(TODOS)
 WIP:
  - Conclusiones finales.
    - Objetivos.
