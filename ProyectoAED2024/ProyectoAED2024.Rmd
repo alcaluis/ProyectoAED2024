@@ -42,8 +42,7 @@ output:
 WIP: Definir el problema y los objetivos del estudio
 
 ## Carga de librerías y datos
-```{r intro_librerias_datos_setup}
-# WIP (TODOS):
+```{r intro_setup_carga}
 # Carga de librerias
 librerias <- c("readr",       # Lectura de ficheros con formato
                "dplyr",       # Gramática de manipulación de datos
@@ -51,19 +50,19 @@ librerias <- c("readr",       # Lectura de ficheros con formato
 pacman::p_load(char=librerias)
 
 # Carga de datos
-col_names <- c("Delitos N1", "Delitos N2", "Delitos N3",
-               "Delitos N4", "Delitos N5", "Edad",
-               "Año", "Total Delitos")
+col_names <- c("delitos_n1", "delitos_n2", "delitos_n3",
+               "delitos_n4", "delitos_n5", "edad",
+               "año", "total_delitos")
 
 delitos_menores_raw <- read_delim(
-  "../data/delitos_menores_2013_2023.csv", 
+  file = "../data/delitos_menores_2013_2023.csv", 
   delim = ";",
   escape_double = FALSE,
   trim_ws = TRUE,                        # Espacios y tabulaciones eliminados.
   show_col_types = FALSE,                # Omitir mensajes en carga de datos.
   col_names = col_names,                 # Si proporcionamos nombres de columnas hemos de
                                          # saltarnos la primera fila (skip=1).
-  skip=1,
+  skip = 1,
   locale = locale(grouping_mark = "."))  # Locale nos permitirá leer debidamente
                                          # los millares.
 ```
@@ -75,50 +74,99 @@ WIP (TODOS, #01-Introduccion):
    - Validación datos acondicionados
 
 ### Análisis de la estructura y valores iniciales de los datos.
-```{r intro_est_acond_datos__analisis_inicial_1}
+```{r intro_analisis_inicial_1}
 # Análisis de la estructura y valores iniciales de los datos.
 summary(delitos_menores_raw)
-str(delitos_menores_raw)
+# str(delitos_menores_raw)     # STR no nos aporta información adicional
+# glimpse(delitos_menores_raw) # Lo mismo sucede con GLIMPSE
 ```
-Gracias a "summary" podemos apreciar qué columnas contienen NAs y si
-los valores (de las columnas numéricas) entran dentro de lo esperado
-(min, max, median, ...).
-
-Teniendo para la columna **Año** valores esperados, desde 2013 hasta 2023 y la media
-obviamente en 2018. Respecto a la columna **Total**, podemos apreciar que tiene un número
-importante de valores faltantes y confirmamos que los valores se han importado
-correctamente (manteniendo los millares).
-
-Además hemos identificado que la columna **Edad** se ha importado como tipo "character".
-Tras hacer una visualización del archivo nos damos cuenta que los años se han importado
-como "14 años" agregando el sustantivo para todos los valores y en algunos casos agregando
-un "Total". Acondicionamiento de la columna será necesario.
-
-Las columnas restantes, que son de tipo "character", representan el delito en sus
-distintos niveles. Habremos de factorizar estas variable categóricas.
-
-El uso de la función "str" en este caso no nos ha aportado información adicional.
+Gracias a "summary" podemos apreciar qué columnas contienen NAs y si los valores (de las columnas numéricas) entran dentro de lo esperado (min, max, median, ...).
 
 
-```{r intro_est_acond_datos__analisis_inicial_2}
-# 1. Delitos N1
-# Esta columna no nos aporta valor alguno al solo tener un valor.
-# Más adelante será eliminada.
-unique(delitos_menores_raw$'Delitos N1')
+Teniendo para la columna **año** valores esperados, desde 2013 hasta 2023 y la media obviamente en 2018. Respecto a la columna **total_delitos**, podemos apreciar que tiene un número relevante de valores faltantes (210) y confirmamos que los valores se han importado correctamente (manteniendo los millares).
 
-# 2. Delitos N2
-# Esta columna nos servirá para hacer el primer filtrado y quedarnos
-# con solo los delitos cometidos y no las faltas o los totales calculados.
-unique(delitos_menores_raw$'Delitos N2')
 
-# 3. Delitos N3, N4, N5
+Además hemos identificado que la columna **edad** se ha importado como tipo "character". Tras hacer una visualización del archivo nos damos cuenta que los años se han importado como "14 años" agregando el sustantivo para todos los valores y en algunos casos agregando un "Total". Acondicionamiento de la columna será necesario.
 
-# 4. Edad
 
-# 5. Año
+Las columnas restantes, que son de tipo "character", representan el delito en sus distintos niveles. Habremos de factorizar estas variable categóricas.
 
-# 6. Total Delitos
 
+El uso de la función "str" o "glimpse" en este caso no nos ha aportado información adicional.
+
+
+```{r intro_analisis_inicial_2}
+# 1. delitos_n1
+table(delitos_menores_raw$delitos_n1, useNA = "always")
+
+# 2. delitos_n2
+table(delitos_menores_raw$delitos_n2, useNA = "always")
+
+# 3. delitos_n3, N4, N5
+tail(table(delitos_menores_raw$delitos_n3, useNA = "always"))
+tail(table(delitos_menores_raw$delitos_n4, useNA = "always"))
+tail(table(delitos_menores_raw$delitos_n5, useNA = "always"))
+
+# 4. edad
+table(delitos_menores_raw$edad, useNA = "always")
+
+# 5. año
+table(delitos_menores_raw$año, useNA = "always")
+
+# 6. total_delitos
+# Del total de delitos no hay información adicional a obtener a parte de la
+# del "summary".
+```
+De las diferentes columnas podemos decir que:
+
+* **delitos_n1**: la primera columna no nos aporta valor alguno al solo tener un valor. Más adelante será eliminada.
+* **delitos_n2**: esta columna nos servirá para hacer el primer filtrado y quedarnos con solo los delitos y faltas cometidas. Omitiendo los totales calculados. Sus valores pueden ser reemplazados en valores más claros.
+* **delitos_n3, n4, y n5**: ayudan a clasificar los delitos en subtipos de infracción. Sin embargo, podemos ver como a mayor nivel de detalle más valores faltantes. Esto se debe a que un nivel de clasificación tan preciso no es necesario para describir todos los delitos.
+
+La columna **delitos_n5** no será necesaria. Aporta muy poca información y el análisis no requerirá tanto nivel de detalle para una infracción.
+
+* **edad**: todos los datos de esta columna son uniformes y esperados (ningún valor faltante). Finalmente se eliminarán aquellas instancias que representen un total y se convertirá la columna a tipo numérico.
+
+En resumen, las columnas de delitos n1 y n5 no son necesarias. Las columnas de delitos restantes serán convertidas a factor. La columna edad será modificada para mayor fidelidad al dato. 
+
+### Acondicionamiento y preparación de los datos
+```{r intro_acondicionamiento}
+df_delitos_menores <- delitos_menores_raw %>%
+  # Selección de características/variables relevantes
+  select(-c(delitos_n1, delitos_n5)) %>%
+
+  # Renombramiento de las columnas
+  rename(delito_falta = delitos_n2,          # Delito o Falta
+         clasi_infrac = delitos_n3,          # Primer nivel de clasifiación
+         sub_clasi_infrac = delitos_n4) %>%  # Segundo nivel de clasifiación
+  
+  # Filtrado, retiramos las columnas que ya están pre-calculadas.
+  # Caso edad = "Total"
+  # Caso "nivel_n1" era un "total" y los demás niveles de delito "NA"
+  filter(edad != "Total") %>%
+  filter(!is.na(delito_falta)) %>%
+  
+  # Reemplazo de valores
+  mutate(
+    # valores entendibles para "delito_falta"
+    delito_falta = case_when(delito_falta == "A Delitos" ~ "delito",
+                             delito_falta == "B Faltas" ~ "falta"),
+    # Eliminamos " años" y pasamos a numérico
+    edad = as.numeric(substring(edad, 1, 2))
+  ) %>%
+  
+  # Convertimos a factores
+  mutate(
+    delito_falta = as.factor(delito_falta),
+    clasi_infrac = as.factor(clasi_infrac),
+    sub_clasi_infrac = as.factor(sub_clasi_infrac)
+  )
+```
+
+### Validación datos acondicionados
+
+```{r intro_acondicionamiento_validacion}
+# WIP
 ```
 
 # Análisis
