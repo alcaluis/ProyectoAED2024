@@ -1,27 +1,187 @@
-\documentclass{article}
+%  LaTeX support: latex@mdpi.com
+%  For support, please attach all files needed for compiling as well as the log file, and specify your operating system, LaTeX version, and LaTeX editor.
 
-\usepackage{arxiv}
+%=================================================================
+% pandoc conditionals added to preserve backwards compatibility with previous versions of rticles
 
-\usepackage[utf8]{inputenc} % allow utf-8 input
-\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
-\usepackage{lmodern}        % https://github.com/rstudio/rticles/issues/343
-\usepackage{hyperref}       % hyperlinks
-\usepackage{url}            % simple URL typesetting
-\usepackage{booktabs}       % professional-quality tables
-\usepackage{amsfonts}       % blackboard math symbols
-\usepackage{nicefrac}       % compact symbols for 1/2, etc.
-\usepackage{microtype}      % microtypography
-\usepackage{graphicx}
+\documentclass[,,,,pdftex]{Definitions/mdpi}
 
-\title{ProyectoAED2024}
 
-\author{
-    LUIS ALBACETE CABALLERO
-   \\
-    Universitat de València \\
-   \\
-  \texttt{\href{mailto:alcaluis@alumni.uv.es}{\nolinkurl{alcaluis@alumni.uv.es}}} \\
-  }
+%% Some pieces required from the pandoc template
+\setlist[itemize]{leftmargin=*,labelsep=5.8mm}
+\setlist[enumerate]{leftmargin=*,labelsep=4.9mm}
+
+
+%--------------------
+% Class Options:
+%--------------------
+
+%---------
+% article
+%---------
+% The default type of manuscript is "article", but can be replaced by:
+% abstract, addendum, article, book, bookreview, briefreport, casereport, comment, commentary, communication, conferenceproceedings, correction, conferencereport, entry, expressionofconcern, extendedabstract, datadescriptor, editorial, essay, erratum, hypothesis, interestingimage, obituary, opinion, projectreport, reply, retraction, review, perspective, protocol, shortnote, studyprotocol, systematicreview, supfile, technicalnote, viewpoint, guidelines, registeredreport, tutorial
+% supfile = supplementary materials
+
+%----------
+% submit
+%----------
+% The class option "submit" will be changed to "accept" by the Editorial Office when the paper is accepted. This will only make changes to the frontpage (e.g., the logo of the journal will get visible), the headings, and the copyright information. Also, line numbering will be removed. Journal info and pagination for accepted papers will also be assigned by the Editorial Office.
+
+%------------------
+% moreauthors
+%------------------
+% If there is only one author the class option oneauthor should be used. Otherwise use the class option moreauthors.
+
+%---------
+% pdftex
+%---------
+% The option pdftex is for use with pdfLaTeX. Remove "pdftex" for (1) compiling with LaTeX & dvi2pdf (if eps figures are used) or for (2) compiling with XeLaTeX.
+
+%=================================================================
+% MDPI internal commands - do not modify
+\firstpage{1}
+\makeatletter
+\setcounter{page}{\@firstpage}
+\makeatother
+\pubvolume{1}
+\issuenum{1}
+\articlenumber{0}
+\pubyear{2023}
+\copyrightyear{2023}
+%\externaleditor{Academic Editor: Firstname Lastname}
+\datereceived{ }
+\daterevised{ } % Comment out if no revised date
+\dateaccepted{ }
+\datepublished{ }
+%\datecorrected{} % For corrected papers: "Corrected: XXX" date in the original paper.
+%\dateretracted{} % For corrected papers: "Retracted: XXX" date in the original paper.
+\hreflink{https://doi.org/} % If needed use \linebreak
+%\doinum{}
+%\pdfoutput=1 % Uncommented for upload to arXiv.org
+
+%=================================================================
+% Add packages and commands here. The following packages are loaded in our class file: fontenc, inputenc, calc, indentfirst, fancyhdr, graphicx, epstopdf, lastpage, ifthen, float, amsmath, amssymb, lineno, setspace, enumitem, mathpazo, booktabs, titlesec, etoolbox, tabto, xcolor, colortbl, soul, multirow, microtype, tikz, totcount, changepage, attrib, upgreek, array, tabularx, pbox, ragged2e, tocloft, marginnote, marginfix, enotez, amsthm, natbib, hyperref, cleveref, scrextend, url, geometry, newfloat, caption, draftwatermark, seqsplit
+% cleveref: load \crefname definitions after \begin{document}
+
+%=================================================================
+% Please use the following mathematics environments: Theorem, Lemma, Corollary, Proposition, Characterization, Property, Problem, Example, ExamplesandDefinitions, Hypothesis, Remark, Definition, Notation, Assumption
+%% For proofs, please use the proof environment (the amsthm package is loaded by the MDPI class).
+
+%=================================================================
+% Full title of the paper (Capitalized)
+\Title{ProyectoAED2024}
+
+% MDPI internal command: Title for citation in the left column
+\TitleCitation{ProyectoAED2024}
+
+% Author Orchid ID: enter ID or remove command
+%\newcommand{\orcidauthorA}{0000-0000-0000-000X} % Add \orcidA{} behind the author's name
+%\newcommand{\orcidauthorB}{0000-0000-0000-000X} % Add \orcidB{} behind the author's name
+
+
+% Authors, for the paper (add full first names)
+\Author{}
+
+
+%\longauthorlist{yes}
+
+
+% MDPI internal command: Authors, for metadata in PDF
+\AuthorNames{}
+
+% MDPI internal command: Authors, for citation in the left column
+%\AuthorCitation{Lastname, F.; Lastname, F.; Lastname, F.}
+% If this is a Chicago style journal: Lastname, Firstname, Firstname Lastname, and Firstname Lastname.
+\AuthorCitation{Albacete, L; Ribes, C; Pedro, J.}
+
+% Affiliations / Addresses (Add [1] after \address if there is only one affiliation.)
+\address{%
+$^{1}$ \quad Universitat de València.
+ETSE.; \href{mailto:alcaluis@alumni.uv.es}{\nolinkurl{alcaluis@alumni.uv.es}}\\
+$^{2}$ \quad Universitat de València.
+ETSE.; \href{mailto:carigar4@alumni.uv.es}{\nolinkurl{carigar4@alumni.uv.es}}\\
+$^{3}$ \quad Universitat de València.
+ETSE.; \href{mailto:jopebrui@alumni.uv.es}{\nolinkurl{jopebrui@alumni.uv.es}}\\
+}
+
+% Contact information of the corresponding author
+\corres{Correspondence: }
+
+% Current address and/or shared authorship
+
+
+
+
+
+
+
+
+% The commands \thirdnote{} till \eighthnote{} are available for further notes
+
+% Simple summary
+\simplesumm{Estudio de los delitos causados por menores en España entre
+2013 y 2023.}
+
+%\conference{} % An extended version of a conference paper
+
+% Abstract (Do not insert blank lines, i.e. \\)
+\abstract{Proyecto de tratamiento de datos para la asignatura de
+Análisis exploratorio de datos. El tópico es la delincuencia en España
+provocado por menores de entre 14 y 17 años (ambos inclusives). Donde se
+estudiarán los delitos causados con mayor frecuencia.}
+
+
+% Keywords
+\keyword{Delito; Delincuencia; Menores; Datos; Ciencia de Datos;}
+
+% The fields PACS, MSC, and JEL may be left empty or commented out if not applicable
+%\PACS{J0101}
+%\MSC{}
+%\JEL{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal Diversity
+%\LSID{\url{http://}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal Applied Sciences
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal Data
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal Toxins
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal Encyclopedia
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal Advances in Respiratory Medicine
+%\addhighlights{yes}
+%\renewcommand{\addhighlights}{%
+
+%\noindent This is an obligatory section in “Advances in Respiratory Medicine”, whose goal is to increase the discoverability and readability of the article via search engines and other scholars. Highlights should not be a copy of the abstract, but a simple text allowing the reader to quickly and simplified find out what the article is about and what can be cited from it. Each of these parts should be devoted up to 2~bullet points.\vspace{3pt}\\
+%\textbf{What are the main findings?}
+% \begin{itemize}[labelsep=2.5mm,topsep=-3pt]
+% \item First bullet.
+% \item Second bullet.
+% \end{itemize}\vspace{3pt}
+%\textbf{What is the implication of the main finding?}
+% \begin{itemize}[labelsep=2.5mm,topsep=-3pt]
+% \item First bullet.
+% \item Second bullet.
+% \end{itemize}
+%}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Pandoc syntax highlighting
 \usepackage{color}
@@ -69,254 +229,285 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
-% From pandoc table feature
-\usepackage{longtable,booktabs,array}
-\usepackage{calc} % for calculating minipage widths
-% Correct order of tables after \paragraph or \subparagraph
-\usepackage{etoolbox}
-\makeatletter
-\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
-\makeatother
-% Allow footnotes in longtable head/foot
-\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
-\makesavenoteenv{longtable}
 
+
+\usepackage{longtable}
 
 \begin{document}
-\maketitle
 
 
-\begin{abstract}
-Proyecto de tratamiento de datos para la asignatura de Análisis
-exploratorio de datos. El tópico es la delincuencia en España.
-\end{abstract}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Introduction}\label{introduction}
+\section{Introducción}\label{introducciuxf3n}
 
-Here goes an introduction text
+\subsection{Definición proyecto y planteamiento de preguntas
+(objetivos)}\label{definiciuxf3n-proyecto-y-planteamiento-de-preguntas-objetivos}
 
-\section{Headings: first level}\label{headings-first-level}
+WIP: Definir el problema y los objetivos del estudio
 
-\label{sec:headings}
+\subsection{Carga de librerías y
+datos}\label{carga-de-libreruxedas-y-datos}
 
-You can use directly LaTeX command or Markdown text.
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# WIP (TODOS):}
+\CommentTok{\# Carga de librerias}
+\NormalTok{librerias }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"readr"}\NormalTok{,       }\CommentTok{\# Lectura de ficheros con formato}
+               \StringTok{"dplyr"}\NormalTok{,       }\CommentTok{\# Gramática de manipulación de datos}
+               \StringTok{"ggplot2"}\NormalTok{)     }\CommentTok{\# Visualización mediante gráficas elegantes}
+\NormalTok{pacman}\SpecialCharTok{::}\FunctionTok{p\_load}\NormalTok{(}\AttributeTok{char=}\NormalTok{librerias)}
 
-LaTeX command can be used to reference other section. See Section
-\ref{sec:headings}. However, you can also use \textbf{bookdown}
-extensions mechanism for this.
+\CommentTok{\# Carga de datos}
+\NormalTok{col\_names }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Delitos N1"}\NormalTok{, }\StringTok{"Delitos N2"}\NormalTok{, }\StringTok{"Delitos N3"}\NormalTok{,}
+               \StringTok{"Delitos N4"}\NormalTok{, }\StringTok{"Delitos N5"}\NormalTok{, }\StringTok{"Edad"}\NormalTok{,}
+               \StringTok{"Año"}\NormalTok{, }\StringTok{"Total Delitos"}\NormalTok{)}
 
-\subsection{Headings: second level}\label{headings-second-level}
+\NormalTok{delitos\_menores\_raw }\OtherTok{\textless{}{-}} \FunctionTok{read\_delim}\NormalTok{(}
+  \StringTok{"../data/delitos\_menores\_2013\_2023.csv"}\NormalTok{, }
+  \AttributeTok{delim =} \StringTok{";"}\NormalTok{,}
+  \AttributeTok{escape\_double =} \ConstantTok{FALSE}\NormalTok{,}
+  \AttributeTok{trim\_ws =} \ConstantTok{TRUE}\NormalTok{,                        }\CommentTok{\# Espacios y tabulaciones eliminados.}
+  \AttributeTok{show\_col\_types =} \ConstantTok{FALSE}\NormalTok{,                }\CommentTok{\# Omitir mensajes en carga de datos.}
+  \AttributeTok{col\_names =}\NormalTok{ col\_names,                 }\CommentTok{\# Si proporcionamos nombres de columnas hemos de}
+                                         \CommentTok{\# saltarnos la primera fila (skip=1).}
+  \AttributeTok{skip=}\DecValTok{1}\NormalTok{,}
+  \AttributeTok{locale =} \FunctionTok{locale}\NormalTok{(}\AttributeTok{grouping\_mark =} \StringTok{"."}\NormalTok{))  }\CommentTok{\# Locale nos permitirá leer debidamente}
+                                         \CommentTok{\# los millares.}
+\end{Highlighting}
+\end{Shaded}
 
-You can use equation in blocks
+\subsection{Estudio y acondicionamiento de los
+datos}\label{estudio-y-acondicionamiento-de-los-datos}
 
-\[
-\xi _{ij}(t)=P(x_{t}=i,x_{t+1}=j|y,v,w;\theta)= {\frac {\alpha _{i}(t)a^{w_t}_{ij}\beta _{j}(t+1)b^{v_{t+1}}_{j}(y_{t+1})}{\sum _{i=1}^{N} \sum _{j=1}^{N} \alpha _{i}(t)a^{w_t}_{ij}\beta _{j}(t+1)b^{v_{t+1}}_{j}(y_{t+1})}}
-\]
+WIP (TODOS, \#01-Introduccion): - Análisis de la estructura y valores
+iniciales de los datos. - Acondicionamiento y preparación de los datos.
+- Validación datos acondicionados
 
-But also inline i.e \(z=x+y\)
+\subsubsection{Análisis de la estructura y valores iniciales de los
+datos.}\label{anuxe1lisis-de-la-estructura-y-valores-iniciales-de-los-datos.}
 
-\subsubsection{Headings: third level}\label{headings-third-level}
-
-Another paragraph.
-
-\section{Examples of citations, figures, tables,
-references}\label{examples-of-citations-figures-tables-references}
-
-\label{sec:others}
-
-You can insert references. Here is some text {[}@kour2014real;
-@kour2014fast{]} and see @hadash2018estimate.
-
-The documentation for \verb+natbib+ may be found at
-
-You can use custom blocks with LaTeX support from \textbf{rmarkdown} to
-create environment.
-
-\begin{center}
-\url{http://mirrors.ctan.org/macros/latex/contrib/natbib/natnotes.pdf\%7D}
-
-\end{center}
-
-Of note is the command \verb+\citet+, which produces citations
-appropriate for use in inline text.
-
-You can insert LaTeX environment directly too.
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Análisis de la estructura y valores iniciales de los datos.}
+\FunctionTok{summary}\NormalTok{(delitos\_menores\_raw)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-   \citet{hasselmo} investigated\dots
+##   Delitos N1         Delitos N2         Delitos N3         Delitos N4       
+##  Length:2915        Length:2915        Length:2915        Length:2915       
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##   Delitos N5            Edad                Año       Total Delitos    
+##  Length:2915        Length:2915        Min.   :2013   Min.   :    0.0  
+##  Class :character   Class :character   1st Qu.:2015   1st Qu.:   17.0  
+##  Mode  :character   Mode  :character   Median :2018   Median :   78.0  
+##                                        Mean   :2018   Mean   :  756.2  
+##                                        3rd Qu.:2021   3rd Qu.:  410.0  
+##                                        Max.   :2023   Max.   :26349.0  
+##                                                       NA's   :210
 \end{verbatim}
 
-produces
-
-\begin{quote}
-  Hasselmo, et al.\ (1995) investigated\dots
-\end{quote}
-
-\begin{center}
-  \url{https://www.ctan.org/pkg/booktabs}
-\end{center}
-
-\subsection{Figures}\label{figures}
-
-You can insert figure using LaTeX directly.
-
-See Figure \ref{fig:fig1}. Here is how you add footnotes. {[}\^{}Sample
-of the first footnote.{]}
-
-\begin{figure}
-  \centering
-  \fbox{\rule[-.5cm]{4cm}{4cm} \rule[-.5cm]{4cm}{0cm}}
-  \caption{Sample figure caption.}
-  \label{fig:fig1}
-\end{figure}
-
-But you can also do that using R.
-
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(mtcars}\SpecialCharTok{$}\NormalTok{mpg)}
+\FunctionTok{str}\NormalTok{(delitos\_menores\_raw)}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}
-\centering
-\includegraphics{ProyectoAED2024_files/figure-latex/fig2-1.pdf}
-\caption{Another sample figure}
-\end{figure}
+\begin{verbatim}
+## spc_tbl_ [2,915 x 8] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+##  $ Delitos N1   : chr [1:2915] "Total Infracciones" "Total Infracciones" "Total Infracciones" "Total Infracciones" ...
+##  $ Delitos N2   : chr [1:2915] NA NA NA NA ...
+##  $ Delitos N3   : chr [1:2915] NA NA NA NA ...
+##  $ Delitos N4   : chr [1:2915] NA NA NA NA ...
+##  $ Delitos N5   : chr [1:2915] NA NA NA NA ...
+##  $ Edad         : chr [1:2915] "Total" "Total" "Total" "Total" ...
+##  $ Año          : num [1:2915] 2023 2022 2021 2020 2019 ...
+##  $ Total Delitos: num [1:2915] 23662 25822 26349 20366 26049 ...
+##  - attr(*, "spec")=
+##   .. cols(
+##   ..   `Delitos N1` = col_character(),
+##   ..   `Delitos N2` = col_character(),
+##   ..   `Delitos N3` = col_character(),
+##   ..   `Delitos N4` = col_character(),
+##   ..   `Delitos N5` = col_character(),
+##   ..   Edad = col_character(),
+##   ..   Año = col_double(),
+##   ..   `Total Delitos` = col_number()
+##   .. )
+##  - attr(*, "problems")=<externalptr>
+\end{verbatim}
 
-You can use \textbf{bookdown} to allow references for Tables and
-Figures.
+Gracias a ``summary'' podemos apreciar qué columnas contienen NAs y si
+los valores (de las columnas numéricas) entran dentro de lo esperado
+(min, max, median, \ldots).
 
-\subsection{Tables}\label{tables}
+Teniendo para la columna \textbf{Año} valores esperados, desde 2013
+hasta 2023 y la media obviamente en 2018. Respecto a la columna
+\textbf{Total}, podemos apreciar que tiene un número importante de
+valores faltantes y confirmamos que los valores se han importado
+correctamente (manteniendo los millares).
 
-Below we can see how to use tables.
+Además hemos identificado que la columna \textbf{Edad} se ha importado
+como tipo ``character''. Tras hacer una visualización del archivo nos
+damos cuenta que los años se han importado como ``14 años'' agregando el
+sustantivo para todos los valores y en algunos casos agregando un
+``Total''. Acondicionamiento de la columna será necesario.
 
-See awesome Table\textasciitilde{}\ref{tab:table} which is written
-directly in LaTeX in source Rmd file.
+Las columnas restantes, que son de tipo ``character'', representan el
+delito en sus distintos niveles. Habremos de factorizar estas variable
+categóricas.
 
-\begin{table}
- \caption{Sample table title}
-  \centering
-  \begin{tabular}{lll}
-    \toprule
-    \multicolumn{2}{c}{Part}                   \\
-    \cmidrule(r){1-2}
-    Name     & Description     & Size ($\mu$m) \\
-    \midrule
-    Dendrite & Input terminal  & $\sim$100     \\
-    Axon     & Output terminal & $\sim$10      \\
-    Soma     & Cell body       & up to $10^6$  \\
-    \bottomrule
-  \end{tabular}
-  \label{tab:table}
-\end{table}
-
-You can also use R code for that.
+El uso de la función ``str'' en este caso no nos ha aportado información
+adicional.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(}\FunctionTok{head}\NormalTok{(mtcars), }\AttributeTok{caption =} \StringTok{"Head of mtcars table"}\NormalTok{)}
+\CommentTok{\# 1. Delitos N1}
+\CommentTok{\# Esta columna no nos aporta valor alguno al solo tener un valor.}
+\CommentTok{\# Más adelante será eliminada.}
+\FunctionTok{unique}\NormalTok{(delitos\_menores\_raw}\SpecialCharTok{$}\StringTok{\textquotesingle{}Delitos N1\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.2609}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0725}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0580}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0725}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0580}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0725}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0870}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0870}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0435}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0435}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0725}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0725}}@{}}
-\caption{Head of mtcars table}\tabularnewline
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-mpg
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-cyl
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-disp
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-hp
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-drat
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-wt
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-qsec
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-vs
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-am
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-gear
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-carb
-\end{minipage} \\
-\midrule\noalign{}
-\endfirsthead
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-mpg
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-cyl
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-disp
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-hp
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-drat
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-wt
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-qsec
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-vs
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-am
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-gear
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-carb
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-Mazda RX4 & 21.0 & 6 & 160 & 110 & 3.90 & 2.620 & 16.46 & 0 & 1 & 4 &
-4 \\
-Mazda RX4 Wag & 21.0 & 6 & 160 & 110 & 3.90 & 2.875 & 17.02 & 0 & 1 & 4
-& 4 \\
-Datsun 710 & 22.8 & 4 & 108 & 93 & 3.85 & 2.320 & 18.61 & 1 & 1 & 4 &
-1 \\
-Hornet 4 Drive & 21.4 & 6 & 258 & 110 & 3.08 & 3.215 & 19.44 & 1 & 0 & 3
-& 1 \\
-Hornet Sportabout & 18.7 & 8 & 360 & 175 & 3.15 & 3.440 & 17.02 & 0 & 0
-& 3 & 2 \\
-Valiant & 18.1 & 6 & 225 & 105 & 2.76 & 3.460 & 20.22 & 1 & 0 & 3 & 1 \\
-\end{longtable}
+\begin{verbatim}
+## [1] "Total Infracciones"
+\end{verbatim}
 
-\subsection{Lists}\label{lists}
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 2. Delitos N2}
+\CommentTok{\# Esta columna nos servirá para hacer el primer filtrado y quedarnos}
+\CommentTok{\# con solo los delitos cometidos y no las faltas o los totales calculados.}
+\FunctionTok{unique}\NormalTok{(delitos\_menores\_raw}\SpecialCharTok{$}\StringTok{\textquotesingle{}Delitos N2\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
-\begin{itemize}
-\tightlist
-\item
-  Item 1
-\item
-  Item 2
-\item
-  Item 3
-\end{itemize}
+\begin{verbatim}
+## [1] NA          "A Delitos" "B Faltas"
+\end{verbatim}
 
-\bibliographystyle{unsrt}
-\bibliography{}
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 3. Delitos N3, N4, N5}
+
+\CommentTok{\# 4. Edad}
+
+\CommentTok{\# 5. Año}
+
+\CommentTok{\# 6. Total}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Análisis}\label{anuxe1lisis}
+
+\subsection{Análisis de las
+variables}\label{anuxe1lisis-de-las-variables}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# WIP:}
+\CommentTok{\#   {-} Análisis de las variables (individualmente, explicación de los datos,}
+\CommentTok{\#                                estadísticos.) (CARLOS)}
+\CommentTok{\#   {-} Análisis de las variables (relaciones) (JOAN)}
+\CommentTok{\# }
+\CommentTok{\#}
+\CommentTok{\# {-} NOTA: Se debe hacer uso de una "Visualización temprana (exploratoria)"}
+\CommentTok{\#   de los datos. }
+\CommentTok{\# {-} NOTA: Junto a la visualización se debe aportar una explicación.}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Análisis de `outliers', métodos de imputación aplicados y
+análisis de datos
+perdidos}\label{anuxe1lisis-de-outliers-muxe9todos-de-imputaciuxf3n-aplicados-y-anuxe1lisis-de-datos-perdidos}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# WIP:}
+\CommentTok{\#   {-} Análisis de outliers, métodos de imputación y datos perdidos.}
+\CommentTok{\# (si procede) (LUIS)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Visualización
+Explicatoria}\label{visualizaciuxf3n-explicatoria}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# WIP:}
+\CommentTok{\#   {-} Visualización enfocada a los objetivos (encontrar una respuesta al problema). (TODOS)}
+\CommentTok{\#}
+\CommentTok{\# {-} NOTA: Junto a la visualización se debe aportar una explicación.}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Conclusiones}\label{conclusiones}
+
+(TODOS) WIP: - Conclusiones finales. - Objetivos. - Proyecto. - NOTA:
+Visualizaciones interactivas para finalizar/resumir, puede ser un buen
+punto.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace{6pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% optional
+
+% Only for the journal Methods and Protocols:
+% If you wish to submit a video article, please do so with any other supplementary material.
+% \supplementary{The following supporting information can be downloaded at: \linksupplementary{s1}, Figure S1: title; Table S1: title; Video S1: title. A supporting video article is available at doi: link.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\authorcontributions{WIP. En que hemos contribuido cada uno.}
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Optional
+
+%% Only for journal Encyclopedia
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Optional
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{adjustwidth}{-\extralength}{0cm}
+
+%\printendnotes[custom] % Un-comment to print a list of endnotes
+
+
+
+% If authors have biography, please use the format below
+%\section*{Short Biography of Authors}
+%\bio
+%{\raisebox{-0.35cm}{\includegraphics[width=3.5cm,height=5.3cm,clip,keepaspectratio]{Definitions/author1.pdf}}}
+%{\textbf{Firstname Lastname} Biography of first author}
+%
+%\bio
+%{\raisebox{-0.35cm}{\includegraphics[width=3.5cm,height=5.3cm,clip,keepaspectratio]{Definitions/author2.jpg}}}
+%{\textbf{Firstname Lastname} Biography of second author}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% for journal Sci
+%\reviewreports{\\
+%Reviewer 1 comments and authors’ response\\
+%Reviewer 2 comments and authors’ response\\
+%Reviewer 3 comments and authors’ response
+%}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\PublishersNote{}
+\end{adjustwidth}
 
 
 \end{document}

@@ -3,21 +3,38 @@ title: ProyectoAED2024
 subtitle: "Análisis Exploratorio de Datos. Máster en Ciencia de Datos - UV"
 authors:
   - name: LUIS ALBACETE CABALLERO
-    affiliation: Universitat de València
-    email: alcaluis@alumni.uv.es
   - name: CARLOS RIBES GARCÍA
-    affiliation: Universitat de València
-    email: carigar4@alumni.uv.es
   - name: JOAN PEDRO BRUIXOLA
-    affiliation: Universitat de València
+affiliation:
+  - num: 1
+    address: |
+      Universitat de València. ETSE.
+    email: alcaluis@alumni.uv.es
+  - num: 2
+    address: |
+      Universitat de València. ETSE.
+    email: carigar4@alumni.uv.es
+  - num: 3
+    address: |
+      Universitat de València. ETSE.
     email: jopebrui@alumni.uv.es
+authorcitation: |
+  Albacete, L; Ribes, C; Pedro, J.
+simplesummary: |
+  Estudio de los delitos causados por menores en España entre 2013 y 2023.
 abstract: |
   Proyecto de tratamiento de datos para la asignatura de Análisis exploratorio
-  de datos. El tópico es la delincuencia en España.
-header-includes: \usepackage[spanish]{babel}
-output: rticles::arxiv_article
+  de datos. El tópico es la delincuencia en España provocado por menores de entre
+  14 y 17 años (ambos inclusives). Donde se estudiarán los delitos causados con
+  mayor frecuencia.
+keywords: |
+  Delito; Delincuencia; Menores; Datos; Ciencia de Datos;
+authorcontributions: |
+  WIP. En que hemos contribuido cada uno.
+output: 
+  rticles::mdpi_article:
+    extra_dependencies: longtable
 ---
-\keywords{Delitos \and Menores \and Datos \and Ciencia de Datos}
 
 # Introducción
 
@@ -36,10 +53,8 @@ pacman::p_load(char=librerias)
 # Carga de datos
 col_names <- c("Delitos N1", "Delitos N2", "Delitos N3",
                "Delitos N4", "Delitos N5", "Edad",
-               "Año", "Total")
-col_types <- list(col_character(), col_character(), col_character(),
-                  col_character(), col_character(), col_character(),
-                  col_number(), col_number())
+               "Año", "Total Delitos")
+
 delitos_menores_raw <- read_delim(
   "../data/delitos_menores_2013_2023.csv", 
   delim = ";",
@@ -102,7 +117,7 @@ unique(delitos_menores_raw$'Delitos N2')
 
 # 5. Año
 
-# 6. Total
+# 6. Total Delitos
 
 ```
 
