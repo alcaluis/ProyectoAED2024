@@ -76,10 +76,6 @@ delitos_menores_raw <- read_delim(
 ```
 
 ## Estudio y acondicionamiento de los datos
-WIP (TODOS, #01-Introduccion):
-   - Análisis de la estructura y valores iniciales de los datos.
-   - Acondicionamiento y preparación de los datos.
-   - Validación datos acondicionados
 
 ### Análisis de la estructura y valores iniciales de los datos.
 ```{r intro_analisis_inicial_1}
@@ -194,35 +190,79 @@ df_delitos_menores <- delitos_menores_raw %>%
     sub_clasi_infrac = as.factor(sub_clasi_infrac)
   )
 
-  #Eliminamos las filas con los totales de las subcategorías
-  seleccion<-c()
-  
-  for (type in unique(df_delitos_menores$clasi_infrac) ){
-    
-    vectoraux<- df_delitos_menores$sub_clasi_infrac[df_delitos_menores$clasi_infrac==type]
-    print(vectoraux)
-    print( !is.na(vectoraux) )
-    if ( sum(!is.na( vectoraux ) > 0 )){
-        seleccion<-c(seleccion, !is.na( vectoraux ))
-    } else{
-        seleccion<-c(seleccion, rep(TRUE, times=length(vectoraux)))
-    }
-    
+# Eliminamos las filas con los totales de las subcategorías
+seleccion <- c()
+
+for (type in unique(df_delitos_menores$clasi_infrac)){
+  vectoraux<- df_delitos_menores$sub_clasi_infrac[df_delitos_menores$clasi_infrac==type]
+
+  if (sum(!is.na( vectoraux ) > 0 )){
+      seleccion <- c(seleccion, !is.na(vectoraux))
+  } else{
+      seleccion <- c(seleccion, rep(TRUE, times=length(vectoraux)))
   }
+}
 
-  df_delitos_menores<- df_delitos_menores[seleccion,]
-
-# WIP. Eliminacion aquellas columnas que tienen subclasisifaciones.
+df_delitos_menores <- df_delitos_menores[seleccion,]
 ```
 
 ### Validación datos acondicionados
 
-Para validar que los datos se han cargado correctamente vamos a sacar las columnas totales precaculadas y compararlas con 
+Para validar que los datos se han cargado correctamente vamos a sacar las columnas totales precaculadas y compararlas con las nuestras haciendo agrupaciones de los datos.
 
 ```{r intro_acondicionamiento_validacion}
-# Obtener los totales
+# Obtener los totales de las infracciones
 df_totales <- delitos_menores_raw %>%
-  filter(edad == "Total")
+  filter(is.na(delitos_n2)) %>%
+  filter(edad == "Total") %>%
+  select(año, total_delitos) %>%
+  arrange(año)
+
+df_suma_totales <- df_delitos_menores %>%
+  group_by(año) %>%
+  summarize(total = sum(total_delitos, na.rm=TRUE)) %>%
+  select(año, total) %>%
+  arrange(año)
+
+(cbind(df_totales, df_suma_totales))
+
+# Comprobar la agrupación para delitos y faltas
+df_totales_infracciones <- delitos_menores_raw %>%
+  filter(!is.na(delitos_n2)) %>%
+  filter(is.na(delitos_n3)) %>%
+  filter(edad == "Total") %>%
+  select(delitos_n2, año, total_delitos) %>%
+  arrange(delitos_n2, año)
+
+df_suma_totales_infracciones <- df_delitos_menores %>%
+  group_by(delito_falta, año) %>%
+  summarize(total = sum(total_delitos, na.rm=TRUE)) %>%
+  select(delito_falta, año, total) %>%
+  arrange(delito_falta, año)
+
+(cbind(df_totales_infracciones, df_suma_totales_infracciones))
+
+# Comprobar un tipo de delito
+df_totales_delito13 <- delitos_menores_raw %>%
+  filter(!is.na(delitos_n2)) %>%
+  filter(delitos_n3 == "13 Contra el patrimonio y el orden socioeconómico") %>%
+  filter(is.na(delitos_n4)) %>%
+  filter(edad == "Total") %>%
+  select(año, total_delitos) %>%
+  arrange(año)
+
+df_suma_totales_delito13 <- df_delitos_menores %>%
+  filter(clasi_infrac == "13 Contra el patrimonio y el orden socioeconómico") %>%
+  group_by(clasi_infrac, año) %>%
+  summarize(total = sum(total_delitos, na.rm=TRUE)) %>%
+  select(año, total) %>%
+  arrange(año)
+
+(cbind(df_totales_delito13, df_suma_totales_delito13[-1]))
+
+rm(list=c("df_totales", "df_suma_totales", "df_totales_infracciones",
+          "df_suma_totales_infracciones", "df_totales_delito13",
+          "df_suma_totales_delito13"))
 ```
 
 # Análisis
