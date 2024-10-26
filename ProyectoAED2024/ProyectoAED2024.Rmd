@@ -39,6 +39,14 @@ output:
 # Introducción
 
 ## Definición proyecto y planteamiento de preguntas (objetivos)
+
+La delincuencia en España es un tema de conversación latente. Aunque no lo es tanto, pero sigue siendo importante, es hablar de la edad del delincuente. En este estudio analizaremos los diferentes tipos de delito ocasionados por menores de entre 14 y 17 años durante los 10 últimos años. Los objetivos del estudio es responder a las siguientes preguntas:
+
+1. ¿Cuáles son los delitos más frecuentes y que edades lo frecuentan? ¿Siguen siendo recientes o han disminuido?
+2. Analizar los picos de delitos y relacionarlos con hechos reales. (Buscar sucesos, leyes)
+3. Encontrar tendencias entre los años.
+4. ...
+
 WIP: Definir el problema y los objetivos del estudio
 
 ## Carga de librerías y datos
@@ -103,19 +111,15 @@ table(delitos_menores_raw$delitos_n1, useNA = "always")
 table(delitos_menores_raw$delitos_n2, useNA = "always")
 
 # 3. delitos_n3, N4, N5
-tail(table(delitos_menores_raw$delitos_n3, useNA = "always"))
-tail(table(delitos_menores_raw$delitos_n4, useNA = "always"))
-tail(table(delitos_menores_raw$delitos_n5, useNA = "always"))
+tail(table(delitos_menores_raw$delitos_n3, useNA = "always"), 2)
+tail(table(delitos_menores_raw$delitos_n4, useNA = "always"), 2)
+tail(table(delitos_menores_raw$delitos_n5, useNA = "always"), 2)
 
 # 4. edad
 table(delitos_menores_raw$edad, useNA = "always")
 
 # 5. año
 table(delitos_menores_raw$año, useNA = "always")
-
-# 6. total_delitos
-# Del total de delitos no hay información adicional a obtener a parte de la
-# del "summary".
 ```
 De las diferentes columnas podemos decir que:
 
@@ -127,11 +131,37 @@ La columna **delitos_n5** no será necesaria. Aporta muy poca información y el 
 
 * **edad**: todos los datos de esta columna son uniformes y esperados (ningún valor faltante). Finalmente se eliminarán aquellas instancias que representen un total y se convertirá la columna a tipo numérico.
 
-En resumen, las columnas de delitos n1 y n5 no son necesarias. Las columnas de delitos restantes serán convertidas a factor. La columna edad será modificada para mayor fidelidad al dato. 
+```{r intro_analisis_inicial_3}
+# 6. total_delitos
+df_total_delitos <- delitos_menores_raw %>%
+  filter(startsWith(delitos_n3, "13")) %>%
+  filter(edad=="14 años") %>%
+  filter(año==2013) %>%
+  mutate(delitos_n4 = ifelse(!is.na(delitos_n4),
+                             substring(delitos_n4, 1, 4),
+                             NA))
+
+knitr::kable(df_total_delitos[c(4,5,8)], format = "latex", 
+             booktabs = TRUE, 
+             caption = "Caso delitos 'Contra el patrimonio y el orden 
+                        socioeconómico' en 2013 por delincuentes de 14 años", 
+             align = 'lll', centering = TRUE,
+             table.envir = "table", position = "H")
+
+```
+
+* **total**: respecto a esta columna pese a que no hayamos utilizado ninguna instrucción, hemos mediante visualización del fichero analizado un caso en concreto para definir la naturaleza de esta columna. Ya vimos anteriormente, gracias a otras columnas, que hay agrupaciones internas de los datos calculando los totales. Pero eso no es todo. Podemos apreciar que el total de un delito, es la suma de todas sus subclasificaciones.
+
+Es decir, el total de "13.2 Robos", es igual a la suma de "13.2.1" y "13.2.2", a su vez el delito contra el patrimonio es la suma de los delitos "13.1", "13.2", ... Este hecho agrega redundancia a los datos. Por ende no solo tendremos que eliminar las filas que representen totales pero también aquellas filas que son las agrupaciones de otras con el objeto de tener un conjunto __Tidy__.
+
+En resumen, las columnas de delitos n1 y n5 no son necesarias y pueden ser eliminadas sin problemas. Hemos averiguado que los delitos de N5 se suman para los delitos de N4. Las columnas de delitos restantes serán convertidas a factor. La columna edad será modificada para mayor fidelidad al dato. 
 
 ### Acondicionamiento y preparación de los datos
 ```{r intro_acondicionamiento}
 df_delitos_menores <- delitos_menores_raw %>%
+  # Retiramos las filas que se dividan/clasifiquen hasta el nivel 5
+  filter(is.na(delitos_n5)) %>%
+  
   # Selección de características/variables relevantes
   select(-c(delitos_n1, delitos_n5)) %>%
 
@@ -161,12 +191,18 @@ df_delitos_menores <- delitos_menores_raw %>%
     clasi_infrac = as.factor(clasi_infrac),
     sub_clasi_infrac = as.factor(sub_clasi_infrac)
   )
+
+# WIP. Eliminacion aquellas columnas que tienen subclasisifaciones.
 ```
 
 ### Validación datos acondicionados
 
+Para validar que los datos se han cargado correctamente vamos a sacar las columnas totales precaculadas y compararlas con 
+
 ```{r intro_acondicionamiento_validacion}
-# WIP
+# Obtener los totales
+df_totales <- delitos_menores_raw %>%
+  filter(edad == "Total")
 ```
 
 # Análisis
