@@ -161,7 +161,7 @@ En resumen, las columnas de delitos n1 y n5 no son necesarias y pueden ser elimi
 df_delitos_menores <- delitos_menores_raw %>%
   # Retiramos las filas que se dividan/clasifiquen hasta el nivel 5
   filter(is.na(delitos_n5)) %>%
-  
+  filter(!is.na(delitos_n3)) %>%
   # Selección de características/variables relevantes
   select(-c(delitos_n1, delitos_n5)) %>%
 
