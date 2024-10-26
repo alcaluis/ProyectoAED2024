@@ -244,6 +244,27 @@ estudiarán los delitos causados con mayor frecuencia.}
 \subsection{Definición proyecto y planteamiento de preguntas
 (objetivos)}\label{definiciuxf3n-proyecto-y-planteamiento-de-preguntas-objetivos}
 
+La delincuencia en España es un tema de conversación latente. Aunque no
+lo es tanto, pero sigue siendo importante, es hablar de la edad del
+delincuente. En este estudio analizaremos los diferentes tipos de delito
+ocasionados por menores de entre 14 y 17 años durante los 10 últimos
+años. Los objetivos del estudio es responder a las siguientes preguntas:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  ¿Cuáles son los delitos más frecuentes y que edades lo frecuentan?
+  ¿Siguen siendo recientes o han disminuido?
+\item
+  Analizar los picos de delitos y relacionarlos con hechos reales.
+  (Buscar sucesos, leyes)
+\item
+  Encontrar tendencias entre los años.
+\item
+  \ldots{}
+\end{enumerate}
+
 WIP: Definir el problema y los objetivos del estudio
 
 \subsection{Carga de librerías y
@@ -251,7 +272,6 @@ datos}\label{carga-de-libreruxedas-y-datos}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# WIP (TODOS):}
 \CommentTok{\# Carga de librerias}
 \NormalTok{librerias }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"readr"}\NormalTok{,       }\CommentTok{\# Lectura de ficheros con formato}
                \StringTok{"dplyr"}\NormalTok{,       }\CommentTok{\# Gramática de manipulación de datos}
@@ -259,19 +279,19 @@ datos}\label{carga-de-libreruxedas-y-datos}
 \NormalTok{pacman}\SpecialCharTok{::}\FunctionTok{p\_load}\NormalTok{(}\AttributeTok{char=}\NormalTok{librerias)}
 
 \CommentTok{\# Carga de datos}
-\NormalTok{col\_names }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Delitos N1"}\NormalTok{, }\StringTok{"Delitos N2"}\NormalTok{, }\StringTok{"Delitos N3"}\NormalTok{,}
-               \StringTok{"Delitos N4"}\NormalTok{, }\StringTok{"Delitos N5"}\NormalTok{, }\StringTok{"Edad"}\NormalTok{,}
-               \StringTok{"Año"}\NormalTok{, }\StringTok{"Total Delitos"}\NormalTok{)}
+\NormalTok{col\_names }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"delitos\_n1"}\NormalTok{, }\StringTok{"delitos\_n2"}\NormalTok{, }\StringTok{"delitos\_n3"}\NormalTok{,}
+               \StringTok{"delitos\_n4"}\NormalTok{, }\StringTok{"delitos\_n5"}\NormalTok{, }\StringTok{"edad"}\NormalTok{,}
+               \StringTok{"año"}\NormalTok{, }\StringTok{"total\_delitos"}\NormalTok{)}
 
 \NormalTok{delitos\_menores\_raw }\OtherTok{\textless{}{-}} \FunctionTok{read\_delim}\NormalTok{(}
-  \StringTok{"../data/delitos\_menores\_2013\_2023.csv"}\NormalTok{, }
+  \AttributeTok{file =} \StringTok{"../data/delitos\_menores\_2013\_2023.csv"}\NormalTok{, }
   \AttributeTok{delim =} \StringTok{";"}\NormalTok{,}
   \AttributeTok{escape\_double =} \ConstantTok{FALSE}\NormalTok{,}
   \AttributeTok{trim\_ws =} \ConstantTok{TRUE}\NormalTok{,                        }\CommentTok{\# Espacios y tabulaciones eliminados.}
   \AttributeTok{show\_col\_types =} \ConstantTok{FALSE}\NormalTok{,                }\CommentTok{\# Omitir mensajes en carga de datos.}
   \AttributeTok{col\_names =}\NormalTok{ col\_names,                 }\CommentTok{\# Si proporcionamos nombres de columnas hemos de}
                                          \CommentTok{\# saltarnos la primera fila (skip=1).}
-  \AttributeTok{skip=}\DecValTok{1}\NormalTok{,}
+  \AttributeTok{skip =} \DecValTok{1}\NormalTok{,}
   \AttributeTok{locale =} \FunctionTok{locale}\NormalTok{(}\AttributeTok{grouping\_mark =} \StringTok{"."}\NormalTok{))  }\CommentTok{\# Locale nos permitirá leer debidamente}
                                          \CommentTok{\# los millares.}
 \end{Highlighting}
@@ -295,7 +315,7 @@ datos.}\label{anuxe1lisis-de-la-estructura-y-valores-iniciales-de-los-datos.}
 \end{Shaded}
 
 \begin{verbatim}
-##   Delitos N1         Delitos N2         Delitos N3         Delitos N4       
+##   delitos_n1         delitos_n2         delitos_n3         delitos_n4       
 ##  Length:2915        Length:2915        Length:2915        Length:2915       
 ##  Class :character   Class :character   Class :character   Class :character  
 ##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
@@ -303,7 +323,7 @@ datos.}\label{anuxe1lisis-de-la-estructura-y-valores-iniciales-de-los-datos.}
 ##                                                                             
 ##                                                                             
 ##                                                                             
-##   Delitos N5            Edad                Año       Total Delitos    
+##   delitos_n5            edad                año      total_delitos    
 ##  Length:2915        Length:2915        Min.   :2013   Min.   :    0.0  
 ##  Class :character   Class :character   1st Qu.:2015   1st Qu.:   17.0  
 ##  Mode  :character   Mode  :character   Median :2018   Median :   78.0  
@@ -315,45 +335,22 @@ datos.}\label{anuxe1lisis-de-la-estructura-y-valores-iniciales-de-los-datos.}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{str}\NormalTok{(delitos\_menores\_raw)}
+\CommentTok{\# str(delitos\_menores\_raw)     \# STR no nos aporta información adicional}
+\CommentTok{\# glimpse(delitos\_menores\_raw) \# Lo mismo sucede con GLIMPSE}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## spc_tbl_ [2,915 x 8] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
-##  $ Delitos N1   : chr [1:2915] "Total Infracciones" "Total Infracciones" "Total Infracciones" "Total Infracciones" ...
-##  $ Delitos N2   : chr [1:2915] NA NA NA NA ...
-##  $ Delitos N3   : chr [1:2915] NA NA NA NA ...
-##  $ Delitos N4   : chr [1:2915] NA NA NA NA ...
-##  $ Delitos N5   : chr [1:2915] NA NA NA NA ...
-##  $ Edad         : chr [1:2915] "Total" "Total" "Total" "Total" ...
-##  $ Año          : num [1:2915] 2023 2022 2021 2020 2019 ...
-##  $ Total Delitos: num [1:2915] 23662 25822 26349 20366 26049 ...
-##  - attr(*, "spec")=
-##   .. cols(
-##   ..   `Delitos N1` = col_character(),
-##   ..   `Delitos N2` = col_character(),
-##   ..   `Delitos N3` = col_character(),
-##   ..   `Delitos N4` = col_character(),
-##   ..   `Delitos N5` = col_character(),
-##   ..   Edad = col_character(),
-##   ..   Año = col_double(),
-##   ..   `Total Delitos` = col_number()
-##   .. )
-##  - attr(*, "problems")=<externalptr>
-\end{verbatim}
 
 Gracias a ``summary'' podemos apreciar qué columnas contienen NAs y si
 los valores (de las columnas numéricas) entran dentro de lo esperado
 (min, max, median, \ldots).
 
-Teniendo para la columna \textbf{Año} valores esperados, desde 2013
+Teniendo para la columna \textbf{año} valores esperados, desde 2013
 hasta 2023 y la media obviamente en 2018. Respecto a la columna
-\textbf{Total}, podemos apreciar que tiene un número importante de
-valores faltantes y confirmamos que los valores se han importado
-correctamente (manteniendo los millares).
+\textbf{total\_delitos}, podemos apreciar que tiene un número relevante
+de valores faltantes (210) y confirmamos que los valores se han
+importado correctamente (manteniendo los millares).
 
-Además hemos identificado que la columna \textbf{Edad} se ha importado
+Además hemos identificado que la columna \textbf{edad} se ha importado
 como tipo ``character''. Tras hacer una visualización del archivo nos
 damos cuenta que los años se han importado como ``14 años'' agregando el
 sustantivo para todos los valores y en algunos casos agregando un
@@ -363,44 +360,258 @@ Las columnas restantes, que son de tipo ``character'', representan el
 delito en sus distintos niveles. Habremos de factorizar estas variable
 categóricas.
 
-El uso de la función ``str'' en este caso no nos ha aportado información
-adicional.
+El uso de la función ``str'' o ``glimpse'' en este caso no nos ha
+aportado información adicional.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# 1. Delitos N1}
-\CommentTok{\# Esta columna no nos aporta valor alguno al solo tener un valor.}
-\CommentTok{\# Más adelante será eliminada.}
-\FunctionTok{unique}\NormalTok{(delitos\_menores\_raw}\SpecialCharTok{$}\StringTok{\textquotesingle{}Delitos N1\textquotesingle{}}\NormalTok{)}
+\CommentTok{\# 1. delitos\_n1}
+\FunctionTok{table}\NormalTok{(delitos\_menores\_raw}\SpecialCharTok{$}\NormalTok{delitos\_n1, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Total Infracciones"
+## 
+## Total Infracciones               <NA> 
+##               2915                  0
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# 2. Delitos N2}
-\CommentTok{\# Esta columna nos servirá para hacer el primer filtrado y quedarnos}
-\CommentTok{\# con solo los delitos cometidos y no las faltas o los totales calculados.}
-\FunctionTok{unique}\NormalTok{(delitos\_menores\_raw}\SpecialCharTok{$}\StringTok{\textquotesingle{}Delitos N2\textquotesingle{}}\NormalTok{)}
+\CommentTok{\# 2. delitos\_n2}
+\FunctionTok{table}\NormalTok{(delitos\_menores\_raw}\SpecialCharTok{$}\NormalTok{delitos\_n2, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] NA          "A Delitos" "B Faltas"
+## 
+## A Delitos  B Faltas      <NA> 
+##      2585       275        55
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# 3. Delitos N3, N4, N5}
+\CommentTok{\# 3. delitos\_n3, N4, N5}
+\FunctionTok{tail}\NormalTok{(}\FunctionTok{table}\NormalTok{(delitos\_menores\_raw}\SpecialCharTok{$}\NormalTok{delitos\_n3, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{), }\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
-\CommentTok{\# 4. Edad}
+\begin{verbatim}
+## 
+## R Resto de delitos               <NA> 
+##                 55                165
+\end{verbatim}
 
-\CommentTok{\# 5. Año}
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{tail}\NormalTok{(}\FunctionTok{table}\NormalTok{(delitos\_menores\_raw}\SpecialCharTok{$}\NormalTok{delitos\_n4, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{), }\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
-\CommentTok{\# 6. Total}
+\begin{verbatim}
+## 
+## 8.99 Otros delitos contra la libertad e indemnidad sexuales 
+##                                                          55 
+##                                                        <NA> 
+##                                                        1045
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{tail}\NormalTok{(}\FunctionTok{table}\NormalTok{(delitos\_menores\_raw}\SpecialCharTok{$}\NormalTok{delitos\_n5, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{), }\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## 22.2.2 Resistencia y desobediencia                               <NA> 
+##                                 55                               2695
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 4. edad}
+\FunctionTok{table}\NormalTok{(delitos\_menores\_raw}\SpecialCharTok{$}\NormalTok{edad, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## 14 años 15 años 16 años 17 años    Total     <NA> 
+##      583      583      583      583      583        0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 5. año}
+\FunctionTok{table}\NormalTok{(delitos\_menores\_raw}\SpecialCharTok{$}\NormalTok{año, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## 2013 2014 2015 2016 2017 2018 2019 2020 2021 2022 2023 <NA> 
+##  265  265  265  265  265  265  265  265  265  265  265    0
+\end{verbatim}
+
+De las diferentes columnas podemos decir que:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{delitos\_n1}: la primera columna no nos aporta valor alguno al
+  solo tener un valor. Más adelante será eliminada.
+\item
+  \textbf{delitos\_n2}: esta columna nos servirá para hacer el primer
+  filtrado y quedarnos con solo los delitos y faltas cometidas.
+  Omitiendo los totales calculados. Sus valores pueden ser reemplazados
+  en valores más claros.
+\item
+  \textbf{delitos\_n3, n4, y n5}: ayudan a clasificar los delitos en
+  subtipos de infracción. Sin embargo, podemos ver como a mayor nivel de
+  detalle más valores faltantes. Esto se debe a que un nivel de
+  clasificación tan preciso no es necesario para describir todos los
+  delitos.
+\end{itemize}
+
+La columna \textbf{delitos\_n5} no será necesaria. Aporta muy poca
+información y el análisis no requerirá tanto nivel de detalle para una
+infracción.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{edad}: todos los datos de esta columna son uniformes y
+  esperados (ningún valor faltante). Finalmente se eliminarán aquellas
+  instancias que representen un total y se convertirá la columna a tipo
+  numérico.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 6. total\_delitos}
+\NormalTok{df\_total\_delitos }\OtherTok{\textless{}{-}}\NormalTok{ delitos\_menores\_raw }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\FunctionTok{startsWith}\NormalTok{(delitos\_n3, }\StringTok{"13"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(edad}\SpecialCharTok{==}\StringTok{"14 años"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(año}\SpecialCharTok{==}\DecValTok{2013}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{delitos\_n4 =} \FunctionTok{ifelse}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(delitos\_n4),}
+                             \FunctionTok{substring}\NormalTok{(delitos\_n4, }\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{),}
+                             \ConstantTok{NA}\NormalTok{))}
+
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(df\_total\_delitos[}\FunctionTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{8}\NormalTok{)], }\AttributeTok{format =} \StringTok{"latex"}\NormalTok{, }
+             \AttributeTok{booktabs =} \ConstantTok{TRUE}\NormalTok{, }
+             \AttributeTok{caption =} \StringTok{"Caso delitos \textquotesingle{}Contra el patrimonio y el orden }
+\StringTok{                        socioeconómico\textquotesingle{} en 2013 por delincuentes de 14 años"}\NormalTok{, }
+             \AttributeTok{align =} \StringTok{\textquotesingle{}lll\textquotesingle{}}\NormalTok{, }\AttributeTok{centering =} \ConstantTok{TRUE}\NormalTok{,}
+             \AttributeTok{table.envir =} \StringTok{"table"}\NormalTok{, }\AttributeTok{position =} \StringTok{"H"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}[H]
+
+\caption{\label{tab:intro_analisis_inicial_3}Caso delitos 'Contra el patrimonio y el orden 
+                        socioeconómico' en 2013 por delincuentes de 14 años}
+\centering
+\begin{tabular}[t]{lll}
+\toprule
+delitos\_n4 & delitos\_n5 & total\_delitos\\
+\midrule
+NA & NA & 1433\\
+13.1 & NA & 142\\
+13.2 & NA & 1108\\
+13.2 & 13.2.1 Robo con violencia & 602\\
+13.2 & 13.2.2 Robo con fuerza & 506\\
+\addlinespace
+13.4 & NA & 55\\
+13.5 & NA & 9\\
+13.6 & NA & 8\\
+13.9 & NA & 97\\
+13.1 & NA & 13\\
+\addlinespace
+13.9 & NA & 1\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{total}: respecto a esta columna pese a que no hayamos
+  utilizado ninguna instrucción, hemos mediante visualización del
+  fichero analizado un caso en concreto para definir la naturaleza de
+  esta columna. Ya vimos anteriormente, gracias a otras columnas, que
+  hay agrupaciones internas de los datos calculando los totales. Pero
+  eso no es todo. Podemos apreciar que el total de un delito, es la suma
+  de todas sus subclasificaciones.
+\end{itemize}
+
+Es decir, el total de ``13.2 Robos'', es igual a la suma de ``13.2.1'' y
+``13.2.2'', a su vez el delito contra el patrimonio es la suma de los
+delitos ``13.1'', ``13.2'', \ldots{} Este hecho agrega redundancia a los
+datos. Por ende no solo tendremos que eliminar las filas que representen
+totales pero también aquellas filas que son las agrupaciones de otras
+con el objeto de tener un conjunto \textbf{Tidy}.
+
+En resumen, las columnas de delitos n1 y n5 no son necesarias y pueden
+ser eliminadas sin problemas. Hemos averiguado que los delitos de N5 se
+suman para los delitos de N4. Las columnas de delitos restantes serán
+convertidas a factor. La columna edad será modificada para mayor
+fidelidad al dato.
+
+\subsubsection{Acondicionamiento y preparación de los
+datos}\label{acondicionamiento-y-preparaciuxf3n-de-los-datos}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df\_delitos\_menores }\OtherTok{\textless{}{-}}\NormalTok{ delitos\_menores\_raw }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# Retiramos las filas que se dividan/clasifiquen hasta el nivel 5}
+  \FunctionTok{filter}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(delitos\_n5)) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \CommentTok{\# Selección de características/variables relevantes}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(delitos\_n1, delitos\_n5)) }\SpecialCharTok{\%\textgreater{}\%}
+
+  \CommentTok{\# Renombramiento de las columnas}
+  \FunctionTok{rename}\NormalTok{(}\AttributeTok{delito\_falta =}\NormalTok{ delitos\_n2,          }\CommentTok{\# Delito o Falta}
+         \AttributeTok{clasi\_infrac =}\NormalTok{ delitos\_n3,          }\CommentTok{\# Primer nivel de clasifiación}
+         \AttributeTok{sub\_clasi\_infrac =}\NormalTok{ delitos\_n4) }\SpecialCharTok{\%\textgreater{}\%}  \CommentTok{\# Segundo nivel de clasifiación}
+  
+  \CommentTok{\# Filtrado, retiramos las columnas que ya están pre{-}calculadas.}
+  \CommentTok{\# Caso edad = "Total"}
+  \CommentTok{\# Caso "nivel\_n1" era un "total" y los demás niveles de delito "NA"}
+  \FunctionTok{filter}\NormalTok{(edad }\SpecialCharTok{!=} \StringTok{"Total"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(delito\_falta)) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \CommentTok{\# Reemplazo de valores}
+  \FunctionTok{mutate}\NormalTok{(}
+    \CommentTok{\# valores entendibles para "delito\_falta"}
+    \AttributeTok{delito\_falta =} \FunctionTok{case\_when}\NormalTok{(delito\_falta }\SpecialCharTok{==} \StringTok{"A Delitos"} \SpecialCharTok{\textasciitilde{}} \StringTok{"delito"}\NormalTok{,}
+\NormalTok{                             delito\_falta }\SpecialCharTok{==} \StringTok{"B Faltas"} \SpecialCharTok{\textasciitilde{}} \StringTok{"falta"}\NormalTok{),}
+    \CommentTok{\# Eliminamos " años" y pasamos a numérico}
+    \AttributeTok{edad =} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{substring}\NormalTok{(edad, }\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  
+  \CommentTok{\# Convertimos a factores}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{delito\_falta =} \FunctionTok{as.factor}\NormalTok{(delito\_falta),}
+    \AttributeTok{clasi\_infrac =} \FunctionTok{as.factor}\NormalTok{(clasi\_infrac),}
+    \AttributeTok{sub\_clasi\_infrac =} \FunctionTok{as.factor}\NormalTok{(sub\_clasi\_infrac)}
+\NormalTok{  )}
+
+\CommentTok{\# WIP. Eliminacion aquellas columnas que tienen subclasisifaciones.}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Validación datos
+acondicionados}\label{validaciuxf3n-datos-acondicionados}
+
+Para validar que los datos se han cargado correctamente vamos a sacar
+las columnas totales precaculadas y compararlas con
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Obtener los totales}
+\NormalTok{df\_totales }\OtherTok{\textless{}{-}}\NormalTok{ delitos\_menores\_raw }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(edad }\SpecialCharTok{==} \StringTok{"Total"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 

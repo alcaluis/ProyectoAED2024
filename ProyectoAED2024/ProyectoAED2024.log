@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.24)  25 OCT 2024 10:05
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.26)  26 OCT 2024 12:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -8,9 +8,9 @@ LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-10-09>
 (./Definitions/mdpi.cls
 Document Class: Definitions/mdpi 25/03/2023 MDPI paper class
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/article.cls
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2024/02/08 v1.4n Standard LaTeX document class
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/size10.clo
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/size10.clo
 File: size10.clo 2024/02/08 v1.4n Standard LaTeX file (size option)
 )
 \c@part=\count194
@@ -24,13 +24,13 @@ File: size10.clo 2024/02/08 v1.4n Standard LaTeX file (size option)
 \abovecaptionskip=\skip49
 \belowcaptionskip=\skip50
 \bibindent=\dimen141
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/fontenc.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/inputenc.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2024/02/08 v1.3d Input encoding file
 \inpenc@prehook=\toks17
 \inpenc@posthook=\toks18
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/calc.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2023/07/08 v4.3 Infix arithmetic (KKT,FJ)
 \calc@Acount=\count268
 \calc@Bcount=\count269
@@ -42,9 +42,9 @@ LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
 \calc@Ccount=\count270
 \calc@Cskip=\skip53
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/indentfirst.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/indentfirst.sty
 Package: indentfirst 2023/07/02 v1.03 Indent first paragraph (DPC)
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
 Package: fancyhdr 2024/07/23 v4.3.1 Extensive control of page headers and footers
 \f@nch@headwidth=\skip54
 \f@nch@O@elh=\skip55
@@ -55,85 +55,85 @@ Package: fancyhdr 2024/07/23 v4.3.1 Extensive control of page headers and footer
 \f@nch@O@erf=\skip60
 \f@nch@O@olf=\skip61
 \f@nch@O@orf=\skip62
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/graphicx.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/keyval.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks19
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/graphics.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2024/05/23 v1.4g Standard LaTeX Graphics (DPC,SPQR)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/trig.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 106.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-def/pdftex.def
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-def/pdftex.def
 File: pdftex.def 2024/04/13 v1.2c Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen144
 \Gin@req@width=\dimen145
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf.sty
 Package: epstopdf 2020-01-24 v2.11 Conversion with epstopdf on the fly (HO)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/infwarerr/infwarerr.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/grfext/grfext.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/grfext/grfext.sty
 Package: grfext 2019/12/03 v1.3 Manage graphics extensions (HO)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
-)) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+)) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
 Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
 Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
-)) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+)) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
 Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty
 Package: iftex 2022/02/03 v1.0f TeX engine tests
 )
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
 Package grfext Info: Graphics extension search list:
 (grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 504.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
-))) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lastpage/lastpage.sty
+))) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lastpage/lastpage.sty
 Package: lastpage 2024/07/07 v2.1c lastpage: 2.09 or 2e? (HMM)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lastpage/lastpage2e.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lastpage/lastpage2e.sty
 Package: lastpage2e 2024/07/07 v2.1c Decide which 2e lastpage version to use (HMM)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lastpage/lastpagemodern.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lastpage/lastpagemodern.sty
 Package: lastpagemodern 2024-07-07 v2.1c Refers to last page's name (HMM; JPG)
 \c@lastpagecount=\count271
 ) 
-)) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/ifthen.sty
+)) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/float/float.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count272
 \float@exts=\toks20
 \float@box=\box52
 \@float@everytoks=\toks21
 \@floatcapt=\box53
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2024/05/23 v2.17q AMS math features
 \@mathmargin=\skip63
 For additional information on amsmath, use the `?' option.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amstext.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2021/08/26 v2.01 AMS text
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks22
 \ex@=\dimen146
-)) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.sty
+)) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen147
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
 \inf@bad=\count273
@@ -183,18 +183,18 @@ LaTeX Info: Redefining \Relbar on input line 970.
 \mathdisplay@stack=\toks26
 LaTeX Info: Redefining \[ on input line 2953.
 LaTeX Info: Redefining \] on input line 2954.
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/amssymb.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
-)) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lineno/lineno.sty
+)) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lineno/lineno.sty
 Package: lineno 2023/05/20 line numbers on paragraphs v5.3
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count285
 )
@@ -214,9 +214,9 @@ Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
 \bframebox=\box56
 \linenoamsmath@ams@eqpen=\count293
 LaTeX Info: Redefining \\ on input line 3180.
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/setspace/setspace.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/setspace/setspace.sty
 Package: setspace 2022/12/04 v6.7b set line spacing
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/enumitem/enumitem.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/enumitem/enumitem.sty
 Package: enumitem 2019/06/20 v3.9 Customized lists
 \labelindent=\skip66
 \enit@outerparindent=\dimen160
@@ -224,10 +224,10 @@ Package: enumitem 2019/06/20 v3.9 Customized lists
 \enit@inbox=\box57
 \enit@count@id=\count294
 \enitdp@description=\count295
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/mathpazo.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/mathpazo.sty
 Package: mathpazo 2020/03/25 PSNFSS-v9.3 Palatino w/ Pazo Math (D.Puga, WaS) 
 \symupright=\mathgroup6
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \heavyrulewidth=\dimen161
 \lightrulewidth=\dimen162
@@ -246,7 +246,7 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \@thisruleclass=\count298
 \@lastruleclass=\count299
 \@thisrulewidth=\dimen173
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/titlesec/titlesec.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/titlesec/titlesec.sty
 Package: titlesec 2023/10/27 v2.16 Sectioning titles
 \ttl@box=\box58
 \beforetitleunit=\skip67
@@ -257,17 +257,17 @@ Package: titlesec 2023/10/27 v2.16 Sectioning titles
 \titlewidth=\dimen176
 \titlewidthlast=\dimen177
 \titlewidthfirst=\dimen178
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tabto-ltx/tabto.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tabto-ltx/tabto.sty
 Package: tabto 2018/12/28  v 1.4  Another tabbing mechanism
 \CurrentLineWidth=\dimen179
 \TabPrevPos=\dimen180
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/xcolor/xcolor.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 274.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/mathcolor.ltx)
 Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
 Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
 Package xcolor Info: Model `RGB' extended on input line 1365.
@@ -277,9 +277,9 @@ Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/colortbl/colortbl.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/colortbl/colortbl.sty
 Package: colortbl 2024/07/06 v1.0i Color table columns (DPC)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/array.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/array.sty
 Package: array 2024/06/14 v2.6d Tabular extension package (FMi)
 \col@sep=\dimen181
 \ar@mcellbox=\box59
@@ -292,9 +292,9 @@ Package: array 2024/06/14 v2.6d Tabular extension package (FMi)
 \everycr=\toks31
 \minrowclearance=\skip71
 \rownum=\count300
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/soul/soul.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/soul/soul.sty
 Package: soul 2023-06-14 v3.1 Permit use of UTF-8 characters in soul (HO)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/soul/soul-ori.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/soul/soul-ori.sty
 Package: soul-ori 2023-06-14 v3.1 letterspacing/underlining (mf)
 \SOUL@word=\toks32
 \SOUL@lasttoken=\toks33
@@ -316,15 +316,15 @@ Package: soul-ori 2023-06-14 v3.1 letterspacing/underlining (mf)
 \SOUL@ttwidth=\dimen189
 \SOUL@uldp=\dimen190
 \SOUL@ulht=\dimen191
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/etexcmds/etexcmds.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/etexcmds/etexcmds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
-)) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/multirow/multirow.sty
+)) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/multirow/multirow.sty
 Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
 \multirow@colwidth=\skip73
 \multirow@cntb=\count305
 \multirow@dima=\skip74
 \bigstrutjot=\dimen192
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/microtype.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/microtype.sty
 Package: microtype 2024/03/29 v3.1b Micro-typographical refinements (RS)
 \MT@toks=\toks38
 \MT@tempbox=\box61
@@ -337,31 +337,31 @@ LaTeX Info: Redefining \textls on input line 1392.
 \MT@outer@kern=\dimen193
 LaTeX Info: Redefining \textmicrotypecontext on input line 2013.
 \MT@listname@count=\count307
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/microtype-pdftex.def
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/microtype-pdftex.def
 File: microtype-pdftex.def 2024/03/29 v3.1b Definitions specific to pdftex (RS)
 LaTeX Info: Redefining \lsstyle on input line 902.
 LaTeX Info: Redefining \lslig on input line 902.
 \MT@outer@space=\skip75
 )
 Package microtype Info: Loading configuration file microtype.cfg.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/microtype.cfg
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/microtype.cfg
 File: microtype.cfg 2024/03/29 v3.1b microtype main configuration file (RS)
-)) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
+)) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
 \pgfutil@everybye=\toks40
 \pgfutil@tempdima=\dimen194
 \pgfutil@tempdimb=\dimen195
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
 \pgfutil@abb=\box62
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/pgf.revision.tex)
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/pgf.revision.tex)
 Package: pgfrcs 2023-01-15 v3.1.10 (3.1.10)
 ))
 Package: pgf 2023-01-15 v3.1.10 (3.1.10)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
 Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
 \pgfkeys@pathtoks=\toks41
 \pgfkeys@temptoks=\toks42
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered.code.tex
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered.code.tex
 \pgfkeys@tmptoks=\toks43
 ))
 \pgf@x=\dimen196
@@ -384,37 +384,37 @@ Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
 \t@pgf@tokb=\toks45
 \t@pgf@tokc=\toks46
 \pgf@sys@id@count=\count312
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
 )
 Driver file for pgf: pgfsys-pdftex.def
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
 File: pgfsys-pdftex.def 2023-01-15 v3.1.10 (3.1.10)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
 File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
-))) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
+))) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfsyssoftpath@smallbuffer@items=\count313
 \pgfsyssoftpath@bigbuffer@items=\count314
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
 File: pgfsysprotocol.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ))
 
 LaTeX Warning: Package "xcolor" has already been loaded: ignoring load-time
 (LaTeX)        option "pdftex".
 
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
 Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
 \pgfmath@dimen=\dimen262
 \pgfmath@count=\count315
 \pgfmath@box=\box63
 \pgfmath@toks=\toks47
 \pgfmath@stack@operand=\toks48
 \pgfmath@stack@operation=\toks49
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
 \c@pgfmathroundto@lastzeros=\count316
-)) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
+)) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
 File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@picminx=\dimen263
 \pgf@picmaxx=\dimen264
@@ -430,75 +430,75 @@ File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@yy=\dimen274
 \pgf@zx=\dimen275
 \pgf@zy=\dimen276
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
 File: pgfcorepathconstruct.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@path@lastx=\dimen277
 \pgf@path@lasty=\dimen278
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
 File: pgfcorepathusage.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@shorten@end@additional=\dimen279
 \pgf@shorten@start@additional=\dimen280
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
 File: pgfcorescopes.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfpic=\box64
 \pgf@hbox=\box65
 \pgf@layerbox@main=\box66
 \pgf@picture@serial@count=\count317
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgflinewidth=\dimen281
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
 File: pgfcoretransformations.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@pt@x=\dimen282
 \pgf@pt@y=\dimen283
 \pgf@pt@temp=\dimen284
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
 File: pgfcorequick.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
 File: pgfcoreobjects.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex
 File: pgfcorepathprocessing.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
 File: pgfcorearrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfarrowsep=\dimen285
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@max=\dimen286
 \pgf@sys@shading@range@num=\count318
 \pgf@shadingcount=\count319
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
 File: pgfcoreimage.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
 File: pgfcoreexternal.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfexternal@startupbox=\box67
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
 File: pgfcorelayers.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex
 File: pgfcoretransparency.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex
 File: pgfcorepatterns.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex
 File: pgfcorerdf.code.tex 2023-01-15 v3.1.10 (3.1.10)
-))) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
+))) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
 File: pgfmoduleshapes.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfnodeparttextbox=\box68
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
 File: pgfmoduleplot.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
 Package: pgfcomp-version-0-65 2023-01-15 v3.1.10 (3.1.10)
 \pgf@nodesepstart=\dimen287
 \pgf@nodesepend=\dimen288
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
 Package: pgfcomp-version-1-18 2023-01-15 v3.1.10 (3.1.10)
-)) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/math/pgfmath.sty (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+)) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/math/pgfmath.sty (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
 Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
 \pgffor@iter=\dimen289
 \pgffor@skip=\dimen290
 \pgffor@stack=\toks50
 \pgffor@toks=\toks51
-)) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+)) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
 Package: tikz 2023-01-15 v3.1.10 (3.1.10)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@plot@mark@count=\count320
 \pgfplotmarksize=\dimen291
@@ -519,36 +519,36 @@ File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \tikznumberofchildren=\count322
 \tikznumberofcurrentchild=\count323
 \tikz@fig@count=\count324
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
 File: pgfmodulematrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfmatrixcurrentrow=\count325
 \pgfmatrixcurrentcolumn=\count326
 \pgf@matrix@numberofcolumns=\count327
 )
 \tikz@expandcount=\count328
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
-))) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/totcount/totcount.sty
+))) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/totcount/totcount.sty
 Package: totcount 2011/01/25 v1.2 package for gettingthe total value of LaTeX counters
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/changepage/changepage.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/changepage/changepage.sty
 Package: changepage 2009/10/20 v1.0c check page and change page layout
 \c@cp@cntr=\count329
 \cp@tempcnt=\count330
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/frankenstein/attrib.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/frankenstein/attrib.sty
 Package: attrib 2001/08/31 v1.3 attribution of block elements (Frankenstein's hat)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/frankenstein/moredefs.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/frankenstein/moredefs.sty
 Package: moredefs 2001/08/31 v1.8 more defining commands (Frankenstein's brain)
 \sc@toks@a=\toks52
 \sc@toks@b=\toks53
 )
 \AttribMinSkip=\skip76
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/was/upgreek.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/was/upgreek.sty
 Package: upgreek 2003/02/12 v2.0 (WaS)
 Package upgreek Info: Using Euler Roman for upright Greek on input line 31.
 \symugrf@m=\mathgroup7
 LaTeX Font Info:    Overwriting symbol font `ugrf@m' in version `bold'
 (Font)                  U/eur/m/n --> U/eur/b/n on input line 38.
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/tabularx.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/tabularx.sty
 Package: tabularx 2023/12/11 v2.12a `tabularx' package (DPC)
 \TX@col@width=\dimen300
 \TX@old@table=\dimen301
@@ -557,10 +557,10 @@ Package: tabularx 2023/12/11 v2.12a `tabularx' package (DPC)
 \TX@delta=\dimen304
 \TX@cols=\count331
 \TX@ftn=\toks54
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pbox/pbox.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pbox/pbox.sty
 Package: pbox 2011/12/07 v1.2 Dynamic parboxes
 \pb@xlen=\skip77
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/ragged2e/ragged2e.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/ragged2e/ragged2e.sty
 Package: ragged2e 2023/06/22 v3.6 ragged2e Package
 \CenteringLeftskip=\skip78
 \RaggedLeftLeftskip=\skip79
@@ -576,7 +576,7 @@ Package: ragged2e 2023/06/22 v3.6 ragged2e Package
 \RaggedLeftParindent=\skip89
 \RaggedRightParindent=\skip90
 \JustifyingParindent=\skip91
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tocloft/tocloft.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tocloft/tocloft.sty
 Package: tocloft 2017/08/31 v2.3i parameterised ToC, etc., typesetting
 Package tocloft Info: The document has section divisions on input line 51.
 \cftparskip=\skip92
@@ -612,10 +612,10 @@ Package tocloft Info: The document has section divisions on input line 51.
 \cftbeforetabskip=\skip120
 \cfttabindent=\skip121
 \cfttabnumwidth=\skip122
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/marginnote/marginnote.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/marginnote/marginnote.sty
 Package: marginnote 2018/08/09 1.4b non floating margin notes for LaTeX
 \c@mn@abspage=\count334
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/marginfix/marginfix.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/marginfix/marginfix.sty
 Package: marginfix 2020/05/06 v1.2 Fix Margin Paragraphs
 \Mfx@inject@insert=\insert252
 \Mfx@marginbox=\box73
@@ -629,17 +629,17 @@ Package: marginfix 2020/05/06 v1.2 Fix Margin Paragraphs
 \marginheightadjustment=\dimen310
 \marginposadjustment=\dimen311
 \Mfx@strutheight=\dimen312
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/enotez/enotez.sty (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3kernel/expl3.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/enotez/enotez.sty (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3kernel/expl3.sty
 Package: expl3 2024-10-09 L3 programming layer (loader) 
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count336
 \l__pdf_internal_box=\box75
-)) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+)) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
 Package: xparse 2024-08-16 L3 Experimental document command parser
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
 Package: l3keys2e 2024-08-16 LaTeX2e option processing using LaTeX3 keys
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3packages/xtemplate/xtemplate.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3packages/xtemplate/xtemplate.sty
 Package: xtemplate 2024-08-16 L3 Experimental prototype document functions
 )
 Package: enotez 2022/01/04 v0.10d Endnotes for LaTeX2e
@@ -655,9 +655,9 @@ LaTeX template Info: Declaring template type 'enotez-list' taking 1
 (template)           argument(s) on line 473.
 
 \l__enotez_list_notes_sep_dim=\dimen313
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/translations/translations.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/translations/translations.sty
 Package: translations 2022/02/05 v1.12 internationalization of LaTeX2e packages (CN)
-)) (./Definitions/journalnames.tex) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amscls/amsthm.sty
+)) (./Definitions/journalnames.tex) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amscls/amsthm.sty
 Package: amsthm 2020/05/29 v2.20.6
 \thm@style=\toks55
 \thm@bodyfont=\toks56
@@ -684,28 +684,28 @@ Package: amsthm 2020/05/29 v2.20.6
 \c@notation=\count354
 \c@assumption=\count355
 \c@algorithm=\count356
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/natbib/natbib.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/natbib/natbib.sty
 Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibhang=\skip128
 \bibsep=\skip129
 LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count357
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/koma-script/scrextend.sty
-Package: scrextend 2024/10/15 v3.42 KOMA-Script package (extend other classes with features of KOMA-Script classes)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/koma-script/scrkbase.sty
-Package: scrkbase 2024/10/15 v3.42 KOMA-Script package (KOMA-Script-dependent basics and keyval usage)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/koma-script/scrbase.sty
-Package: scrbase 2024/10/15 v3.42 KOMA-Script package (KOMA-Script-independent basics and keyval usage)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/koma-script/scrlfile.sty
-Package: scrlfile 2024/10/15 v3.42 KOMA-Script package (file load hooks)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/koma-script/scrlfile-hook.sty
-Package: scrlfile-hook 2024/10/15 v3.42 KOMA-Script package (using LaTeX hooks)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/koma-script/scrlogo.sty
-Package: scrlogo 2024/10/15 v3.42 KOMA-Script package (logo)
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/koma-script/scrextend.sty
+Package: scrextend 2024/10/24 v3.43 KOMA-Script package (extend other classes with features of KOMA-Script classes)
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/koma-script/scrkbase.sty
+Package: scrkbase 2024/10/24 v3.43 KOMA-Script package (KOMA-Script-dependent basics and keyval usage)
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/koma-script/scrbase.sty
+Package: scrbase 2024/10/24 v3.43 KOMA-Script package (KOMA-Script-independent basics and keyval usage)
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/koma-script/scrlfile.sty
+Package: scrlfile 2024/10/24 v3.43 KOMA-Script package (file load hooks)
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/koma-script/scrlfile-hook.sty
+Package: scrlfile-hook 2024/10/24 v3.43 KOMA-Script package (using LaTeX hooks)
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/koma-script/scrlogo.sty
+Package: scrlogo 2024/10/24 v3.43 KOMA-Script package (logo)
 )))
 Applying: [2021/05/01] Usage of raw or classic option list on input line 254.
 Already applied: [0000/00/00] Usage of raw or classic option list on input line 370.
-))) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/url/url.sty
+))) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip18
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
@@ -715,9 +715,9 @@ Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 \leftcolumnlength=\skip131
 \extralength=\skip132
 \fulllength=\skip133
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/geometry/geometry.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/ifvtex.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 )
 \Gm@cnth=\count359
@@ -732,7 +732,7 @@ Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 \Gm@layouthoffset=\dimen320
 \Gm@layoutvoffset=\dimen321
 \Gm@dimlist=\toks61
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/newfloat/newfloat.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/newfloat/newfloat.sty
 Package: newfloat 2023/10/01 v1.2 Defining new floating environments (AR)
 )
 Package newfloat Info: New float `listing' with options `' on input line 1360.
@@ -755,9 +755,9 @@ Package newfloat Info: New float `figurewide' with options `' on input line 1364
 \c@figurewide=\count370
 Package newfloat Info: float type `figurewide'=64 on input line 1364.
 \c@lofigurewidedepth=\count371
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/caption.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2023/08/05 v3.6o Customizing captions (AR)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/caption3.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
 \caption@tempdima=\dimen322
 \captionmargin=\dimen323
@@ -780,7 +780,7 @@ Package caption Info: scrextend package is loaded.
 \caption@addmargin@linewidth=\dimen333
 )
 \@justcentbox=\box77
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/seqsplit/seqsplit.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/seqsplit/seqsplit.sty
 Package: seqsplit 2006/08/07 v0.1 Splitting long sequences (DNA, RNA, proteins, etc.) 
 )
 \cellWidtha=\skip134
@@ -835,7 +835,7 @@ Package: seqsplit 2006/08/07 v0.1 Splitting long sequences (DNA, RNA, proteins, 
 \cellWidthX=\skip183
 \cellWidthY=\skip184
 \cellWidthZ=\skip185
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
 Package: fancyvrb 2024/01/20 4.5c verbatim text (tvz,hv)
 \FV@CodeLineNo=\count374
 \FV@InFile=\read3
@@ -843,14 +843,14 @@ Package: fancyvrb 2024/01/20 4.5c verbatim text (tvz,hv)
 \c@FancyVerbLine=\count375
 \FV@StepNumber=\count376
 \FV@OutFile=\write4
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/framed/framed.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/framed/framed.sty
 Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
 \OuterFrameSep=\skip186
 \fb@frw=\dimen334
 \fb@frh=\dimen335
 \FrameRule=\dimen336
 \FrameSep=\dimen337
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/longtable.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/longtable.sty
 Package: longtable 2024-04-26 v4.20 Multi-page Table package (DPC)
 \LTleft=\skip187
 \LTright=\skip188
@@ -870,35 +870,35 @@ Package: longtable 2024-04-26 v4.20 Multi-page Table package (DPC)
 \LT@p@ftn=\toks62
 )
 Package translations Info: No language package found. I am going to use `english' as default language. on input line 236.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2024-07-10 v7.01j Hypertext links for LaTeX
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdfescape/pdfescape.sty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hycolor/hycolor.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hycolor/hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2023-11-26 v2.56 Cross-referencing by name of section
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count382
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/stringenc/stringenc.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/stringenc/stringenc.sty
 Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
 )
 \@linkdim=\dimen339
 \Hy@linkcounter=\count383
 \Hy@pagecounter=\count384
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2024-07-10 v7.01j Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
 \Hy@SavedSpaceFactor=\count385
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
 File: puenc.def 2024-07-10 v7.01j Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
@@ -918,9 +918,9 @@ Package hyperref Info: Bookmarks ON on input line 4424.
 \c@Hy@tempcnt=\count386
 LaTeX Info: Redefining \url on input line 4763.
 \XeTeXLinkMargin=\dimen340
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 ))
 \Fld@menulength=\count387
@@ -933,7 +933,7 @@ Package hyperref Info: backreferencing OFF on input line 6057.
 Package hyperref Info: Link coloring ON on input line 6060.
 Package hyperref Info: Link coloring with OCG OFF on input line 6067.
 Package hyperref Info: PDF/A mode OFF on input line 6072.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atbegshi-ltx.sty
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
@@ -942,23 +942,23 @@ package with kernel methods
 \c@Hfootnote=\count390
 )
 Package hyperref Info: Driver: hpdftex.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.def
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.def
 File: hpdftex.def 2024-07-10 v7.01j Hyperref driver for pdfTeX
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atveryend-ltx.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atveryend-ltx.sty
 Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend package
 with kernel methods
 )
 \Fld@listcount=\count391
 \c@bookmark@seq@number=\count392
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
 Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 285.
 )
 \Hy@SectionHShift=\skip191
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/cleveref/cleveref.sty
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/cleveref/cleveref.sty
 Package: cleveref 2018/03/27 v0.21.4 Intelligent cross-referencing
 Package cleveref Info: `hyperref' support loaded on input line 2370.
 LaTeX Info: Redefining \cref on input line 2370.
@@ -974,7 +974,7 @@ LaTeX Info: Redefining \labelcpageref on input line 2370.
 Package cleveref Info: `amsthm' support loaded on input line 3026.
 )
 LaTeX Font Info:    Trying to load font information for T1+ppl on input line 236.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/t1ppl.fd
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/t1ppl.fd
 File: t1ppl.fd 2001/06/04 font definitions for T1/ppl.
 ) (./ProyectoAED2024.aux)
 \openout1 = `ProyectoAED2024.aux'.
@@ -1013,9 +1013,9 @@ LaTeX Info: Redefining \showhyphens on input line 236.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/mt-ppl.cfg
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/mt-ppl.cfg
 File: mt-ppl.cfg 2005/11/16 v1.6 microtype config. file: Palatino (RS)
-) (c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/translations/translations-basic-dictionary-english.trsl
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/translations/translations-basic-dictionary-english.trsl
 File: translations-basic-dictionary-english.trsl (english translation file `translations-basic-dictionary')
 )
 Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 236.
@@ -1056,7 +1056,7 @@ Package newfloat Info: `float' package detected.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: longtable package is loaded.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/ltcaption.sty
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/ltcaption.sty
 Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 )
 Package caption Info: End \AtBeginDocument code.
@@ -1066,7 +1066,7 @@ Package hyperref Info: Link coloring ON on input line 236.
 \openout5 = `ProyectoAED2024.out'.
 
 LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 236.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/ts1ppl.fd
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
 )
 Underfull \hbox (badness 1642) in paragraph at lines 236--236
@@ -1099,24 +1099,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 236--236
  []
 
 LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 236.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/ot1ppl.fd
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/ot1ppl.fd
 File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
 )
 LaTeX Font Info:    Trying to load font information for OML+zplm on input line 236.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/omlzplm.fd
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/omlzplm.fd
 File: omlzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OML/zplm.
 )
 LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 236.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/omszplm.fd
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/omszplm.fd
 File: omszplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMS/zplm.
 )
 LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 236.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/omxzplm.fd
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/omxzplm.fd
 File: omxzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMX/zplm.
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
 (Font)              scaled to size 10.42007pt on input line 236.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/mt-msa.cfg
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
@@ -1125,7 +1125,7 @@ LaTeX Font Info:    Font shape `U/msa/m/n' will be
 (Font)              scaled to size 6.25204pt on input line 236.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
 (Font)              scaled to size 10.42007pt on input line 236.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/mt-msb.cfg
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
@@ -1133,14 +1133,14 @@ LaTeX Font Info:    Font shape `U/msb/m/n' will be
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
 (Font)              scaled to size 6.25204pt on input line 236.
 LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 236.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/ot1zplm.fd
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/ot1zplm.fd
 File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
 )
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `zplm' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/mt-eur.cfg
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/mt-eur.cfg
 File: mt-eur.cfg 2006/07/31 v1.1 microtype config. file: AMS Euler Roman (RS)
 )
 LaTeX Font Info:    Redeclaring symbol font `AMSb' on input line 236.
@@ -1182,15 +1182,15 @@ Underfull \hbox (badness 10000) in paragraph at lines 236--236
 
 Package marginnote Info: xpos seems to be 167.01753pt on input line 236.
 Package epstopdf Info: Source file: <Definitions/logo-mdpi.eps>
-(epstopdf)                    date: 2024-10-25 09:28:46
+(epstopdf)                    date: 2024-10-26 12:40:01
 (epstopdf)                    size: 736802 bytes
 (epstopdf)             Output file: <Definitions/logo-mdpi-eps-converted-to.pdf>
-(epstopdf)                    date: 2024-10-25 09:30:10
+(epstopdf)                    date: 2024-10-26 12:40:01
 (epstopdf)                    size: 23979 bytes
 (epstopdf)             Command: <repstopdf --outfile=Definitions/logo-mdpi-eps-converted-to.pdf Definitions/logo-mdpi.eps>
 (epstopdf)             \includegraphics on input line 236.
 Package epstopdf Info: Output file is already uptodate.
-<Definitions/logo-mdpi-eps-converted-to.pdf, id=54, 88.33pt x 58.2175pt>
+<Definitions/logo-mdpi-eps-converted-to.pdf, id=62, 88.33pt x 58.2175pt>
 File: Definitions/logo-mdpi-eps-converted-to.pdf Graphic file (type pdf)
 <use Definitions/logo-mdpi-eps-converted-to.pdf>
 Package pdftex.def Info: Definitions/logo-mdpi-eps-converted-to.pdf  used on input line 236.
@@ -1204,15 +1204,15 @@ LaTeX Font Info:    Font shape `U/msb/m/n' will be
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
 (Font)              scaled to size 5.21004pt on input line 236.
 LaTeX Font Info:    Trying to load font information for T1+cmss on input line 236.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/t1cmss.fd
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/t1cmss.fd
 File: t1cmss.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmss' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 253.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/t1cmtt.fd
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 274.
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
 Package microtype Info: Loading generic protrusion settings for font family
@@ -1220,7 +1220,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 256.
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 276.
 
 
 
@@ -1232,19 +1232,14 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [1
 
-{c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc} <./Definitions/logo-mdpi-eps-converted-to.pdf>]
-Overfull \hbox (9.79608pt too wide) in paragraph at lines 314--314
+{c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc} <./Definitions/logo-mdpi-eps-converted-to.pdf>]
+Overfull \hbox (9.79608pt too wide) in paragraph at lines 334--334
 []\T1/cmtt/m/n/10 ##  Class :character   Class :character   Class :character   Class :character[] 
  []
 
 
-Overfull \hbox (9.79608pt too wide) in paragraph at lines 314--314
+Overfull \hbox (9.79608pt too wide) in paragraph at lines 334--334
 []\T1/cmtt/m/n/10 ##  Mode  :character   Mode  :character   Mode  :character   Mode  :character[] 
- []
-
-
-Overfull \hbox (240.73969pt too wide) in paragraph at lines 344--344
-[]\T1/cmtt/m/n/10 ##  $ Delitos N1   : chr [1:2915] "Total Infracciones" "Total Infracciones" "Total Infracciones" "Total Infracciones" ...[] 
  []
 
 
@@ -1257,8 +1252,17 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-4.18796pt}.
 
 [2]
-LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 374.
-(c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/ts1cmtt.fd
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 16.18796pt, for example:
+(fancyhdr)                \setlength{\headheight}{16.18796pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-4.18796pt}.
+
+[3]
+LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 503.
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/ts1cmtt.fd
 File: ts1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
 Package microtype Info: Loading generic protrusion settings for font family
@@ -1274,7 +1278,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller to compensate:
 (fancyhdr)                \addtolength{\topmargin}{-4.18796pt}.
 
-[3]
+[4]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1283,7 +1287,16 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller to compensate:
 (fancyhdr)                \addtolength{\topmargin}{-4.18796pt}.
 
-[4] 
+[5]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 16.18796pt, for example:
+(fancyhdr)                \setlength{\headheight}{16.18796pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-4.18796pt}.
+
+[6] 
 enddocument/afterlastpage: lastpage setting LastPage.
 (./ProyectoAED2024.aux)
  ***********
@@ -1291,21 +1304,21 @@ LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-10-09>
  ***********
 Package rerunfilecheck Info: File `ProyectoAED2024.out' has not changed.
-(rerunfilecheck)             Checksum: 7DDD067341B834717C2ADBC223588405;2445.
+(rerunfilecheck)             Checksum: F16ADDB27D4E0418C14FD00EDBC9D18F;2981.
  ) 
 Here is how much of TeX's memory you used:
- 33362 strings out of 475519
- 631733 string characters out of 5774922
- 1101204 words of memory out of 5000000
- 55223 multiletter control sequences out of 15000+600000
- 600005 words of font info for 208 fonts, out of 8000000 for 9000
+ 33455 strings out of 475537
+ 633045 string characters out of 5775857
+ 1100163 words of memory out of 5000000
+ 55249 multiletter control sequences out of 15000+600000
+ 602699 words of font info for 243 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 123i,12n,135p,1012b,617s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tctt1000.600pk> <c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1000.600pk> <c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ecit1000.600pk> <c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ecss0800.375pk><c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb><c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb><c:/Users/luisa/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on ProyectoAED2024.pdf (4 pages, 132727 bytes).
+ 123i,12n,135p,1012b,633s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tctt1000.600pk> <c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1000.600pk> <c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ecit1000.600pk> <c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ecss0800.375pk><c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb><c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb><c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
+Output written on ProyectoAED2024.pdf (6 pages, 142887 bytes).
 PDF statistics:
- 268 PDF objects out of 1000 (max. 8388607)
- 101 compressed objects within 2 object streams
- 15 named destinations out of 1000 (max. 500000)
- 71778 words of extra memory for PDF output out of 74296 (max. 10000000)
+ 298 PDF objects out of 1000 (max. 8388607)
+ 121 compressed objects within 2 object streams
+ 24 named destinations out of 1000 (max. 500000)
+ 75890 words of extra memory for PDF output out of 89155 (max. 10000000)
 
