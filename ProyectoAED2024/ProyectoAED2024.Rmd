@@ -181,8 +181,8 @@ df_delitos_menores <- delitos_menores_raw %>%
   # Reemplazo de valores
   mutate(
     # valores entendibles para "delito_falta"
-    delito_falta = case_when(delito_falta == "A Delitos" ~ "delito",
-                             delito_falta == "B Faltas" ~ "falta"),
+    delito_falta = case_when(delito_falta == "A Delitos" ~ "Delito",
+                             delito_falta == "B Faltas" ~ "Falta"),
     # Eliminamos " años" y pasamos a numérico
     edad = as.numeric(substring(edad, 1, 2))
   ) %>%
@@ -193,6 +193,24 @@ df_delitos_menores <- delitos_menores_raw %>%
     clasi_infrac = as.factor(clasi_infrac),
     sub_clasi_infrac = as.factor(sub_clasi_infrac)
   )
+
+  #Eliminamos las filas con los totales de las subcategorías
+  seleccion<-c()
+  
+  for (type in unique(df_delitos_menores$clasi_infrac) ){
+    
+    vectoraux<- df_delitos_menores$sub_clasi_infrac[df_delitos_menores$clasi_infrac==type]
+    print(vectoraux)
+    print( !is.na(vectoraux) )
+    if ( sum(!is.na( vectoraux ) > 0 )){
+        seleccion<-c(seleccion, !is.na( vectoraux ))
+    } else{
+        seleccion<-c(seleccion, rep(TRUE, times=length(vectoraux)))
+    }
+    
+  }
+
+  df_delitos_menores<- df_delitos_menores[seleccion,]
 
 # WIP. Eliminacion aquellas columnas que tienen subclasisifaciones.
 ```
