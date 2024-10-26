@@ -173,8 +173,10 @@ df_delitos_menores <- delitos_menores_raw %>%
   # Filtrado, retiramos las columnas que ya están pre-calculadas.
   # Caso edad = "Total"
   # Caso "nivel_n1" era un "total" y los demás niveles de delito "NA"
+  # Caso "nivel_n2" era un "total"
   filter(edad != "Total") %>%
   filter(!is.na(delito_falta)) %>%
+  filter(!is.na(clasi_infrac)) %>%
   
   # Reemplazo de valores
   mutate(
