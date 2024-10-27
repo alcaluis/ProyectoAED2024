@@ -200,8 +200,6 @@ df_delitos_menores <- delitos_menores_raw %>%
   for (type in unique(df_delitos_menores$clasi_infrac) ){
     
     vectoraux<- df_delitos_menores$sub_clasi_infrac[df_delitos_menores$clasi_infrac==type]
-    print(vectoraux)
-    print( !is.na(vectoraux) )
     if ( sum(!is.na( vectoraux ) > 0 )){
         seleccion<-c(seleccion, !is.na( vectoraux ))
     } else{
@@ -232,6 +230,9 @@ df_totales <- delitos_menores_raw %>%
 # WIP:
 #   - Análisis de las variables (individualmente, explicación de los datos,
 #                                estadísticos.) (CARLOS)
+df_delitos_tipo <- df_delitos_menores
+
+
 #   - Análisis de las variables (relaciones) (JOAN)
 # 
 #
