@@ -240,6 +240,65 @@ df_totales <- delitos_menores_raw %>%
 # - NOTA: Junto a la visualización se debe aportar una explicación.
 ```
 
+
+A continuación, analizaremos las relaciones entre las variables para detectar patrones que nos permitan describir la evolución de la delincuencia juvenil a lo largo del tiempo. Para ello, realizaremos visualizaciones que ilustrarán estas relaciones facilitando su interpretación. 
+
+En primer lugar, estudiaremos la distribución de delitos y faltas a lo largo de los años. El siguiente gráfico de barras permite visualizar la cantidad total de incidentes entre 2013 y 2023.
+
+
+```{r}
+# Filtramos para quedarnos con el total de delitos y faltas por año.
+
+total_infrac_años <- df_delitos_menores %>%
+  filter(!is.na(año) & !is.na(delito_falta) & !is.na(total_delitos)) %>% # Quitamos los NA's
+  group_by(año, delito_falta) %>%  # Agrupamos segun el tipo de infracción
+  summarise(total = sum(total_delitos), .groups = 'drop')  # Sumar el total de infracciones
+
+print(total_infrac_años)
+
+
+```
+
+```{r}
+
+ggplot(data = total_infrac_años, aes(x = año, y = total, fill = delito_falta)) + 
+  geom_bar(stat = "identity", position = "dodge") + 
+  labs(title = "Distribución de Delitos vs. Faltas por Año", 
+       x = "Año", 
+       y = "Total de Incidencias") + scale_x_continuous(breaks = seq(min(df_delitos_menores$año), max(df_delitos_menores$año), by = 1))
+
+```
+Como podemos observar, hay una clara tendencia creciente de los delitos de menores desde el 2016 hasta el 2019. En el 2020 hay una gran disminución de delitos. Esto se debe, sin duda, a la cuarentena que hubo durante la pandemia del COVID-19. Pero, a partir del 2021, notamos que la cantidad de delitos vuelve a subir, tomando unas cifras similares a las del 2019. En general, podemos observar un notable aumento de delitos juveniles en los últimos diez años. Por otra parte, notamos que el número de faltas va disminuyendo hasta el año 2017, y a partir del 2018 no hay registros sobre faltas.
+
+Esta tendencia de aumento de delitos y disminución de faltas puede deberse a diferentes motivos. El cambio mas notable se observa entre el 2015 y el 2016. Este fenómeno puede deberse a la reforma del Código Penal en España del 2015, en la cual se llevó a cabo la supresión de muchas infracciones consideradas faltas, que pasaron a ser clasificadas como delitos leves. Esto explicaría el aumento de delitos en contraposición con la disminución de faltas a partir del año 2015. 
+
+
+```{r}
+
+delitos_clasi <- df_delitos_menores %>%
+  filter(!is.na(año) & !is.na(total_delitos)) %>% # Quitamos los NA's
+  group_by(año, clasi_infrac, sub_clasi_infrac) %>%  # Agrupamos segun el tipo de infracción
+  summarise(total = sum(total_delitos), .groups = 'drop')  # Sumar el total de infracciones
+
+print(delitos_clasi)
+
+```
+
+```{r}
+
+
+ggplot(data = delitos_clasi, aes(x = clasi_infrac, y = total)) + 
+  geom_bar(stat = "identity") +
+  labs(title = "Delitos por Tipo y Subclasificación", 
+       x = "Tipo de Delito", 
+       y = "Total de Delitos") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + facet_wrap(~ año)
+
+# Probar con evolución por años de cada tipo de delito
+
+```
+
+
 ## Análisis de 'outliers', métodos de imputación aplicados y análisis de datos perdidos
 ```{r analisis_outliers_imputacion}
 # WIP:
