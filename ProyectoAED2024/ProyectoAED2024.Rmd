@@ -36,13 +36,17 @@ output:
     extra_dependencies: longtable
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
 # Introducción
 
 ## Definición proyecto y planteamiento de preguntas (objetivos)
 
-La delincuencia en España es un tema de conversación latente. Aunque no lo es tanto, pero sigue siendo importante, es hablar de la edad del delincuente. En este estudio analizaremos los diferentes tipos de delito ocasionados por menores de entre 14 y 17 años durante los 10 últimos años. Los objetivos del estudio es responder a las siguientes preguntas:
+La delincuencia en España es un tema de conversación latente. Un estudio importante, es tener en cuenta la edad del delincuente. En este estudio analizaremos los diferentes tipos de delito ocasionados por menores de entre 14 y 17 años durante los 10 últimos años. Los objetivos del estudio es responder a las siguientes preguntas:
 
-1. ¿Cuáles son los delitos más frecuentes y que edades lo frecuentan? ¿Siguen siendo recientes o han disminuido?
+1. ¿Cuáles son los delitos más frecuentes y que edades los perpetran? ¿Han aumentado o han disminuido en los últimos años?
 2. Analizar los picos de delitos y relacionarlos con hechos reales. (Buscar sucesos, leyes)
 3. Encontrar tendencias entre los años.
 4. ...
@@ -50,7 +54,7 @@ La delincuencia en España es un tema de conversación latente. Aunque no lo es 
 WIP: Definir el problema y los objetivos del estudio
 
 ## Carga de librerías y datos
-```{r intro_setup_carga}
+```{r intro_setup_carga, echo=TRUE}
 # Carga de librerias
 librerias <- c("readr",       # Lectura de ficheros con formato
                "dplyr",       # Gramática de manipulación de datos
@@ -78,44 +82,45 @@ delitos_menores_raw <- read_delim(
 ## Estudio y acondicionamiento de los datos
 
 ### Análisis de la estructura y valores iniciales de los datos.
+
+Comenzamos ejecutando "summary" del conjunto de datos, recien cargado, para analizarlo.
+
 ```{r intro_analisis_inicial_1}
 # Análisis de la estructura y valores iniciales de los datos.
 summary(delitos_menores_raw)
 # str(delitos_menores_raw)     # STR no nos aporta información adicional
 # glimpse(delitos_menores_raw) # Lo mismo sucede con GLIMPSE
 ```
-Gracias a "summary" podemos apreciar qué columnas contienen NAs y si los valores (de las columnas numéricas) entran dentro de lo esperado (min, max, median, ...).
+Gracias a "summary" podemos apreciar qué columnas numéricas contienen NAs y si los valores (de las columnas numéricas) entran dentro de lo esperado (min, max, median, ...).
 
+Teniendo para la columna **año** valores esperados, desde 2013 hasta 2023 y la media obviamente en 2018. Respecto a la columna **total_delitos**, podemos apreciar que tiene un número relevante de valores faltantes (210) y confirmamos que los valores se han importado correctamente (manteniendo los millares). Además hemos identificado que la columna **edad** se ha importado como tipo "character". Tras hacer una visualización del archivo nos damos cuenta que los años se han importado como "14 años" agregando el sustantivo para todos los valores y en algunos casos agregando un "Total". Acondicionamiento de la columna será necesario.
 
-Teniendo para la columna **año** valores esperados, desde 2013 hasta 2023 y la media obviamente en 2018. Respecto a la columna **total_delitos**, podemos apreciar que tiene un número relevante de valores faltantes (210) y confirmamos que los valores se han importado correctamente (manteniendo los millares).
+Las columnas restantes, que son de tipo "character", representan el delito en distintos niveles de clasificación. Habremos de factorizar estas variable categóricas. El uso de la función "str" o "glimpse" en este caso no nos ha aportado información adicional.
 
-
-Además hemos identificado que la columna **edad** se ha importado como tipo "character". Tras hacer una visualización del archivo nos damos cuenta que los años se han importado como "14 años" agregando el sustantivo para todos los valores y en algunos casos agregando un "Total". Acondicionamiento de la columna será necesario.
-
-
-Las columnas restantes, que son de tipo "character", representan el delito en sus distintos niveles. Habremos de factorizar estas variable categóricas.
-
-
-El uso de la función "str" o "glimpse" en este caso no nos ha aportado información adicional.
-
+A continuación, ejecutaremos "table" por columna para analizar la cantidad de "NA" y si hay variedad en los elementos. 
 
 ```{r intro_analisis_inicial_2}
 # 1. delitos_n1
-table(delitos_menores_raw$delitos_n1, useNA = "always")
+cat("Columna 'delitos_n1':")
+(table(delitos_menores_raw$delitos_n1, useNA = "always"))
 
 # 2. delitos_n2
-table(delitos_menores_raw$delitos_n2, useNA = "always")
+cat("Columna 'delitos_n2':") 
+(table(delitos_menores_raw$delitos_n2, useNA = "always"))
 
 # 3. delitos_n3, N4, N5
-tail(table(delitos_menores_raw$delitos_n3, useNA = "always"), 2)
-tail(table(delitos_menores_raw$delitos_n4, useNA = "always"), 2)
-tail(table(delitos_menores_raw$delitos_n5, useNA = "always"), 2)
+cat("Columna 'delitos_n3,4,5' (últimos 5):")
+(tail(table(delitos_menores_raw$delitos_n3, useNA = "always"), 5))
+(tail(table(delitos_menores_raw$delitos_n4, useNA = "always"), 5))
+(tail(table(delitos_menores_raw$delitos_n5, useNA = "always"), 5))
 
 # 4. edad
-table(delitos_menores_raw$edad, useNA = "always")
+cat("Columna 'edad':")
+(table(delitos_menores_raw$edad, useNA = "always"))
 
 # 5. año
-table(delitos_menores_raw$año, useNA = "always")
+cat("Columna 'año':")
+(table(delitos_menores_raw$año, useNA = "always"))
 ```
 De las diferentes columnas podemos decir que:
 
@@ -126,6 +131,8 @@ De las diferentes columnas podemos decir que:
 La columna **delitos_n5** no será necesaria. Aporta muy poca información y el análisis no requerirá tanto nivel de detalle para una infracción.
 
 * **edad**: todos los datos de esta columna son uniformes y esperados (ningún valor faltante). Finalmente se eliminarán aquellas instancias que representen un total y se convertirá la columna a tipo numérico.
+
+* **total**: respecto a esta columna pese a que no hayamos utilizado ninguna instrucción, hemos mediante visualización del fichero analizado un caso en concreto para definir la naturaleza de esta columna. Ya vimos anteriormente, gracias a otras columnas, que hay agrupaciones internas de los datos calculando los totales. Pero eso no es todo. Podemos apreciar que el total de un delito, es la suma de todas sus subclasificaciones.
 
 ```{r intro_analisis_inicial_3}
 # 6. total_delitos
@@ -146,14 +153,12 @@ knitr::kable(df_total_delitos[c(4,5,8)], format = "latex",
 
 ```
 
-* **total**: respecto a esta columna pese a que no hayamos utilizado ninguna instrucción, hemos mediante visualización del fichero analizado un caso en concreto para definir la naturaleza de esta columna. Ya vimos anteriormente, gracias a otras columnas, que hay agrupaciones internas de los datos calculando los totales. Pero eso no es todo. Podemos apreciar que el total de un delito, es la suma de todas sus subclasificaciones.
+Como podemos observar, el total de "13.2 Robos", es igual a la suma de "13.2.1" y "13.2.2", a su vez el delito contra el patrimonio es la suma de los delitos "13.1", "13.2", ... Este hecho agrega redundancia a los datos. Por ende no solo tendremos que eliminar las filas que representen totales, valor "total" en edad, pero también aquellas filas que son las agrupaciones de otras con el objeto de tener un conjunto __Tidy__.
 
-Es decir, el total de "13.2 Robos", es igual a la suma de "13.2.1" y "13.2.2", a su vez el delito contra el patrimonio es la suma de los delitos "13.1", "13.2", ... Este hecho agrega redundancia a los datos. Por ende no solo tendremos que eliminar las filas que representen totales pero también aquellas filas que son las agrupaciones de otras con el objeto de tener un conjunto __Tidy__.
-
-En resumen, las columnas de delitos n1 y n5 no son necesarias y pueden ser eliminadas sin problemas. Hemos averiguado que los delitos de N5 se suman para los delitos de N4. Las columnas de delitos restantes serán convertidas a factor. La columna edad será modificada para mayor fidelidad al dato. 
+En resumen, las columnas de delitos n1 y n5 no son necesarias y pueden ser eliminadas sin problemas.Ya que hemos averiguado que los delitos de N5 se suman para los delitos de N4, es decir no perdemos datos. Las columnas de clasifiación de delitos restantes serán convertidas a factor. La columna edad será modificada para mayor fidelidad al dato y un adecuado uso más adelante. 
 
 ### Acondicionamiento y preparación de los datos
-```{r intro_acondicionamiento}
+```{r intro_acondicionamiento, echo=TRUE}
 df_delitos_menores <- delitos_menores_raw %>%
   # Retiramos las filas que se dividan/clasifiquen hasta el nivel 5
   filter(is.na(delitos_n5)) %>%
@@ -194,11 +199,12 @@ df_delitos_menores <- delitos_menores_raw %>%
 seleccion <- c()
 
 for (type in unique(df_delitos_menores$clasi_infrac)){
-  vectoraux<- df_delitos_menores$sub_clasi_infrac[df_delitos_menores$clasi_infrac==type]
+  vectoraux <-
+    df_delitos_menores$sub_clasi_infrac[df_delitos_menores$clasi_infrac==type]
 
-  if (sum(!is.na( vectoraux ) > 0 )){
+  if (sum(!is.na(vectoraux) > 0 )) {
       seleccion <- c(seleccion, !is.na(vectoraux))
-  } else{
+  } else {
       seleccion <- c(seleccion, rep(TRUE, times=length(vectoraux)))
   }
 }
@@ -208,62 +214,74 @@ df_delitos_menores <- df_delitos_menores[seleccion,]
 
 ### Validación datos acondicionados
 
-Para validar que los datos se han cargado correctamente vamos a sacar las columnas totales precaculadas y compararlas con las nuestras haciendo agrupaciones de los datos.
+Para validar que los datos se han acondicionado correctamente vamos a sacar las columnas/filas totales de la fuente y compararlas con las nuestras haciendo agrupaciones de los datos.
 
 ```{r intro_acondicionamiento_validacion}
 # Obtener los totales de las infracciones
+cat("Comparación infracciones totales por año:")
 df_totales <- delitos_menores_raw %>%
   filter(is.na(delitos_n2)) %>%
   filter(edad == "Total") %>%
   select(año, total_delitos) %>%
-  arrange(año)
+  arrange(año) %>%
+  rename(total_proporcionado = total_delitos)
 
 df_suma_totales <- df_delitos_menores %>%
   group_by(año) %>%
-  summarize(total = sum(total_delitos, na.rm=TRUE)) %>%
-  select(año, total) %>%
-  arrange(año)
+  summarize(total_validacion_datos = sum(total_delitos, na.rm=TRUE)) %>%
+  arrange(año) %>%
+  select(total_validacion_datos)
+  
 
-(cbind(df_totales, df_suma_totales))
+(head(cbind(df_totales, df_suma_totales)))
 
 # Comprobar la agrupación para delitos y faltas
+cat("Comparación delitos y faltas totales por año:")
 df_totales_infracciones <- delitos_menores_raw %>%
   filter(!is.na(delitos_n2)) %>%
   filter(is.na(delitos_n3)) %>%
   filter(edad == "Total") %>%
   select(delitos_n2, año, total_delitos) %>%
-  arrange(delitos_n2, año)
+  arrange(año) %>%
+  rename(total_proporcionado = total_delitos)
 
 df_suma_totales_infracciones <- df_delitos_menores %>%
   group_by(delito_falta, año) %>%
-  summarize(total = sum(total_delitos, na.rm=TRUE)) %>%
-  select(delito_falta, año, total) %>%
-  arrange(delito_falta, año)
+  summarize(total_validacion_datos = sum(total_delitos, na.rm=TRUE),
+            .groups = "drop_last") %>%
+  arrange(año)
 
-(cbind(df_totales_infracciones, df_suma_totales_infracciones))
+(head(cbind(df_totales_infracciones, df_suma_totales_infracciones["total_validacion_datos"])))
 
 # Comprobar un tipo de delito
+cat("Comparación delitos totales para el delito 13 año:")
 df_totales_delito13 <- delitos_menores_raw %>%
   filter(!is.na(delitos_n2)) %>%
   filter(delitos_n3 == "13 Contra el patrimonio y el orden socioeconómico") %>%
   filter(is.na(delitos_n4)) %>%
   filter(edad == "Total") %>%
   select(año, total_delitos) %>%
-  arrange(año)
+  arrange(año) %>%
+  rename(total_proporcionado = total_delitos)
 
 df_suma_totales_delito13 <- df_delitos_menores %>%
   filter(clasi_infrac == "13 Contra el patrimonio y el orden socioeconómico") %>%
   group_by(clasi_infrac, año) %>%
-  summarize(total = sum(total_delitos, na.rm=TRUE)) %>%
-  select(año, total) %>%
-  arrange(año)
+  summarize(total_validacion_datos = sum(total_delitos, na.rm=TRUE),
+            .groups = "drop_last") %>%
+  arrange(año) #%>%
+  #select(total_validacion_datos)
 
-(cbind(df_totales_delito13, df_suma_totales_delito13[-1]))
+(head(cbind(df_totales_delito13, df_suma_totales_delito13[3])))
 
 rm(list=c("df_totales", "df_suma_totales", "df_totales_infracciones",
           "df_suma_totales_infracciones", "df_totales_delito13",
           "df_suma_totales_delito13"))
 ```
+
+Como podemos comprobar los valores coinciden entre los totales proporcionados por la fuente de datos y los nuestros calculados haciendo agrupaciones de los datos acondicionados.
+
+Para el cálculo hemos omitido todas aquellos valores de la columna "total_delitos" que eran NA. Al obtener los mismos resultados podemos confirmar que han considerado como 0 aquellos valores faltantes.
 
 # Análisis
 
