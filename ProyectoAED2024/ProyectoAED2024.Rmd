@@ -54,7 +54,7 @@ WIP: Definir el problema y los objetivos del estudio
 # Carga de librerias
 librerias <- c("readr",       # Lectura de ficheros con formato
                "dplyr",       # Gramática de manipulación de datos
-               "ggplot2")     # Visualización mediante gráficas elegantes
+               "ggplot2")     # Visualización mediante gráficas elegantes)       
 pacman::p_load(char=librerias)
 
 # Carga de datos
@@ -507,7 +507,200 @@ ggplot(data = delitos_subclasi_8, aes(x = año, y = total, fill = sub_clasi_infr
 ```
 
 
+```{r}
 
+library(tidyr)
+
+# Nos quedamos con los delitos por subcategorías
+delitos_subclasi <- df_delitos_menores %>%
+  mutate(clasi_subclasi = ifelse(is.na(as.character(sub_clasi_infrac)), 
+                                 as.character(clasi_infrac), 
+                                 as.character(sub_clasi_infrac))) %>% # Creamos nueva columna con todas las las subclasificaciones
+  mutate(clasi_subclasi = as.factor(clasi_subclasi)) %>%
+  filter(!is.na(año) & !is.na(total_delitos)) %>% # Quitamos los NA's
+  group_by(año, clasi_subclasi) %>%  # Agrupamos segun el tipo de infracción
+  summarise(total = sum(total_delitos), .groups = 'drop')  # Sumar el total de infracciones
+  
+
+print(delitos_subclasi)
+
+```
+
+```{r}
+
+# Creamos un dataframe que tenga por columnas los delitos y por filas los años
+
+delitos_ancho <- delitos_subclasi %>%
+  pivot_wider(names_from = clasi_subclasi, values_from = total, values_fill = list(total= 0))
+print(delitos_ancho)
+
+# Calculamos la matriz de correlación
+
+matriz_correlacion <- delitos_ancho %>%
+     select(-año) %>%  # Excluye la columna de año
+     cor()
+
+```
+
+
+
+```{r}
+
+
+# Convertimos la matriz en un dataframe de correlaciones
+correlaciones_relevantes <- as.data.frame(as.table(matriz_correlacion)) %>%
+  filter(Var1 != Var2) %>%  # Excluye correlaciones de un delito consigo mismo
+  mutate(Delitos = ifelse(as.character(Var1) < as.character(Var2), 
+                       paste(as.character(Var1), as.character(Var2), sep = " - "), 
+                       paste(as.character(Var2), as.character(Var1), sep = " - "))) %>%  # Crea un par ordenado
+  distinct(Delitos, .keep_all = TRUE) %>%  # Elimina duplicados
+  select(Delitos, Freq) %>% # Nos quedamos solo con las columnas que nos interesan
+  arrange(desc(Freq))  # Ordena por el valor absoluto de la correlación
+
+# Visualiza las correlaciones más relevantes
+print(correlaciones_relevantes)
+
+
+
+```
+
+
+
+
+```{r}
+
+# Visualizamos las correlaciones en un mapa de calor
+
+heatmap_data <- correlaciones_relevantes %>%
+  separate(Delitos, into = c("Delito1", "Delito2"), sep = " - ") %>%
+  
+print(heatmap_data)
+
+ggplot(heatmap_data, aes(Delito1, Delito2, fill = Freq)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
+                       midpoint = 0, limit = c(-1, 1), space = "Lab", 
+                       name="Correlación") +
+  labs(title = "Mapa de Calor de Correlaciones entre Tipos de Delitos") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+```
+
+
+
+
+```{r}
+
+# Delitos vs edades
+
+delitos_por_edad <- df_delitos_menores %>%
+  mutate(clasi_subclasi = ifelse(is.na(as.character(sub_clasi_infrac)), 
+                                 as.character(clasi_infrac), 
+                                 as.character(sub_clasi_infrac))) %>% # Creamos nueva columna con todas las las subclasificaciones
+  mutate(clasi_subclasi = as.factor(clasi_subclasi)) %>%
+  filter(!is.na(edad) & !is.na(total_delitos)) %>% # Quitamos los NA's
+  group_by(edad, clasi_subclasi) %>%  # Agrupamos segun el tipo de infracción
+  summarise(total = sum(total_delitos), .groups = 'drop')  # Sumar el total de infracciones
+
+print(delitos_por_edad)
+
+
+```
+
+```{r}
+
+# En qué edades se delinque mas?
+
+total_delitos_por_edad<-delitos_por_edad %>%
+  group_by(edad) %>%
+  summarise(total_delitos = sum(total, na.rm = TRUE))
+
+print(total_delitos_por_edad)
+  
+ggplot(total_delitos_por_edad, aes(x = edad, y = total_delitos, fill = edad)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Distribución de Delitos por Edad") 
+ 
+
+
+```
+
+
+```{r}
+
+top_10_delitos_por_edad <- delitos_por_edad %>%
+  group_by(edad) %>%
+  slice_max(order_by = total, n = 10) %>%
+  ungroup()
+
+print(top_10_delitos_por_edad)
+
+
+```
+
+```{r}
+
+
+ggplot(top_10_delitos_por_edad, aes(x = reorder(clasi_subclasi, -total), y = total)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Top 10 Delitos por Edad",
+       x = "Tipo de Delito",
+       y = "Frecuencia de Delitos") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  facet_wrap(~ edad, scales = "free_y")  # Facetas por edad, escalas libres en y
+
+
+
+```
+
+```{r}
+
+delitos_por_edad_i_año <- df_delitos_menores %>%
+  mutate(clasi_subclasi = ifelse(is.na(as.character(sub_clasi_infrac)), 
+                                 as.character(clasi_infrac), 
+                                 as.character(sub_clasi_infrac))) %>% # Creamos nueva columna con todas las las subclasificaciones
+  mutate(clasi_subclasi = as.factor(clasi_subclasi)) %>%
+  filter(!is.na(edad) & !is.na(total_delitos)) %>% # Quitamos los NA's
+  group_by(edad, año, clasi_subclasi) %>%  # Agrupamos segun el tipo de infracción
+  summarise(total = sum(total_delitos), .groups = 'drop')  # Sumar el total de infracciones
+
+top_10_delitos_por_edad_i_año<- delitos_por_edad_i_año %>%
+  semi_join(top_10_delitos_por_edad, by = c("edad", "clasi_subclasi"))
+
+print(top_10_delitos_por_edad_i_año)
+
+```
+
+
+```{r}
+
+edades <- c(14, 15, 16, 17)
+
+graficos <- list()
+
+for (ed in edades) {
+  datos_edad<-top_10_delitos_por_edad_i_año %>%
+  filter(edad==ed)
+
+
+grafico<-ggplot(data = datos_edad, aes(x = año, y = total, color = clasi_subclasi)) +
+    geom_line() + geom_point()+
+    labs(title = paste("Evolución del Total de Delitos para Edad",ed),
+         x = "Año",
+         y = "Total de Delitos",
+         color = "Tipo de Delito") +
+    theme_minimal() 
+
+graficos[[paste("Edad", edad)]] <- grafico
+
+print(grafico)
+}
+
+
+```
 
 
 
