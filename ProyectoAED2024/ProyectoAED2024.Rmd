@@ -298,13 +298,13 @@ ggplot(data = delitos_clasi, aes(x = año, y = total)) +
 
 
 ```
-Observamos que los mas frecuentes son los delitos contra el patrimonio y el orden socioeconómico, junto con los delitos por lesiones. Además se puede apreciar un aumento en estos últimos a partir del 2016, una tendencia que también se refleja en los delitos contra la libertad. Este cambio probablemente está relacionado con la reforma del Código Penal mencionada antes, ya que a partir de este año también se reduce drásticamente el número de faltas contra las personas. Es probable que, tras la reforma, muchas conductas como agresiones físicas leves, amenazas o coacciones, que antes se consideraban faltas pasaron a considerarse delitos por lesiones y contra la libertad, respectivamente.  Este mismo razonamiento puede aplicarse a la disminución de faltas contra el patrimonio frente al aumento de delitos en este ámbito. En cuanto al resto de las faltas, sus cifras no resultan significativas.
+Observamos que los mas frecuentes son los delitos contra el patrimonio y el orden socioeconómico, junto con los delitos por lesiones. Además se puede apreciar un aumento en estos últimos a partir del 2016, una tendencia que también se refleja en los delitos contra la libertad. Este cambio probablemente está relacionado con la reforma del Código Penal mencionada antes, ya que a partir de este año también se reduce drásticamente el número de faltas contra las personas. Es probable que, tras la reforma, muchas conductas como agresiones físicas leves, amenazas o coacciones, que antes se consideraban faltas pasaron a considerarse delitos por lesiones y contra la libertad, respectivamente.  Este mismo razonamiento puede aplicarse a la disminución de faltas contra el patrimonio y contra el orden público frente al aumento de delitos en estos ámbitos. 
 
 Además, se observa un aumento alarmante en los delitos de homicidio en los últimos dos años. Esta tendencia podría explicarse por varias razones. Una de ellas es la mayor exposición de los menores a situaciones violentas, que puede estar relacionada con problemas sociales, la influencia de entornos familiares problemáticos o la fácil accesibilidad a contenido violento en línea. Otra posible explicación son los cambios en la legislación y el enfoque de la justicia juvenil, ya que algunos sostienen que la percepción de impunidad puede motivar a los jóvenes a cometer delitos más graves.
 
 Asimismo, destaca el aumento de los delitos contra la intimidad y el derecho a la propia imagen. Esta tendencia probablemente está vinculada al mayor uso de dispositivos digitales y redes sociales entre menores. Observamos un pico en 2020, lo cual es comprensible, ya que durante el confinamiento se incrementó el uso de redes sociales, lo que pudo haber llevado a más incidentes de violación de la privacidad digital, como la difusión no consentida de contenido privado o el ciberacoso.
 
-Es importante mencionar que hay ciertos delitos que no son significativos para su análisis debido a su escaso número de registros, lo que les resta importancia, como sucede con las falsedades y la mayoría de las faltas.
+Es importante mencionar que hay ciertos delitos que no son significativos para su análisis debido a su escaso número de registros, lo que les resta importancia, como sucede con las falsedades y las faltas contra intereses generales.
 
 Por otro lado, como hemos mencionado anteriormente, algunos delitos cuentan con subclasificaciones. Esto es porque ciertas categorías son demasiado amplias. Por ejemplo, un robo y un hurto son distintos: el primero implica el uso de la fuerza o amenazas, mientras que el segundo no. Ambos, sin embargo, se consideran delitos contra el patrimonio y el orden socioeconómico. Por esta razón, es importante examinar cómo se distribuyen estas subclasificaciones. A continuación, utilizaremos gráficos de barras apiladas para analizar estas distribuciones.
 
@@ -490,17 +490,18 @@ Se puede observar que este tipo de delitos ha ido claramente en aumento en los �
 
 A continuación, nos enfocaremos en el análisis bivariante. Es decir, analizaremos las relaciones entre las variables para detectar patrones que nos permitan describir la evolución de la delincuencia juvenil a lo largo del tiempo. Para ello, realizaremos visualizaciones que ilustrarán estas relaciones facilitando su interpretación. 
 
+En primer lugar, realizaremos un análisis de las relaciones entre los tipos de delitos por clasificación. Tenemos un total de 16 clasificaciones diferentes, algunas de las cuales cuentan con subclasificaciones. Como se observa en las gráficas anteriores, la mayoría de las clasificaciones con subcategorías tienen un número reducido de estas, y suele predominar una subclasificación en particular. Por ello, no resulta particularmente relevante analizar las subclasificaciones en estas categorías. Sin embargo, en el caso de los delitos contra el patrimonio y el orden socioeconómico, hay un total de 8 subcategorías, y la frecuencia de cada una de ellas está distribuida de manera más uniforme. Dado que esta es, además, la clasificación más frecuente, resulta interesante realizar un análisis bivariante con las subclasificaciones de este tipo de delito. Por consiguiente, primero llevaremos a cabo un análisis bivariante entre clasificaciones para examinar la correlación entre los distintos tipos de delitos, y posteriormente haremos lo mismo para las subcategorías de los delitos contra el patrimonio.
 
+Para llevar a cabo el análisis por clasificaciones, hemos optado por eliminar las categorías menos relevantes. En el gráfico "Delitos por clasificación" se puede observar que tanto los delitos de falsedades como las faltas contra intereses generales presentan una frecuencia muy baja en los últimos diez años, lo que reduce su relevancia para el análisis. Además, la categoría "Resto de delitos" también muestra una baja frecuencia y aporta poca información al no corresponder a un tipo específico de delito. Por estos motivos, hemos decidido excluir estas categorías, y así poder centrar el análisis en los tipos de delito con mayor impacto  y especificidad.
 
 
 ```{r}
 library(tidyr)
 
-# Analisis bivariante clasificaciones
-# Quitamos las faltas, falsedades y resto de delitos
+# Creamos un nuevo dataframe eliminando las infracciones poco relevantes para el análisis
 
 delitos_clasi_2 <- delitos_clasi %>%
-  filter(!grepl('Faltas',clasi_infrac)) %>% # Quitamos faltas
+  filter(!grepl('Faltas contra intereses generales',clasi_infrac)) %>% # Quitamos faltas
   filter(!grepl('Falsedades',clasi_infrac)) %>% # Quitamos falsedades
   filter(!grepl('Resto de delitos',clasi_infrac)) # Quitamos resto de delitos
   
@@ -529,12 +530,11 @@ matriz_correlacion_clasi <- delitos_ancho_clasi %>%
 
 
 
-
-
 ```{r}
 
 
-# Convertimos la matriz en un dataframe de correlaciones
+# Convertimos la matriz en un dataframe de correlaciones, que ordene las correlaciones en orden decreciente
+
 correlaciones_clasi <- as.data.frame(as.table(matriz_correlacion_clasi)) %>%
   filter(Var1 != Var2) %>%  # Excluye correlaciones de un delito consigo mismo
   mutate(Delitos = ifelse(as.character(Var1) < as.character(Var2), 
@@ -552,6 +552,10 @@ print(correlaciones_clasi)
 ```
 
 
+Notamos que las correlaciones más significativas se presentan entre las faltas. Esto tiene mucho sentido, ya que, como mencionamos anteriormente, las faltas han ido disminuyendo desde la reforma del código penal en 2015 hasta llegar a desaparecer en los años posteriores. También es notable la alta correlación entre los delitos por lesiones y los delitos contra la libertad. Estos dos tipos de delitos también muestran una correlación muy baja con las faltas contra las personas, lo que refuerza la idea de que las faltas contra las personas se reclasificaron como delitos por lesiones y contra la libertad tras la reforma. Esto explicaría su aumento paralelo junto con la disminución de las faltas. Además, es relevante señalar la fuerte correlación entre los delitos por lesiones y los delitos contra la libertad e indemnidad sexuales. Esto puede deberse a la naturaleza de estos delitos. Ambos tipos de delito a menudo involucran violencia física, lo que puede llevar a una relacion directa en su ocurrencia.  Por ejemplo, los delitos de lesiones pueden ocurrir en el contexto de delitos sexuales, donde la violencia puede ser un factor predominante.
+
+El siguiente gráfico muestra todas las correlaciones entre cada tipo de delito. 
+
 ```{r}
 
 library(corrplot)
@@ -566,6 +570,9 @@ numeros<- str_extract(delitos,'[0-9]+')
 corrplot(matriz_correlacion_clasi, tl.labels = numeros,tl.cex = 0.7)
 
 ```
+
+
+A continuación, realizaremos el mismo análisis para las diferentes subclasificaciones de los delitos contra el patrimonio y el orden socioeconómico.
 
 
 ```{r}
@@ -645,41 +652,15 @@ corrplot(matriz_correlacion_subclasi, tl.labels = numeros,tl.cex = 0.7)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+A continuación, analizaremos las relaciones entre las variables de edad y tipo de delito, con el objetivo de identificar qué delitos son más comunes en función de las distintas edades. Para llevar a cabo este análisis, nos centraremos en los delitos clasificados por subcategorías. Es decir, en aquellos delitos que presentan subclasificaciones, utilizaremos estas para el estudio, mientras que para los delitos que no las tienen, emplearemos su clasificación general.
 
 
 
 ```{r}
 
-# Delitos vs edades (usando las subclasificaciones) (quitar faltas)
+# Delitos vs edades (usando las subclasificaciones) 
 
 delitos_por_edad <- df_delitos_menores %>%
-  filter(!grepl('Faltas',clasi_infrac)) %>% # Quitamos faltas
   mutate(clasi_subclasi = ifelse(is.na(as.character(sub_clasi_infrac)), 
                                  as.character(clasi_infrac), 
                                  as.character(sub_clasi_infrac))) %>% # Creamos nueva columna con todas las las subclasificaciones
@@ -692,6 +673,8 @@ print(delitos_por_edad)
 
 
 ```
+
+En primer lugar, resulta interesante observar en qué rangos de edad se registra un mayor número de delitos. Para ello, podemos consultar el siguiente gráfico de barras.
 
 ```{r}
 
@@ -710,7 +693,9 @@ ggplot(total_delitos_por_edad, aes(x = edad, y = total_delitos, fill = edad)) +
 
 
 ```
+Observamos que el gráfico revela una clara tendencia crecientea, lo que indica que, a medida que los menores se acercan a la mayoría de edad, la frecuencia de delitos que cometen aumenta.
 
+Asimismo, podemos analizar qué delitos son más frecuentes en función de la edad de los delincuentes. A continuación, presentaremos un gráfico que ilustra los diez delitos más frecuentes en cada grupo de edad y su respectiva frecuencia.
 
 ```{r}
 
@@ -739,6 +724,11 @@ ggplot(top_10_delitos_por_edad, aes(x = reorder(clasi_subclasi, -total), y = tot
 
 
 ```
+
+
+Notamos que la mayoría de delitos se repiten en cada grupo de edad y siguen una distribución similar. Además, se evidencia un aumento en la frecuencia de los delitos conforme avanzamos en los grupos de edad. Los delitos más comunes en todas las edades son, sin duda, los delitos por lesiones y los robos, seguidos por los hurtos.
+
+Por último, examinaremos la evolución de cada uno de estos delitos a lo largo de los últimos diez años, para cada grupo de edad.
 
 ```{r}
 
@@ -786,6 +776,7 @@ print(grafico)
 
 ```
 
+Se observa que todos los delitos que se repiten para cada grupo de edad, que son la mayoría, siguen una tendencia similar. Se puede observar el aumento de delitos por lesiones en todos los grupos. Además, los robos tienden a disminuir de manera constante en todas las edades. Los hurtos, en cambio, alcanzan sus picos entre 2016 y 2019, para luego descender. En cuanto al resto de delitos, tienen menor frecuencia y se mantienen bastante estables a lo largo del tiempo.
 
 
 ## Análisis de 'outliers', métodos de imputación aplicados y análisis de datos perdidos
