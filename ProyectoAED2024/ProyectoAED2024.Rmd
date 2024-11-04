@@ -58,7 +58,8 @@ WIP: Definir el problema y los objetivos del estudio
 # Carga de librerias
 librerias <- c("readr",       # Lectura de ficheros con formato
                "dplyr",       # Gramática de manipulación de datos
-               "ggplot2")     # Visualización mediante gráficas elegantes
+               "ggplot2",     # Visualización mediante gráficas elegantes
+               "kableExtra")  # Kable para ajutar las tablas
 pacman::p_load(char=librerias)
 
 # Carga de datos
@@ -282,6 +283,34 @@ rm(list=c("df_totales", "df_suma_totales", "df_totales_infracciones",
 Como podemos comprobar los valores coinciden entre los totales proporcionados por la fuente de datos y los nuestros calculados haciendo agrupaciones de los datos acondicionados.
 
 Para el cálculo hemos omitido todas aquellos valores de la columna "total_delitos" que eran NA. Al obtener los mismos resultados podemos confirmar que han considerado como 0 aquellos valores faltantes.
+
+\startlandscape
+
+### Code Book
+
+```{r intro_codebook}
+columnas <- c("Nombre", "Tipo", "Valores",
+              "Descripción", "Comentarios")
+celdas <- c("delito_falta",     "caracter", "delito, falta", "-", "-",
+            "clasi_infrac",     "caracter", "Diferentes tipos de delito (primer nivel de clasificación).", "-", "-",
+            "sub_clasi_infrac", "caracter", "Diferentes tipos de delito (segundo nivel de clasificación).", "-", "Pueden no ser necesarios tal nivel de detalle teniendo valores nulos en ese caso.",
+            "edad",             "numerico",  "[14, .., 17]", "Edad del infractor.", "Edad en años. No deberían haber valor faltantes.",
+            "año",              "numerico",  "[2013, .., 2023]", "Año del recuento de delitos.", "Años expresados en 4 cifras. No deberían haber valor faltantes.",
+            "total_delitos",    "numerico",  "[0, ..]", "Número total de delitos realizados por los infractores de una edad. ", "Si hay valores faltantes se considerarán 0.")
+
+mat_celdas <- matrix(celdas, ncol=5, byrow=TRUE)
+
+knitr::kable(mat_celdas,
+             longtable=TRUE,
+             col.names = columnas,
+             format = "latex", 
+             booktabs = TRUE,
+             caption = "Code Book (Delitos)", 
+             align = 'lll') %>%
+  column_spec(3:5, "6cm")
+```
+\finishlandscape
+
 
 # Análisis
 
