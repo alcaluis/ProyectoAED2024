@@ -59,7 +59,9 @@ WIP: Definir el problema y los objetivos del estudio
 librerias <- c("readr",       # Lectura de ficheros con formato
                "dplyr",       # Gramática de manipulación de datos
                "ggplot2",     # Visualización mediante gráficas elegantes
-               "kableExtra")  # Kable para ajutar las tablas
+               "kableExtra",  # Kable para ajutar las tablas
+               "visdat",      # Visualizacion de valores faltantes
+               "stringr")     # Operaciones con caracteres
 pacman::p_load(char=librerias)
 
 # Carga de datos
@@ -213,11 +215,79 @@ for (type in unique(df_delitos_menores$clasi_infrac)){
 df_delitos_menores <- df_delitos_menores[seleccion,]
 ```
 
-### Validación datos acondicionados
+\startlandscape
 
-Para validar que los datos se han acondicionado correctamente vamos a sacar las columnas/filas totales de la fuente y compararlas con las nuestras haciendo agrupaciones de los datos.
+### Code Book
 
-```{r intro_acondicionamiento_validacion}
+```{r intro_codebook}
+columnas <- c("Nombre", "Tipo", "Valores",
+              "Descripción", "Comentarios")
+celdas <- c("delito_falta",     "caracter", "delito, falta", "-", "-",
+            "clasi_infrac",     "caracter", "Diferentes tipos de delito (primer nivel de clasificación).", "-", "-",
+            "sub_clasi_infrac", "caracter", "Diferentes tipos de delito (segundo nivel de clasificación).", "-", "Pueden no ser necesarios tal nivel de detalle teniendo valores nulos en ese caso.",
+            "edad",             "numerico",  "[14, .., 17]", "Edad del infractor.", "Edad en años. No deberían haber valor faltantes.",
+            "año",              "numerico",  "[2013, .., 2023]", "Año del recuento de delitos.", "Años expresados en 4 cifras. No deberían haber valor faltantes.",
+            "total_delitos",    "numerico",  "[0, ..]", "Número total de delitos realizados por los infractores de una edad. ", "Si hay valores faltantes se considerarán 0.")
+
+mat_celdas <- matrix(celdas, ncol=5, byrow=TRUE)
+
+knitr::kable(mat_celdas,
+             longtable=TRUE,
+             col.names = columnas,
+             format = "latex", 
+             booktabs = TRUE,
+             caption = "Code Book (Delitos)", 
+             align = 'lll') %>%
+  column_spec(3:5, "6cm")
+```
+\finishlandscape
+
+
+# Análisis
+
+## Análisis de las variables
+```{r analisis_variables}
+# WIP:
+#   - Análisis de las variables (individualmente, explicación de los datos,
+#                                estadísticos.) (CARLOS)
+#   - Análisis de las variables (relaciones) (JOAN)
+# 
+#
+# - NOTA: Se debe hacer uso de una "Visualización temprana (exploratoria)"
+#   de los datos. 
+# - NOTA: Junto a la visualización se debe aportar una explicación.
+```
+
+## Análisis de 'outliers', métodos de imputación aplicados y análisis de datos perdidos
+
+### Restricciones de Rango
+
+Primeramente comprobaremos que los valores numéricos se encuentran dentro de los rangos esperados. Utilizando la instrucción 'stopifnot' comporbando los mínimos y máximos esperados.
+
+```{r analisis_outliers_imputacion1, include=FALSE}
+# Comprobaciones de limites
+stopifnot(min(df_delitos_menores$edad) == 14,
+          max(df_delitos_menores$edad) == 17,
+          min(df_delitos_menores$año)  == 2013,
+          max(df_delitos_menores$año)  == 2023,
+          min(df_delitos_menores$total_delitos, na.rm=TRUE)  >= 0)
+```
+
+### Restricciones de unicidad. Duplicados (enteros y parciales)
+
+En este apartado analizaremos si hay alguna observación faltante o repetida. Es decir, que tenemos para cada delito (y sus subclasificaciones) un año y una edad específica. Para ello, vamos a contar cuantas veces aparece cada delito esperando obtener un único valor que es 44 (11 años * 4 edades * cada delito en específico). Efectivamente obtenemos dicho valor, para todos los delitos.
+
+```{r analisis_outliers_imputacion2, include=FALSE}
+df_delitos_menores %>%
+  count(delito_falta, clasi_infrac, sub_clasi_infrac) %>%
+  distinct(n)
+```
+
+### Validar totales (validación cruzada)
+
+Para validar que los datos se han acondicionado correctamente vamos a sacar las columnas/filas totales originales y compararlas con nuestro dataframe haciendo agrupaciones de los datos y sumas de los valores.
+
+```{r analisis_outliers_imputacion3}
 # Obtener los totales de las infracciones
 cat("Comparación infracciones totales por año:")
 df_totales <- delitos_menores_raw %>%
@@ -284,55 +354,80 @@ Como podemos comprobar los valores coinciden entre los totales proporcionados po
 
 Para el cálculo hemos omitido todas aquellos valores de la columna "total_delitos" que eran NA. Al obtener los mismos resultados podemos confirmar que han considerado como 0 aquellos valores faltantes.
 
-\startlandscape
+### Validar variables categóricas
 
-### Code Book
+En el apartado 2.2.2 hemos averiguado que no tenemos observaciones repetidas, pero ello se puede deber a que hayan fallos tipográficos o de ortografía. Es decir, hemos considerado que "13 delitoo" y "13 delito" no son duplicados. En este apartado trataremos este caso si es necesario.
 
-```{r intro_codebook}
-columnas <- c("Nombre", "Tipo", "Valores",
-              "Descripción", "Comentarios")
-celdas <- c("delito_falta",     "caracter", "delito, falta", "-", "-",
-            "clasi_infrac",     "caracter", "Diferentes tipos de delito (primer nivel de clasificación).", "-", "-",
-            "sub_clasi_infrac", "caracter", "Diferentes tipos de delito (segundo nivel de clasificación).", "-", "Pueden no ser necesarios tal nivel de detalle teniendo valores nulos en ese caso.",
-            "edad",             "numerico",  "[14, .., 17]", "Edad del infractor.", "Edad en años. No deberían haber valor faltantes.",
-            "año",              "numerico",  "[2013, .., 2023]", "Año del recuento de delitos.", "Años expresados en 4 cifras. No deberían haber valor faltantes.",
-            "total_delitos",    "numerico",  "[0, ..]", "Número total de delitos realizados por los infractores de una edad. ", "Si hay valores faltantes se considerarán 0.")
-
-mat_celdas <- matrix(celdas, ncol=5, byrow=TRUE)
-
-knitr::kable(mat_celdas,
-             longtable=TRUE,
-             col.names = columnas,
-             format = "latex", 
-             booktabs = TRUE,
-             caption = "Code Book (Delitos)", 
-             align = 'lll') %>%
-  column_spec(3:5, "6cm")
-```
-\finishlandscape
-
-
-# Análisis
-
-## Análisis de las variables
-```{r analisis_variables}
-# WIP:
-#   - Análisis de las variables (individualmente, explicación de los datos,
-#                                estadísticos.) (CARLOS)
-#   - Análisis de las variables (relaciones) (JOAN)
-# 
-#
-# - NOTA: Se debe hacer uso de una "Visualización temprana (exploratoria)"
-#   de los datos. 
-# - NOTA: Junto a la visualización se debe aportar una explicación.
+```{r analisis_outliers_imputacion4, include=FALSE}
+df_delitos_menores %>%
+  count(delito_falta, clasi_infrac, sub_clasi_infrac) %>%
+  mutate(delito_compl = paste(delito_falta,
+                              clasi_infrac,
+                              sub_clasi_infrac, sep=" ")) %>%
+  select(delito_compl, n)
 ```
 
-## Análisis de 'outliers', métodos de imputación aplicados y análisis de datos perdidos
-```{r analisis_outliers_imputacion}
-# WIP:
-#   - Análisis de outliers, métodos de imputación y datos perdidos.
-# (si procede) (LUIS)
+Tras echarle un vistazo a la lista de combinaciones "delito_falta" + "clasi_infrac" + "sub_clasi_infrac" podemos confirmar que no hay errores.
+
+### Tratar valores faltantes
+
+Primeramente vamos a visualizar los datos faltantes de la columna "total_delitos"; pues la otra columnas que tiene valores faltantes "sub_clasi_infrac" ya está justificada. A partir de aquí vamos a tratar de razonar si estos datos son faltantes debido a un factor aleatorio o hay un razonamiento detrás.
+
+```{r analisis_outliers_imputacion5_1, out.width="100%"}
+vis_miss(df_delitos_menores["total_delitos"])
 ```
+
+De la visualización podemos apreciar dos grupos de datos faltantes en la columna "total_delitos". De los casos, al estar el dataframe inicialmente organizado por los delitos, podemos decir que:
+* El grupo de datos faltantes del final corresponden a las "faltas" que se convirtieron en "delitos". Si recogemos solo las faltas y organizamos por año confirmaremos este caso.
+* Pero tenemos otro caso extra que analizaremos a continuación.
+
+Primero la confirmación de las faltas:
+
+```{r analisis_outliers_imputacion5_2, out.width="100%"}
+df_delitos_menores %>%
+  filter(delito_falta == "Falta") %>%
+  arrange(desc(año)) %>%
+  select(total_delitos) %>%
+  vis_miss() + ggtitle("Valores faltantes de faltas ordenado descendientemente por años")
+```
+
+A continuación vamos a tratar el otro grupo de datos faltantes, ignorando las "faltas" y agrupando por delitos:
+
+```{r analisis_outliers_imputacion5_3, out.width="100%"}
+delitos_na <- df_delitos_menores %>%
+  filter(delito_falta != "Falta") %>%
+  group_by(clasi_infrac) %>%
+  summarize(na_delitos = sum(is.na(total_delitos))) %>%
+  arrange(desc(na_delitos))
+
+head(delitos_na)
+```
+
+Podemos ver que todos los datos faltantes corresponden al delito "8 Contra la libertad e indemnidad sexuales". Y dentro de los delitos contra la libertad sexual tenemos solo datos faltantes en dos delitos en concreto "BIS Abusos y agresiones sexuales a menores de 16 años" y "Prostitución y corrupción menores"
+
+```{r analisis_outliers_imputacion5_4}
+delitos_8 <- df_delitos_menores %>%
+  filter(str_detect(clasi_infrac, "8")) %>%
+  group_by(sub_clasi_infrac) %>%
+  summarize(na_delitos = sum(is.na(total_delitos))) %>%
+  arrange(desc(na_delitos))
+
+head(delitos_8)
+
+```
+Si ahora cogemos y los ordenamos estos dos por años podemos ver el efecto de la Ley Orgánica 4/2023 donde se incluyen en estos delitos a los menores de edad.
+
+```{r analisis_outliers_imputacion5_5, out.width="100%"}
+delitos_sexuales_faltantes <- c("8.2 BIS Abusos y agresiones sexuales a menores de 16 años",
+                                "8.5 Prostitución y corrupción menores")
+df_delitos_menores %>%
+  filter(sub_clasi_infrac %in% delitos_sexuales_faltantes) %>%
+  arrange(desc(año)) %>%
+  select(total_delitos) %>%
+  vis_miss() + ggtitle("Valores faltantes de faltas ordenado descendientemente por años")
+```
+
+Finalmente podemos confirmar que los dos casos de daltos faltantes están justificados. Uno debido a la reforma relacionada con la clasificación de las infracciones en faltas o delitos, y el otro caso debido a LO 4/2023, donde a partir de 2023 se consideran nuevos delitos en menores, faltando datos previamente.
 
 ## Visualización Explicatoria
 ```{r visualizacion_explicatoria}
