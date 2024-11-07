@@ -54,7 +54,8 @@ WIP: Definir el problema y los objetivos del estudio
 # Carga de librerias
 librerias <- c("readr",       # Lectura de ficheros con formato
                "dplyr",       # Gramática de manipulación de datos
-               "ggplot2")     # Visualización mediante gráficas elegantes
+               "ggplot2",
+               "stringr")     # Visualización mediante gráficas elegantes
 pacman::p_load(char=librerias)
 
 # Carga de datos
@@ -226,25 +227,68 @@ df_totales <- delitos_menores_raw %>%
 # Análisis
 
 ## Análisis de las variables
-```{r analisis_variables}
+```{r analisis_variables, exploratorio}
 # WIP:
 #   - Análisis de las variables (individualmente, explicación de los datos,
 #                                estadísticos.) (CARLOS)
 df_delitos_tipo <- df_delitos_menores %>%
   #filter(clasi_infrac== "3 Lesiones")%>%
   group_by(año,clasi_infrac) %>%
-  summarize(suma_por_tipo = sum(total_delitos,na.rm=TRUE))
+  mutate(suma_por_tipo = sum(total_delitos,na.rm=TRUE)) %>%
+  ungroup(año) %>%
+  mutate(suma_decada_por_tipo = sum(total_delitos,na.rm=TRUE)) %>%
+  arrange( desc(suma_decada_por_tipo))
 
-windows(width = 12, height = 8)
-ggplot( data = df_delitos_tipo, aes(x=año, y=suma_por_tipo))+
+
+EvolucionTiempoSegunDelito<- ggplot( data = df_delitos_tipo, aes(x=año, y=suma_por_tipo) )+
   geom_line()+
+  #geom_area()+
   labs(x = "Año", y = "Suma por Tipo")+
-  facet_wrap(~clasi_infrac,scales = "free_y", ncol=4)+
+  facet_wrap(~factor(clasi_infrac, levels = as.character(unique(clasi_infrac)) ) , scales = "free_y",ncol=4) 
+EvolucionTiempoSegunDelito
+
+BoxPlotSegunDelito <- ggplot( data = df_delitos_tipo, aes(x=año, y=suma_por_tipo))+
+  geom_boxplot()+
+  labs(x = "Año", y = "Suma por Tipo")+
+  facet_wrap(~factor(clasi_infrac, levels = as.character(unique(clasi_infrac))), scales = "free_y",ncol=4)+
   theme_bw() +
   theme(axis.text.y = element_text(size=8), axis.text.x = element_text(size=6))+
   scale_x_continuous(breaks = seq(2013, 2023, by = 2),limits = c(2013,2023),label = as.character(seq(13,23,by=2)))+
   ggtitle("Evolución en el tiempo según tipo de delito")
+BoxPlotSegunDelito
+
+
+df_delitos_summary_por_tipo <- df_delitos_menores %>%
+  group_by(clasi_infrac,año) %>%
+  summarise( total_anual = sum(total_delitos, na.rm=TRUE)) %>%
+  ungroup(año) %>%
+  summarise( d.mean = mean(total_anual, na.rm=TRUE), d.sd = sd(total_anual, na.rm=TRUE), d.Q1 = quantile(total_anual, 0.25, na.rm =TRUE), d.Q2_median = quantile(total_anual, 0.5, na.rm =TRUE) , d.Q3 = quantile(total_anual, 0.75, na.rm =TRUE)) 
+
+df_delitos_summary_por_tipo
+
 ```
+
+```{r, Version Explicativa}
+EvolucionTiempoSegunDelito<- ggplot( data = df_delitos_tipo, aes(x=año, y=suma_por_tipo, fill  = suma_decada_por_tipo ))+
+  geom_area(alpha=0.85) +
+  geom_line(color = "#444444", size=1, alpha = 0.5)+
+  geom_point(color = "#444444", alpha = 0.7, size = 0.75)+
+
+  labs(x = "Año", y = "Suma por Tipo", fill= "Suma Total (década) por Tipo")+
+  facet_wrap(~factor(clasi_infrac, levels = as.character(unique(clasi_infrac)) ) , scales = "free_y",ncol=4 ) +
+ # A partir de aquí estético
+  theme_bw() +
+  scale_y_continuous(expand = expansion(mult = c(0.05, 0.05)))+
+  scale_color_gradient(low = "blue", high = "red")+
+  scale_fill_gradient(low = "blue", high = "red")+
+  theme(axis.text.y = element_text(size=8), axis.text.x = element_text(size=6))+
+  scale_x_continuous(breaks = seq(2013, 2023, by = 2),limits = c(2013,2023),label = as.character(seq(13,23,by=2)))+
+  ggtitle("Evolución en el tiempo según tipo de delito")
+
+EvolucionTiempoSegunDelito
+
+```
+
 Observamos aquí una visualización de la evolución de la cantidad de delitos a lo largo del tiempo según tipo de delito. Se pueden observar varias irregularidades:
 
 ## 1. Valle ( descenso puntual ) de varios tipos de delito entre el 2020 y 2021.
@@ -272,53 +316,41 @@ df_delitos_edad <- df_delitos_menores %>%
   group_by(año,edad)%>%
   summarize(suma_por_edad = sum(total_delitos,na.rm=TRUE))
 
-df_totales_calculados <- df_delitos_menores %>%
-  group_by(año)%>%
-  summarize(sumatotalanual = sum(total_delitos,na.rm=TRUE))
-
-  
 totales_por_edad<-ggplot( data = df_delitos_edad, aes(x=año, y=suma_por_edad,color = edad)) +
   geom_line(size = 1)+
+  geom_point()+
   labs(x = "Año", y = "Suma por Edad")+
   theme(axis.text.y = element_text(size=8), axis.text.x = element_text(size=6)) +
   scale_x_continuous(breaks = seq(2013, 2023, by = 2),limits = c(2013,2023),label = as.character(seq(13,23,by=2)))+
   ggtitle("Evolución en el tiempo de delitos totales segun edad")
 
 totales_por_edad
-
-
   
 ```
+
 De nuevo se hace evidente el valle ocasionado por la pandemia y también una aparente correlación lineal positiva entre la edad y el total de delitos.
 ```{r}
 # Suponiendo que ya tienes tus data frames df_delitos_edad y df_totales_calculados
 
+df_media <- df_delitos_edad %>%
+  ungroup(edad) %>%
+  summarise( delitos_por_año_entre_4 = sum(suma_por_edad,na.rm = TRUE)/4 )
 # Añadir una columna para distinguir los tipos de datos
-df_delitos_edad <- df_delitos_edad %>% 
-  mutate(tipo = "Delitos por Edad")
-
-df_totales_calculados <- df_totales_calculados %>% 
-  mutate(tipo = "Total Delitos")
-
-# Combinar los dos data frames
-df_combined <- bind_rows(df_delitos_edad, df_totales_calculados)
-
-
-
 ggplot() +
-  geom_line(aes(x=año, y = suma_por_edad, color = edad), data = df_delitos_edad, size = 1) +  # Delitos por edad
-  geom_line(aes(x=año,y = sumatotalanual/4) , data = df_totales_calculados, size = 1, linetype = "dashed") +  # Total delitos
+  geom_line(aes(x=año, y = suma_por_edad, color = edad), data = df_delitos_edad, size = 1) + 
+  geom_point(aes(x=año, y = suma_por_edad, color = edad), data = df_delitos_edad, size = 1) + # Delitos por edad
+  geom_line(aes(x=año,y = delitos_por_año_entre_4) , data = df_media, size = 1, linetype = "dashed", color = "black") +  # Total delitos
   labs(x = "Año", y = "Suma") +
   scale_x_continuous(breaks = seq(2013, 2023, by = 2), limits = c(2013, 2023), labels = as.character(seq(13, 23, by = 2))) +
   ggtitle("Evolución de Delitos Totales y por Edad")+
   annotate("text", x = 2021, y = 5000, 
-           label = "Media", 
+           label = "Suma / 4", 
            color = "black", size = 4, hjust = 0.25)+
   geom_curve(aes(x = 2021, xend = 2020.7, y = 5150, yend = 5800), 
                arrow = arrow(type = "closed", length = unit(0.1, "inches")), 
                color = "black", size = 1)
 ```
-
+# Hacer más hincapié en análisis de estadísticos (máximos, mínimos, ordenes)
 
 
 
@@ -342,7 +374,7 @@ ggplot() +
 ## Visualización Explicatoria
 ```{r visualizacion_explicatoria}
 # WIP:
-#   - Visualización enfocada a los objetivos (encontrar una respuesta al problema). (TODOS)
+#   - Visualización enfocada a los objetivos (encontrar una respuesta al problema).
 #
 # - NOTA: Junto a la visualización se debe aportar una explicación.
 ```
