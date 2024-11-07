@@ -275,13 +275,13 @@ EvolucionTiempoSegunDelito<- ggplot( data = df_delitos_tipo, aes(x=año, y=suma_
   geom_point(color = "#444444", alpha = 0.7, size = 0.75)+
 
   labs(x = "Año", y = "Suma por Tipo", fill= "Suma Total (década) por Tipo")+
-  facet_wrap(~factor(clasi_infrac, levels = as.character(unique(clasi_infrac)) ) , scales = "free_y",ncol=4 ) +
+  facet_wrap(~factor(clasi_infrac, levels = as.character(unique(clasi_infrac)) ) , scales = "free_y",ncol=4) +
  # A partir de aquí estético
   theme_bw() +
   scale_y_continuous(expand = expansion(mult = c(0.05, 0.05)))+
   scale_color_gradient(low = "blue", high = "red")+
   scale_fill_gradient(low = "blue", high = "red")+
-  theme(axis.text.y = element_text(size=8), axis.text.x = element_text(size=6))+
+  theme(axis.text.y = element_text(size=8), axis.text.x = element_text(size=6), margin= margin(r = 5))+
   scale_x_continuous(breaks = seq(2013, 2023, by = 2),limits = c(2013,2023),label = as.character(seq(13,23,by=2)))+
   ggtitle("Evolución en el tiempo según tipo de delito")
 
