@@ -54,8 +54,8 @@ WIP: Definir el problema y los objetivos del estudio
 # Carga de librerias
 librerias <- c("readr",       # Lectura de ficheros con formato
                "dplyr",       # Gramática de manipulación de datos
-               "ggplot2",
-               "stringr")     # Visualización mediante gráficas elegantes
+               "ggplot2",     # Visualización mediante gráficas elegantes
+               "stringr")
 pacman::p_load(char=librerias)
 
 # Carga de datos
@@ -227,7 +227,7 @@ df_totales <- delitos_menores_raw %>%
 # Análisis
 
 ## Análisis de las variables
-```{r analisis_variables, exploratorio}
+```{r analisis_variables}
 # WIP:
 #   - Análisis de las variables (individualmente, explicación de los datos,
 #                                estadísticos.) (CARLOS)
@@ -364,6 +364,544 @@ ggplot() +
 # - NOTA: Junto a la visualización se debe aportar una explicación.
 ```
 
+En primer lugar, estudiaremos la distribución de delitos y faltas a lo largo de los años. El siguiente gráfico de barras permite visualizar la cantidad total de incidentes entre 2013 y 2023.
+
+
+```{r}
+# Filtramos para quedarnos con el total de delitos y faltas por año.
+
+total_infrac_años <- df_delitos_menores %>%
+  filter(!is.na(año) & !is.na(delito_falta) & !is.na(total_delitos)) %>% # Quitamos los NA's
+  group_by(año, delito_falta) %>%  # Agrupamos segun el tipo de infracción
+  summarise(total = sum(total_delitos), .groups = 'drop')  # Sumar el total de infracciones
+
+print(total_infrac_años)
+
+
+```
+
+```{r}
+
+ggplot(data = total_infrac_años, aes(x = año, y = total, fill = delito_falta)) + 
+  geom_bar(stat = "identity", position = "dodge") + 
+  labs(title = "Distribución de Delitos vs. Faltas por Año", 
+       x = "Año", 
+       y = "Total de Incidencias") + scale_x_continuous(breaks = seq(min(df_delitos_menores$año), max(df_delitos_menores$año), by = 1))
+
+```
+Como podemos observar, hay una clara tendencia creciente de los delitos de menores desde el 2016 hasta el 2019. En el 2020 hay una gran disminución de delitos. Esto se debe, sin duda, a la cuarentena que hubo durante la pandemia del COVID-19. Pero, a partir del 2021, notamos que la cantidad de delitos vuelve a subir, tomando unas cifras similares a las del 2019. En general, podemos observar un notable aumento de delitos juveniles en los últimos diez años. Por otra parte, notamos que el número de faltas va disminuyendo hasta el año 2017, y a partir del 2018 no hay registros sobre faltas.
+
+Esta tendencia de aumento de delitos y disminución de faltas puede deberse a diferentes motivos. El cambio mas notable se observa entre el 2015 y el 2016. Este fenómeno puede deberse a la reforma del Código Penal en España del 2015, en la cual se llevó a cabo la supresión de muchas infracciones consideradas faltas, que pasaron a ser clasificadas como delitos leves. Esto explicaría el aumento de delitos en contraposición con la disminución de faltas a partir del año 2015. 
+
+Por otra parte, podemos estudiar como se distribuyen las infracciones segun su tipo. El gráfico que veremos a continuación nos permite observar la evolución de cada tipo de infracción en los últimos diez años, así como cuales son las infracciones mas o menos frecuentes.
+
+
+```{r}
+
+delitos_clasi <- df_delitos_menores %>%
+  filter(!is.na(año) & !is.na(total_delitos)) %>% # Quitamos los NA's
+  group_by(año, clasi_infrac) %>%  # Agrupamos segun el tipo de infracción
+  summarise(total = sum(total_delitos), .groups = 'drop')  # Sumar el total de infracciones
+
+print(delitos_clasi)
+
+```
+
+
+```{r}
+
+
+ggplot(data = delitos_clasi, aes(x = año, y = total)) + 
+  geom_bar(stat = "identity") +
+  labs(title = "Delitos por clasificación", 
+       x = "Año", 
+       y = "Total de Delitos") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),strip.text = element_text(size = 6)) + facet_wrap(~clasi_infrac, scales='free_y' )
+
+
+```
+Observamos que los mas frecuentes son los delitos contra el patrimonio y el orden socioeconómico, junto con los delitos por lesiones. Además se puede apreciar un aumento en estos últimos a partir del 2016, una tendencia que también se refleja en los delitos contra la libertad. Este cambio probablemente está relacionado con la reforma del Código Penal mencionada antes, ya que a partir de este año también se reduce drásticamente el número de faltas contra las personas. Es probable que, tras la reforma, muchas conductas como agresiones físicas leves, amenazas o coacciones, que antes se consideraban faltas pasaron a considerarse delitos por lesiones y contra la libertad, respectivamente.  Este mismo razonamiento puede aplicarse a la disminución de faltas contra el patrimonio y contra el orden público frente al aumento de delitos en estos ámbitos. 
+
+Además, se observa un aumento alarmante en los delitos de homicidio en los últimos dos años. Esta tendencia podría explicarse por varias razones. Una de ellas es la mayor exposición de los menores a situaciones violentas, que puede estar relacionada con problemas sociales, la influencia de entornos familiares problemáticos o la fácil accesibilidad a contenido violento en línea. Otra posible explicación son los cambios en la legislación y el enfoque de la justicia juvenil, ya que algunos sostienen que la percepción de impunidad puede motivar a los jóvenes a cometer delitos más graves.
+
+Asimismo, destaca el aumento de los delitos contra la intimidad y el derecho a la propia imagen. Esta tendencia probablemente está vinculada al mayor uso de dispositivos digitales y redes sociales entre menores. Observamos un pico en 2020, lo cual es comprensible, ya que durante el confinamiento se incrementó el uso de redes sociales, lo que pudo haber llevado a más incidentes de violación de la privacidad digital, como la difusión no consentida de contenido privado o el ciberacoso.
+
+Es importante mencionar que hay ciertos delitos que no son significativos para su análisis debido a su escaso número de registros, lo que les resta importancia, como sucede con las falsedades y las faltas contra intereses generales.
+
+Por otro lado, como hemos mencionado anteriormente, algunos delitos cuentan con subclasificaciones. Esto es porque ciertas categorías son demasiado amplias. Por ejemplo, un robo y un hurto son distintos: el primero implica el uso de la fuerza o amenazas, mientras que el segundo no. Ambos, sin embargo, se consideran delitos contra el patrimonio y el orden socioeconómico. Por esta razón, es importante examinar cómo se distribuyen estas subclasificaciones. A continuación, utilizaremos gráficos de barras apiladas para analizar estas distribuciones.
+
+
+```{r}
+
+delitos_subclasi_13 <- df_delitos_menores %>%
+  filter(!is.na(año) & !is.na(total_delitos) & !is.na(sub_clasi_infrac)) %>%  # Quitamos los NA's
+  group_by(año, clasi_infrac, sub_clasi_infrac) %>%  # Agrupamos por año y subclasificación
+  summarise(total = sum(total_delitos), .groups = 'drop') %>%  # Sumar el total de infracciones
+  filter(clasi_infrac == "13 Contra el patrimonio y el orden socioeconómico")  # Filtrar solo el tipo de delito deseado
+
+print(delitos_subclasi_13)
+
+```
+
+```{r}
+
+ggplot(data = delitos_subclasi_13, aes(x = año, y = total, fill = sub_clasi_infrac)) + 
+  geom_bar(stat = "identity") +
+  labs(title = "13 Contra el patrimonio y el orden socioeconómico", 
+       x = "Año", 
+       y = "Total de Delitos") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        strip.text = element_text(size = 6))
+  
+
+```
+
+Como podemos observar, los delitos contra el patrimonio mas frecuentes son los robos y los hurtos.
+
+Otros delitos frecuentes entre menores son aquellos clasificados como delitos contra la seguridad colectiva.
+
+```{r}
+
+delitos_subclasi_17 <- df_delitos_menores %>%
+  filter(!is.na(año) & !is.na(total_delitos) & !is.na(sub_clasi_infrac)) %>%  # Quitamos los NA's
+  group_by(año, clasi_infrac, sub_clasi_infrac) %>%  # Agrupamos por año y subclasificación
+  summarise(total = sum(total_delitos), .groups = 'drop') %>%  # Sumar el total de infracciones
+  filter(clasi_infrac == "17 Contra la seguridad colectiva")  # Filtrar solo el tipo de delito deseado
+
+print(delitos_subclasi_17)
+
+```
+
+```{r}
+
+ggplot(data = delitos_subclasi_17, aes(x = año, y = total, fill = sub_clasi_infrac)) + 
+  geom_bar(stat = "identity") +
+  labs(title = "17 Contra la seguridad colectiva", 
+       x = "Año", 
+       y = "Total de Delitos") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        strip.text = element_text(size = 6))
+  
+```
+Observamos que las subcategorías más comunes incluyen, en primer lugar, los delitos contra la seguridad vial, seguidos de los delitos contra la salud pública. Ejemplos de delitos contra la seguridad vial son la conducción bajo los efectos del alcohol, la conducción temeraria y el uso de vehículos sin licencia. Por otro lado, algunos ejemplos de delitos contra la salud pública son el tráfico de drogas y la contaminación ambiental.
+
+
+Además, podemos notar una ligera disminución en los delitos contra la administración de justicia desde 2020. A continuación, analizaremos cómo se distribuyen las subclasificaciones dentro de esta categoría.
+
+
+```{r}
+
+delitos_subclasi_20 <- df_delitos_menores %>%
+  filter(!is.na(año) & !is.na(total_delitos) & !is.na(sub_clasi_infrac)) %>%  # Quitamos los NA's
+  group_by(año, clasi_infrac, sub_clasi_infrac) %>%  # Agrupamos por año y subclasificación
+  summarise(total = sum(total_delitos), .groups = 'drop') %>%  # Sumar el total de infracciones
+  filter(clasi_infrac == "20 Contra la Administración de Justicia")  # Filtrar solo el tipo de delito deseado
+
+print(delitos_subclasi_20)
+
+```
+
+```{r}
+
+ggplot(data = delitos_subclasi_20, aes(x = año, y = total, fill = sub_clasi_infrac)) + 
+  geom_bar(stat = "identity") +
+  labs(title = "20 Contra la Administración de Justicia", 
+       x = "Año", 
+       y = "Total de Delitos") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        strip.text = element_text(size = 6))
+
+
+```
+
+Notamos que los delitos que disminuyen a partir del 2020 son los de quebrantamiento de condena. Esta reducción puede deberse a diversas causas. Una posibilidad es que la introducción de tecnologías, como pulseras electrónicas o controles virtuales, haya mejorado la supervisión del cumplimiento de las condenas. También es posible que se hayan implementado políticas de reintegración social que favorezcan el cumplimiento de condenas más que la sanción de quebrantamientos. Esto puede incluir programas de rehabilitación o alternativas al encarcelamiento que se enfocan en apoyar a los condenados en lugar de castigar severamente los incumplimientos.
+
+
+Por otra parte, en los delitos contra el orden público, se puede observar un pico en los años 2021 y 2022.
+
+
+```{r}
+
+delitos_subclasi_22 <- df_delitos_menores %>%
+  filter(!is.na(año) & !is.na(total_delitos) & !is.na(sub_clasi_infrac)) %>%  # Quitamos los NA's
+  group_by(año, clasi_infrac, sub_clasi_infrac) %>%  # Agrupamos por año y subclasificación
+  summarise(total = sum(total_delitos), .groups = 'drop') %>%  # Sumar el total de infracciones
+  filter(clasi_infrac == "22 Contra el orden público")  # Filtrar solo el tipo de delito deseado
+
+print(delitos_subclasi_22)
+
+
+```
+
+```{r}
+
+ggplot(data = delitos_subclasi_22, aes(x = año, y = total, fill = sub_clasi_infrac)) + 
+  geom_bar(stat = "identity") +
+  labs(title = "22 Contra el orden público", 
+       x = "Año", 
+       y = "Total de Delitos") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        strip.text = element_text(size = 6))
+
+
+```
+
+Estos picos podrían estar vinculados a varios factores derivados del contexto post-pandemia. Durante el confinamiento, las restricciones de movimiento y otras medidas sanitarias generaron tensiones entre autoridades y ciudadanos, con numerosos episodios de resistencia frente a las normativas restrictivas.La relajación de las restricciones en 2021 llevó a un incremento generalizado de la actividad social, lo cual también se pudo traducir en un aumento de ciertos tipos de delitos, como altercados y confrontaciones con las autoridades.
+
+Conviene también analizar de forma más detallada los delitos contra la libertad, pues son de los más frecuentes y cuentan con diversas subcategorías.
+
+
+```{r}
+
+delitos_subclasi_6 <- df_delitos_menores %>%
+  filter(!is.na(año) & !is.na(total_delitos) & !is.na(sub_clasi_infrac)) %>%  # Quitamos los NA's
+  group_by(año, clasi_infrac, sub_clasi_infrac) %>%  # Agrupamos por año y subclasificación
+  summarise(total = sum(total_delitos), .groups = 'drop') %>%  # Sumar el total de infracciones
+  filter(clasi_infrac == "6 Contra la libertad")  # Filtrar solo el tipo de delito deseado
+
+print(delitos_subclasi_6)
+
+```
+
+
+```{r}
+
+ggplot(data = delitos_subclasi_6, aes(x = año, y = total, fill = sub_clasi_infrac)) + 
+  geom_bar(stat = "identity") +
+  labs(title = "6 Contra la libertad", 
+       x = "Año", 
+       y = "Total de Delitos") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        strip.text = element_text(size = 6))
+
+```
+
+Como podemos observar, los más comunes son los delitos por amenazas, los cuales van claramente en aumento a lo largo de los años, probablemente por el motivo que ya hemos expuesto anteriormente.
+
+Finalmente, resulta relevante analizar los delitos contra la libertad e indemnidad sexuales, dada su importancia y evolución en los últimos años.
+
+```{r}
+
+delitos_subclasi_8 <- df_delitos_menores %>%
+  filter(!is.na(año) & !is.na(total_delitos) & !is.na(sub_clasi_infrac)) %>%  # Quitamos los NA's
+  group_by(año, clasi_infrac, sub_clasi_infrac) %>%  # Agrupamos por año y subclasificación
+  summarise(total = sum(total_delitos), .groups = 'drop') %>%  # Sumar el total de infracciones
+  filter(clasi_infrac == "8 Contra la libertad e indemnidad sexuales")  # Filtrar solo el tipo de delito deseado
+
+print(delitos_subclasi_8)
+
+```
+
+
+
+```{r}
+
+ggplot(data = delitos_subclasi_8, aes(x = año, y = total, fill = sub_clasi_infrac)) + 
+  geom_bar(stat = "identity") +
+  labs(title = "8 Contra la libertad e indemnidad sexuales", 
+       x = "Año", 
+       y = "Total de Delitos") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        strip.text = element_text(size = 6))
+
+```
+
+Se puede observar que este tipo de delitos ha ido claramente en aumento en los últimos diez años, aunque parece que en 2023 se pudo frenar esta tendencia. Observamos que las subcategorías de agresiones sexuales y abusos sexuales tienen cifras más o menos similares todos los años. En cambio, la subcategoría de color rosa ha ido en aumento, hasta que en el año 2022 se añadió una subcategoría para clasificar los abusos y agresiones sexuales a menores de 16 años. Por tanto, podemos concluir que ha habido un aumento muy significativo de las denuncias de abusos y agresiones sexuales por parte de menores a menores de 16 años. 
+
+
+
+A continuación, nos enfocaremos en el análisis bivariante. Es decir, analizaremos las relaciones entre las variables para detectar patrones que nos permitan describir la evolución de la delincuencia juvenil a lo largo del tiempo. Para ello, realizaremos visualizaciones que ilustrarán estas relaciones facilitando su interpretación. 
+
+En primer lugar, realizaremos un análisis de las relaciones entre los tipos de delitos por clasificación. Tenemos un total de 16 clasificaciones diferentes, algunas de las cuales cuentan con subclasificaciones. Como se observa en las gráficas anteriores, la mayoría de las clasificaciones con subcategorías tienen un número reducido de estas, y suele predominar una subclasificación en particular. Por ello, no resulta particularmente relevante analizar las subclasificaciones en estas categorías. Sin embargo, en el caso de los delitos contra el patrimonio y el orden socioeconómico, hay un total de 8 subcategorías, y la frecuencia de cada una de ellas está distribuida de manera más uniforme. Dado que esta es, además, la clasificación más frecuente, resulta interesante realizar un análisis bivariante con las subclasificaciones de este tipo de delito. Por consiguiente, primero llevaremos a cabo un análisis bivariante entre clasificaciones para examinar la correlación entre los distintos tipos de delitos, y posteriormente haremos lo mismo para las subcategorías de los delitos contra el patrimonio.
+
+Para llevar a cabo el análisis por clasificaciones, hemos optado por eliminar las categorías menos relevantes. En el gráfico "Delitos por clasificación" se puede observar que tanto los delitos de falsedades como las faltas contra intereses generales presentan una frecuencia muy baja en los últimos diez años, lo que reduce su relevancia para el análisis. Además, la categoría "Resto de delitos" también muestra una baja frecuencia y aporta poca información al no corresponder a un tipo específico de delito. Por estos motivos, hemos decidido excluir estas categorías, y así poder centrar el análisis en los tipos de delito con mayor impacto  y especificidad.
+
+
+```{r}
+library(tidyr)
+
+# Creamos un nuevo dataframe eliminando las infracciones poco relevantes para el análisis
+
+delitos_clasi_2 <- delitos_clasi %>%
+  filter(!grepl('Faltas contra intereses generales',clasi_infrac)) %>% # Quitamos faltas
+  filter(!grepl('Falsedades',clasi_infrac)) %>% # Quitamos falsedades
+  filter(!grepl('Resto de delitos',clasi_infrac)) # Quitamos resto de delitos
+  
+
+print(delitos_clasi_2)
+
+```
+
+
+
+```{r}
+
+# Creamos un dataframe que tenga por columnas los delitos y por filas los años
+
+delitos_ancho_clasi <- delitos_clasi_2 %>%
+  pivot_wider(names_from = clasi_infrac, values_from = total, values_fill = list(total= 0))
+print(delitos_ancho_clasi)
+
+# Calculamos la matriz de correlación
+
+matriz_correlacion_clasi <- delitos_ancho_clasi %>%
+     select(-año) %>%  # Excluye la columna de año
+     cor()
+
+```
+
+
+
+```{r}
+
+
+# Convertimos la matriz en un dataframe de correlaciones, que ordene las correlaciones en orden decreciente
+
+correlaciones_clasi <- as.data.frame(as.table(matriz_correlacion_clasi)) %>%
+  filter(Var1 != Var2) %>%  # Excluye correlaciones de un delito consigo mismo
+  mutate(Delitos = ifelse(as.character(Var1) < as.character(Var2), 
+                       paste(as.character(Var1), as.character(Var2), sep = " - "), 
+                       paste(as.character(Var2), as.character(Var1), sep = " - "))) %>%  # Crea un par ordenado
+  distinct(Delitos, .keep_all = TRUE) %>%  # Elimina duplicados
+  select(Delitos, Freq) %>% # Nos quedamos solo con las columnas que nos interesan
+  arrange(desc(Freq))  # Ordena por el valor de la correlación
+
+# Visualiza las correlaciones más relevantes
+print(correlaciones_clasi)
+
+
+
+```
+
+
+Notamos que las correlaciones más significativas se presentan entre las faltas. Esto tiene mucho sentido, ya que, como mencionamos anteriormente, las faltas han ido disminuyendo desde la reforma del código penal en 2015 hasta llegar a desaparecer en los años posteriores. También es notable la alta correlación entre los delitos por lesiones y los delitos contra la libertad. Estos dos tipos de delitos también muestran una correlación muy baja con las faltas contra las personas, lo que refuerza la idea de que las faltas contra las personas se reclasificaron como delitos por lesiones y contra la libertad tras la reforma. Esto explicaría su aumento paralelo junto con la disminución de las faltas. Además, es relevante señalar la fuerte correlación entre los delitos por lesiones y los delitos contra la libertad e indemnidad sexuales. Esto puede deberse a la naturaleza de estos delitos. Ambos tipos de delito a menudo involucran violencia física, lo que puede llevar a una relacion directa en su ocurrencia.  Por ejemplo, los delitos de lesiones pueden ocurrir en el contexto de delitos sexuales, donde la violencia puede ser un factor predominante.
+
+El siguiente gráfico muestra todas las correlaciones entre cada tipo de delito. 
+
+```{r}
+
+library(corrplot)
+library(stringr)
+
+plot.new()
+dev.off()
+
+delitos<-colnames(delitos_ancho_clasi) %>% .[-1]
+numeros<- str_extract(delitos,'[0-9]+')
+
+corrplot(matriz_correlacion_clasi, tl.labels = numeros,tl.cex = 0.7)
+
+```
+
+
+A continuación, realizaremos el mismo análisis para las diferentes subclasificaciones de los delitos contra el patrimonio y el orden socioeconómico.
+
+
+```{r}
+
+# Repetimos el análisis para la categoría de delitos contra el patrimonio
+
+delitos_subclasi_13_2<- delitos_subclasi_13 %>% select(-clasi_infrac)
+
+print(delitos_subclasi_13_2)
+
+```
+
+
+```{r}
+
+# Creamos un dataframe que tenga por columnas los delitos y por filas los años
+
+delitos_ancho_subclasi <- delitos_subclasi_13_2 %>%
+  pivot_wider(names_from = sub_clasi_infrac, values_from = total, values_fill = list(total= 0))
+print(delitos_ancho_subclasi)
+
+# Calculamos la matriz de correlación
+
+matriz_correlacion_subclasi <- delitos_ancho_subclasi %>%
+     select(-año) %>%  # Excluye la columna de año
+     cor()
+
+```
+
+
+
+```{r}
+
+
+# Convertimos la matriz en un dataframe de correlaciones
+correlaciones_subclasi <- as.data.frame(as.table(matriz_correlacion_subclasi)) %>%
+  filter(Var1 != Var2) %>%  # Excluye correlaciones de un delito consigo mismo
+  mutate(Delitos = ifelse(as.character(Var1) < as.character(Var2), 
+                       paste(as.character(Var1), as.character(Var2), sep = " - "), 
+                       paste(as.character(Var2), as.character(Var1), sep = " - "))) %>%  # Crea un par ordenado
+  distinct(Delitos, .keep_all = TRUE) %>%  # Elimina duplicados
+  select(Delitos, Freq) %>% # Nos quedamos solo con las columnas que nos interesan
+  arrange(desc(Freq))  # Ordena por el valor de la correlación
+
+# Visualiza las correlaciones más relevantes
+print(correlaciones_subclasi)
+
+
+
+```
+
+
+
+```{r}
+
+plot.new()
+dev.off()
+
+delitos<-colnames(delitos_ancho_subclasi) %>% .[-1]
+numeros<- str_extract(delitos,'[0-9]+')
+
+corrplot(matriz_correlacion_subclasi, tl.labels = numeros,tl.cex = 0.7)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+A continuación, analizaremos las relaciones entre las variables de edad y tipo de delito, con el objetivo de identificar qué delitos son más comunes en función de las distintas edades. Para llevar a cabo este análisis, nos centraremos en los delitos clasificados por subcategorías. Es decir, en aquellos delitos que presentan subclasificaciones, utilizaremos estas para el estudio, mientras que para los delitos que no las tienen, emplearemos su clasificación general.
+
+
+
+```{r}
+
+# Delitos vs edades (usando las subclasificaciones) 
+
+delitos_por_edad <- df_delitos_menores %>%
+  mutate(clasi_subclasi = ifelse(is.na(as.character(sub_clasi_infrac)), 
+                                 as.character(clasi_infrac), 
+                                 as.character(sub_clasi_infrac))) %>% # Creamos nueva columna con todas las las subclasificaciones
+  mutate(clasi_subclasi = as.factor(clasi_subclasi)) %>%
+  filter(!is.na(edad) & !is.na(total_delitos)) %>% # Quitamos los NA's
+  group_by(edad, clasi_subclasi) %>%  # Agrupamos segun el tipo de infracción
+  summarise(total = sum(total_delitos), .groups = 'drop')  # Sumar el total de infracciones
+
+print(delitos_por_edad)
+
+
+```
+
+En primer lugar, resulta interesante observar en qué rangos de edad se registra un mayor número de delitos. Para ello, podemos consultar el siguiente gráfico de barras.
+
+```{r}
+
+# En qué edades se delinque mas?
+
+total_delitos_por_edad<-delitos_por_edad %>%
+  group_by(edad) %>%
+  summarise(total_delitos = sum(total, na.rm = TRUE))
+
+print(total_delitos_por_edad)
+  
+ggplot(total_delitos_por_edad, aes(x = edad, y = total_delitos, fill = edad)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Distribución de Delitos por Edad") 
+ 
+
+
+```
+Observamos que el gráfico revela una clara tendencia crecientea, lo que indica que, a medida que los menores se acercan a la mayoría de edad, la frecuencia de delitos que cometen aumenta.
+
+Asimismo, podemos analizar qué delitos son más frecuentes en función de la edad de los delincuentes. A continuación, presentaremos un gráfico que ilustra los diez delitos más frecuentes en cada grupo de edad y su respectiva frecuencia.
+
+```{r}
+
+top_10_delitos_por_edad <- delitos_por_edad %>%
+  group_by(edad) %>%
+  slice_max(order_by = total, n = 10) %>%
+  ungroup()
+
+print(top_10_delitos_por_edad)
+
+
+```
+
+```{r}
+
+
+ggplot(top_10_delitos_por_edad, aes(x = reorder(clasi_subclasi, -total), y = total)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Top 10 Delitos por Edad",
+       x = "Tipo de Delito",
+       y = "Frecuencia de Delitos") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  facet_wrap(~ edad, scales = "free_y")  # Facetas por edad, escalas libres en y
+
+
+
+```
+
+
+Notamos que la mayoría de delitos se repiten en cada grupo de edad y siguen una distribución similar. Además, se evidencia un aumento en la frecuencia de los delitos conforme avanzamos en los grupos de edad. Los delitos más comunes en todas las edades son, sin duda, los delitos por lesiones y los robos, seguidos por los hurtos.
+
+Por último, examinaremos la evolución de cada uno de estos delitos a lo largo de los últimos diez años, para cada grupo de edad.
+
+```{r}
+
+delitos_por_edad_i_año <- df_delitos_menores %>%
+  mutate(clasi_subclasi = ifelse(is.na(as.character(sub_clasi_infrac)), 
+                                 as.character(clasi_infrac), 
+                                 as.character(sub_clasi_infrac))) %>% # Creamos nueva columna con todas las las subclasificaciones
+  mutate(clasi_subclasi = as.factor(clasi_subclasi)) %>%
+  filter(!is.na(edad) & !is.na(total_delitos)) %>% # Quitamos los NA's
+  group_by(edad, año, clasi_subclasi) %>%  # Agrupamos segun el tipo de infracción
+  summarise(total = sum(total_delitos), .groups = 'drop')  # Sumar el total de infracciones
+
+top_10_delitos_por_edad_i_año<- delitos_por_edad_i_año %>%
+  semi_join(top_10_delitos_por_edad, by = c("edad", "clasi_subclasi"))
+
+print(top_10_delitos_por_edad_i_año)
+
+```
+
+
+```{r}
+
+edades <- c(14, 15, 16, 17)
+
+graficos <- list()
+
+for (ed in edades) {
+  datos_edad<-top_10_delitos_por_edad_i_año %>%
+  filter(edad==ed)
+
+
+grafico<-ggplot(data = datos_edad, aes(x = año, y = total, color = clasi_subclasi)) +
+    geom_line() + geom_point()+
+    labs(title = paste("Evolución del Total de Delitos para Edad",ed),
+         x = "Año",
+         y = "Total de Delitos",
+         color = "Tipo de Delito") +
+    theme_minimal() + scale_x_continuous(breaks = seq(2013, 2023, by = 2), limits = c(2013, 2023), labels = as.character(seq(13, 23, by = 2)))
+
+graficos[[paste("Edad", ed)]] <- grafico
+
+print(grafico)
+}
+
+
+```
+
+Se observa que todos los delitos que se repiten para cada grupo de edad, que son la mayoría, siguen una tendencia similar. Se puede observar el aumento de delitos por lesiones en todos los grupos. Además, los robos tienden a disminuir de manera constante en todas las edades. Los hurtos, en cambio, alcanzan sus picos entre 2016 y 2019, para luego descender. En cuanto al resto de delitos, tienen menor frecuencia y se mantienen bastante estables a lo largo del tiempo.
+
+
+
 ## Análisis de 'outliers', métodos de imputación aplicados y análisis de datos perdidos
 ```{r analisis_outliers_imputacion}
 # WIP:
@@ -374,7 +912,7 @@ ggplot() +
 ## Visualización Explicatoria
 ```{r visualizacion_explicatoria}
 # WIP:
-#   - Visualización enfocada a los objetivos (encontrar una respuesta al problema).
+#   - Visualización enfocada a los objetivos (encontrar una respuesta al problema). (TODOS)
 #
 # - NOTA: Junto a la visualización se debe aportar una explicación.
 ```
