@@ -36,13 +36,17 @@ output:
     extra_dependencies: longtable
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
 # Introducción
 
 ## Definición proyecto y planteamiento de preguntas (objetivos)
 
-La delincuencia en España es un tema de conversación latente. Aunque no lo es tanto, pero sigue siendo importante, es hablar de la edad del delincuente. En este estudio analizaremos los diferentes tipos de delito ocasionados por menores de entre 14 y 17 años durante los 10 últimos años. Los objetivos del estudio es responder a las siguientes preguntas:
+La delincuencia en España es un tema de conversación latente. Un estudio importante, es tener en cuenta la edad del delincuente. En este estudio analizaremos los diferentes tipos de delito ocasionados por menores de entre 14 y 17 años durante los 10 últimos años. Los objetivos del estudio es responder a las siguientes preguntas:
 
-1. ¿Cuáles son los delitos más frecuentes y que edades lo frecuentan? ¿Siguen siendo recientes o han disminuido?
+1. ¿Cuáles son los delitos más frecuentes y que edades los perpetran? ¿Han aumentado o han disminuido en los últimos años?
 2. Analizar los picos de delitos y relacionarlos con hechos reales. (Buscar sucesos, leyes)
 3. Encontrar tendencias entre los años.
 4. ...
@@ -50,12 +54,14 @@ La delincuencia en España es un tema de conversación latente. Aunque no lo es 
 WIP: Definir el problema y los objetivos del estudio
 
 ## Carga de librerías y datos
-```{r intro_setup_carga}
+```{r intro_setup_carga, echo=TRUE}
 # Carga de librerias
 librerias <- c("readr",       # Lectura de ficheros con formato
                "dplyr",       # Gramática de manipulación de datos
                "ggplot2",     # Visualización mediante gráficas elegantes
-               "stringr")
+               "kableExtra",  # Kable para ajutar las tablas
+               "visdat",      # Visualizacion de valores faltantes
+               "stringr")     # Operaciones con caracteres
 pacman::p_load(char=librerias)
 
 # Carga de datos
@@ -77,50 +83,47 @@ delitos_menores_raw <- read_delim(
 ```
 
 ## Estudio y acondicionamiento de los datos
-WIP (TODOS, #01-Introduccion):
-   - Análisis de la estructura y valores iniciales de los datos.
-   - Acondicionamiento y preparación de los datos.
-   - Validación datos acondicionados
 
 ### Análisis de la estructura y valores iniciales de los datos.
+
+Comenzamos ejecutando "summary" del conjunto de datos, recien cargado, para analizarlo.
+
 ```{r intro_analisis_inicial_1}
 # Análisis de la estructura y valores iniciales de los datos.
 summary(delitos_menores_raw)
 # str(delitos_menores_raw)     # STR no nos aporta información adicional
 # glimpse(delitos_menores_raw) # Lo mismo sucede con GLIMPSE
 ```
-Gracias a "summary" podemos apreciar qué columnas contienen NAs y si los valores (de las columnas numéricas) entran dentro de lo esperado (min, max, median, ...).
+Gracias a "summary" podemos apreciar qué columnas numéricas contienen NAs y si los valores (de las columnas numéricas) entran dentro de lo esperado (min, max, median, ...).
 
+Teniendo para la columna **año** valores esperados, desde 2013 hasta 2023 y la media obviamente en 2018. Respecto a la columna **total_delitos**, podemos apreciar que tiene un número relevante de valores faltantes (210) y confirmamos que los valores se han importado correctamente (manteniendo los millares). Además hemos identificado que la columna **edad** se ha importado como tipo "character". Tras hacer una visualización del archivo nos damos cuenta que los años se han importado como "14 años" agregando el sustantivo para todos los valores y en algunos casos agregando un "Total". Acondicionamiento de la columna será necesario.
 
-Teniendo para la columna **año** valores esperados, desde 2013 hasta 2023 y la media obviamente en 2018. Respecto a la columna **total_delitos**, podemos apreciar que tiene un número relevante de valores faltantes (210) y confirmamos que los valores se han importado correctamente (manteniendo los millares).
+Las columnas restantes, que son de tipo "character", representan el delito en distintos niveles de clasificación. Habremos de factorizar estas variable categóricas. El uso de la función "str" o "glimpse" en este caso no nos ha aportado información adicional.
 
-
-Además hemos identificado que la columna **edad** se ha importado como tipo "character". Tras hacer una visualización del archivo nos damos cuenta que los años se han importado como "14 años" agregando el sustantivo para todos los valores y en algunos casos agregando un "Total". Acondicionamiento de la columna será necesario.
-
-
-Las columnas restantes, que son de tipo "character", representan el delito en sus distintos niveles. Habremos de factorizar estas variable categóricas.
-
-
-El uso de la función "str" o "glimpse" en este caso no nos ha aportado información adicional.
-
+A continuación, ejecutaremos "table" por columna para analizar la cantidad de "NA" y si hay variedad en los elementos. 
 
 ```{r intro_analisis_inicial_2}
 # 1. delitos_n1
-table(delitos_menores_raw$delitos_n1, useNA = "always")
+cat("Columna 'delitos_n1':")
+(table(delitos_menores_raw$delitos_n1, useNA = "always"))
 
 # 2. delitos_n2
-table(delitos_menores_raw$delitos_n2, useNA = "always")
+cat("Columna 'delitos_n2':") 
+(table(delitos_menores_raw$delitos_n2, useNA = "always"))
 
 # 3. delitos_n3, N4, N5
-tail(table(delitos_menores_raw$delitos_n3, useNA = "always"), 2)
-tail(table(delitos_menores_raw$delitos_n4, useNA = "always"), 2)
-tail(table(delitos_menores_raw$delitos_n5, useNA = "always"), 2)
+cat("Columna 'delitos_n3,4,5' (últimos 5):")
+(tail(table(delitos_menores_raw$delitos_n3, useNA = "always"), 5))
+(tail(table(delitos_menores_raw$delitos_n4, useNA = "always"), 5))
+(tail(table(delitos_menores_raw$delitos_n5, useNA = "always"), 5))
 
 # 4. edad
-table(delitos_menores_raw$edad, useNA = "always")
+cat("Columna 'edad':")
+(table(delitos_menores_raw$edad, useNA = "always"))
 
 # 5. año
-table(delitos_menores_raw$año, useNA = "always")
+cat("Columna 'año':")
+(table(delitos_menores_raw$año, useNA = "always"))
 ```
 De las diferentes columnas podemos decir que:
 
@@ -131,6 +134,8 @@ De las diferentes columnas podemos decir que:
 La columna **delitos_n5** no será necesaria. Aporta muy poca información y el análisis no requerirá tanto nivel de detalle para una infracción.
 
 * **edad**: todos los datos de esta columna son uniformes y esperados (ningún valor faltante). Finalmente se eliminarán aquellas instancias que representen un total y se convertirá la columna a tipo numérico.
+
+* **total**: respecto a esta columna pese a que no hayamos utilizado ninguna instrucción, hemos mediante visualización del fichero analizado un caso en concreto para definir la naturaleza de esta columna. Ya vimos anteriormente, gracias a otras columnas, que hay agrupaciones internas de los datos calculando los totales. Pero eso no es todo. Podemos apreciar que el total de un delito, es la suma de todas sus subclasificaciones.
 
 ```{r intro_analisis_inicial_3}
 # 6. total_delitos
@@ -151,14 +156,12 @@ knitr::kable(df_total_delitos[c(4,5,8)], format = "latex",
 
 ```
 
-* **total**: respecto a esta columna pese a que no hayamos utilizado ninguna instrucción, hemos mediante visualización del fichero analizado un caso en concreto para definir la naturaleza de esta columna. Ya vimos anteriormente, gracias a otras columnas, que hay agrupaciones internas de los datos calculando los totales. Pero eso no es todo. Podemos apreciar que el total de un delito, es la suma de todas sus subclasificaciones.
+Como podemos observar, el total de "13.2 Robos", es igual a la suma de "13.2.1" y "13.2.2", a su vez el delito contra el patrimonio es la suma de los delitos "13.1", "13.2", ... Este hecho agrega redundancia a los datos. Por ende no solo tendremos que eliminar las filas que representen totales, valor "total" en edad, pero también aquellas filas que son las agrupaciones de otras con el objeto de tener un conjunto __Tidy__.
 
-Es decir, el total de "13.2 Robos", es igual a la suma de "13.2.1" y "13.2.2", a su vez el delito contra el patrimonio es la suma de los delitos "13.1", "13.2", ... Este hecho agrega redundancia a los datos. Por ende no solo tendremos que eliminar las filas que representen totales pero también aquellas filas que son las agrupaciones de otras con el objeto de tener un conjunto __Tidy__.
-
-En resumen, las columnas de delitos n1 y n5 no son necesarias y pueden ser eliminadas sin problemas. Hemos averiguado que los delitos de N5 se suman para los delitos de N4. Las columnas de delitos restantes serán convertidas a factor. La columna edad será modificada para mayor fidelidad al dato. 
+En resumen, las columnas de delitos n1 y n5 no son necesarias y pueden ser eliminadas sin problemas.Ya que hemos averiguado que los delitos de N5 se suman para los delitos de N4, es decir no perdemos datos. Las columnas de clasifiación de delitos restantes serán convertidas a factor. La columna edad será modificada para mayor fidelidad al dato y un adecuado uso más adelante. 
 
 ### Acondicionamiento y preparación de los datos
-```{r intro_acondicionamiento}
+```{r intro_acondicionamiento, echo=TRUE}
 df_delitos_menores <- delitos_menores_raw %>%
   # Retiramos las filas que se dividan/clasifiquen hasta el nivel 5
   filter(is.na(delitos_n5)) %>%
@@ -195,34 +198,50 @@ df_delitos_menores <- delitos_menores_raw %>%
     sub_clasi_infrac = as.factor(sub_clasi_infrac)
   )
 
-  #Eliminamos las filas con los totales de las subcategorías
-  seleccion<-c()
-  
-  for (type in unique(df_delitos_menores$clasi_infrac) ){
-    
-    vectoraux<- df_delitos_menores$sub_clasi_infrac[df_delitos_menores$clasi_infrac==type]
-    if ( sum(!is.na( vectoraux ) > 0 )){
-        seleccion<-c(seleccion, !is.na( vectoraux ))
-    } else{
-        seleccion<-c(seleccion, rep(TRUE, times=length(vectoraux)))
-    }
-    
+# Eliminamos las filas con los totales de las subcategorías
+seleccion <- c()
+
+for (type in unique(df_delitos_menores$clasi_infrac)){
+  vectoraux <-
+    df_delitos_menores$sub_clasi_infrac[df_delitos_menores$clasi_infrac==type]
+
+  if (sum(!is.na(vectoraux) > 0 )) {
+      seleccion <- c(seleccion, !is.na(vectoraux))
+  } else {
+      seleccion <- c(seleccion, rep(TRUE, times=length(vectoraux)))
   }
+}
 
-  df_delitos_menores<- df_delitos_menores[seleccion,]
-
-# WIP. Eliminacion aquellas columnas que tienen subclasisifaciones.
+df_delitos_menores <- df_delitos_menores[seleccion,]
 ```
 
-### Validación datos acondicionados
+\startlandscape
 
-Para validar que los datos se han cargado correctamente vamos a sacar las columnas totales precaculadas y compararlas con 
+### Code Book
 
-```{r intro_acondicionamiento_validacion}
-# Obtener los totales
-df_totales <- delitos_menores_raw %>%
-  filter(edad == "Total")
+```{r intro_codebook}
+columnas <- c("Nombre", "Tipo", "Valores",
+              "Descripción", "Comentarios")
+celdas <- c("delito_falta",     "caracter", "delito, falta", "-", "-",
+            "clasi_infrac",     "caracter", "Diferentes tipos de delito (primer nivel de clasificación).", "-", "-",
+            "sub_clasi_infrac", "caracter", "Diferentes tipos de delito (segundo nivel de clasificación).", "-", "Pueden no ser necesarios tal nivel de detalle teniendo valores nulos en ese caso.",
+            "edad",             "numerico",  "[14, .., 17]", "Edad del infractor.", "Edad en años. No deberían haber valor faltantes.",
+            "año",              "numerico",  "[2013, .., 2023]", "Año del recuento de delitos.", "Años expresados en 4 cifras. No deberían haber valor faltantes.",
+            "total_delitos",    "numerico",  "[0, ..]", "Número total de delitos realizados por los infractores de una edad. ", "Si hay valores faltantes se considerarán 0.")
+
+mat_celdas <- matrix(celdas, ncol=5, byrow=TRUE)
+
+knitr::kable(mat_celdas,
+             longtable=TRUE,
+             col.names = columnas,
+             format = "latex", 
+             booktabs = TRUE,
+             caption = "Code Book (Delitos)", 
+             align = 'lll') %>%
+  column_spec(3:5, "6cm")
 ```
+\finishlandscape
+
 
 # Análisis
 
@@ -903,11 +922,176 @@ Se observa que todos los delitos que se repiten para cada grupo de edad, que son
 
 
 ## Análisis de 'outliers', métodos de imputación aplicados y análisis de datos perdidos
-```{r analisis_outliers_imputacion}
-# WIP:
-#   - Análisis de outliers, métodos de imputación y datos perdidos.
-# (si procede) (LUIS)
+
+### Restricciones de Rango
+
+Primeramente comprobaremos que los valores numéricos se encuentran dentro de los rangos esperados. Utilizando la instrucción 'stopifnot' comporbando los mínimos y máximos esperados.
+
+```{r analisis_outliers_imputacion1, include=FALSE}
+# Comprobaciones de limites
+stopifnot(min(df_delitos_menores$edad) == 14,
+          max(df_delitos_menores$edad) == 17,
+          min(df_delitos_menores$año)  == 2013,
+          max(df_delitos_menores$año)  == 2023,
+          min(df_delitos_menores$total_delitos, na.rm=TRUE)  >= 0)
 ```
+
+### Restricciones de unicidad. Duplicados (enteros y parciales)
+
+En este apartado analizaremos si hay alguna observación faltante o repetida. Es decir, que tenemos para cada delito (y sus subclasificaciones) un año y una edad específica. Para ello, vamos a contar cuantas veces aparece cada delito esperando obtener un único valor que es 44 (11 años * 4 edades * cada delito en específico). Efectivamente obtenemos dicho valor, para todos los delitos.
+
+```{r analisis_outliers_imputacion2, include=FALSE}
+df_delitos_menores %>%
+  count(delito_falta, clasi_infrac, sub_clasi_infrac) %>%
+  distinct(n)
+```
+
+### Validar totales (validación cruzada)
+
+Para validar que los datos se han acondicionado correctamente vamos a sacar las columnas/filas totales originales y compararlas con nuestro dataframe haciendo agrupaciones de los datos y sumas de los valores.
+
+```{r analisis_outliers_imputacion3}
+# Obtener los totales de las infracciones
+cat("Comparación infracciones totales por año:")
+df_totales <- delitos_menores_raw %>%
+  filter(is.na(delitos_n2)) %>%
+  filter(edad == "Total") %>%
+  select(año, total_delitos) %>%
+  arrange(año) %>%
+  rename(total_proporcionado = total_delitos)
+
+df_suma_totales <- df_delitos_menores %>%
+  group_by(año) %>%
+  summarize(total_validacion_datos = sum(total_delitos, na.rm=TRUE)) %>%
+  arrange(año) %>%
+  select(total_validacion_datos)
+  
+
+(head(cbind(df_totales, df_suma_totales)))
+
+# Comprobar la agrupación para delitos y faltas
+cat("Comparación delitos y faltas totales por año:")
+df_totales_infracciones <- delitos_menores_raw %>%
+  filter(!is.na(delitos_n2)) %>%
+  filter(is.na(delitos_n3)) %>%
+  filter(edad == "Total") %>%
+  select(delitos_n2, año, total_delitos) %>%
+  arrange(año) %>%
+  rename(total_proporcionado = total_delitos)
+
+df_suma_totales_infracciones <- df_delitos_menores %>%
+  group_by(delito_falta, año) %>%
+  summarize(total_validacion_datos = sum(total_delitos, na.rm=TRUE),
+            .groups = "drop_last") %>%
+  arrange(año)
+
+(head(cbind(df_totales_infracciones, df_suma_totales_infracciones["total_validacion_datos"])))
+
+# Comprobar un tipo de delito
+cat("Comparación delitos totales para el delito 13 año:")
+df_totales_delito13 <- delitos_menores_raw %>%
+  filter(!is.na(delitos_n2)) %>%
+  filter(delitos_n3 == "13 Contra el patrimonio y el orden socioeconómico") %>%
+  filter(is.na(delitos_n4)) %>%
+  filter(edad == "Total") %>%
+  select(año, total_delitos) %>%
+  arrange(año) %>%
+  rename(total_proporcionado = total_delitos)
+
+df_suma_totales_delito13 <- df_delitos_menores %>%
+  filter(clasi_infrac == "13 Contra el patrimonio y el orden socioeconómico") %>%
+  group_by(clasi_infrac, año) %>%
+  summarize(total_validacion_datos = sum(total_delitos, na.rm=TRUE),
+            .groups = "drop_last") %>%
+  arrange(año) #%>%
+  #select(total_validacion_datos)
+
+(head(cbind(df_totales_delito13, df_suma_totales_delito13[3])))
+
+rm(list=c("df_totales", "df_suma_totales", "df_totales_infracciones",
+          "df_suma_totales_infracciones", "df_totales_delito13",
+          "df_suma_totales_delito13"))
+```
+
+Como podemos comprobar los valores coinciden entre los totales proporcionados por la fuente de datos y los nuestros calculados haciendo agrupaciones de los datos acondicionados.
+
+Para el cálculo hemos omitido todas aquellos valores de la columna "total_delitos" que eran NA. Al obtener los mismos resultados podemos confirmar que han considerado como 0 aquellos valores faltantes.
+
+### Validar variables categóricas
+
+En el apartado 2.2.2 hemos averiguado que no tenemos observaciones repetidas, pero ello se puede deber a que hayan fallos tipográficos o de ortografía. Es decir, hemos considerado que "13 delitoo" y "13 delito" no son duplicados. En este apartado trataremos este caso si es necesario.
+
+```{r analisis_outliers_imputacion4, include=FALSE}
+df_delitos_menores %>%
+  count(delito_falta, clasi_infrac, sub_clasi_infrac) %>%
+  mutate(delito_compl = paste(delito_falta,
+                              clasi_infrac,
+                              sub_clasi_infrac, sep=" ")) %>%
+  select(delito_compl, n)
+```
+
+Tras echarle un vistazo a la lista de combinaciones "delito_falta" + "clasi_infrac" + "sub_clasi_infrac" podemos confirmar que no hay errores.
+
+### Tratar valores faltantes
+
+Primeramente vamos a visualizar los datos faltantes de la columna "total_delitos"; pues la otra columnas que tiene valores faltantes "sub_clasi_infrac" ya está justificada. A partir de aquí vamos a tratar de razonar si estos datos son faltantes debido a un factor aleatorio o hay un razonamiento detrás.
+
+```{r analisis_outliers_imputacion5_1, out.width="100%"}
+vis_miss(df_delitos_menores["total_delitos"])
+```
+
+De la visualización podemos apreciar dos grupos de datos faltantes en la columna "total_delitos". De los casos, al estar el dataframe inicialmente organizado por los delitos, podemos decir que:
+* El grupo de datos faltantes del final corresponden a las "faltas" que se convirtieron en "delitos". Si recogemos solo las faltas y organizamos por año confirmaremos este caso.
+* Pero tenemos otro caso extra que analizaremos a continuación.
+
+Primero la confirmación de las faltas:
+
+```{r analisis_outliers_imputacion5_2, out.width="100%"}
+df_delitos_menores %>%
+  filter(delito_falta == "Falta") %>%
+  arrange(desc(año)) %>%
+  select(total_delitos) %>%
+  vis_miss() + ggtitle("Valores faltantes de faltas ordenado descendientemente por años")
+```
+
+A continuación vamos a tratar el otro grupo de datos faltantes, ignorando las "faltas" y agrupando por delitos:
+
+```{r analisis_outliers_imputacion5_3, out.width="100%"}
+delitos_na <- df_delitos_menores %>%
+  filter(delito_falta != "Falta") %>%
+  group_by(clasi_infrac) %>%
+  summarize(na_delitos = sum(is.na(total_delitos))) %>%
+  arrange(desc(na_delitos))
+
+head(delitos_na)
+```
+
+Podemos ver que todos los datos faltantes corresponden al delito "8 Contra la libertad e indemnidad sexuales". Y dentro de los delitos contra la libertad sexual tenemos solo datos faltantes en dos delitos en concreto "BIS Abusos y agresiones sexuales a menores de 16 años" y "Prostitución y corrupción menores"
+
+```{r analisis_outliers_imputacion5_4}
+delitos_8 <- df_delitos_menores %>%
+  filter(str_detect(clasi_infrac, "8")) %>%
+  group_by(sub_clasi_infrac) %>%
+  summarize(na_delitos = sum(is.na(total_delitos))) %>%
+  arrange(desc(na_delitos))
+
+head(delitos_8)
+
+```
+Si ahora cogemos y los ordenamos estos dos por años podemos ver el efecto de la Ley Orgánica 4/2023 donde se incluyen en estos delitos a los menores de edad.
+
+```{r analisis_outliers_imputacion5_5, out.width="100%"}
+delitos_sexuales_faltantes <- c("8.2 BIS Abusos y agresiones sexuales a menores de 16 años",
+                                "8.5 Prostitución y corrupción menores")
+df_delitos_menores %>%
+  filter(sub_clasi_infrac %in% delitos_sexuales_faltantes) %>%
+  arrange(desc(año)) %>%
+  select(total_delitos) %>%
+  vis_miss() + ggtitle("Valores faltantes de faltas ordenado descendientemente por años")
+```
+
+Finalmente podemos confirmar que los dos casos de daltos faltantes están justificados. Uno debido a la reforma relacionada con la clasificación de las infracciones en faltas o delitos, y el otro caso debido a LO 4/2023, donde a partir de 2023 se consideran nuevos delitos en menores, faltando datos previamente.
+
 
 ## Visualización Explicatoria
 ```{r visualizacion_explicatoria}
