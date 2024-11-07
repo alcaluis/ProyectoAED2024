@@ -224,7 +224,12 @@ names(ident)<- unique(df_delitos_menores$clasi_infrac)
 ident<- ident[df_delitos_menores$clasi_infrac]
 
 df_delitos_menores <- df_delitos_menores %>%
-  mutate(id_clasi = ident)
+  mutate(id_clasi = sub( " .*" , "" , clasi_infrac) ) %>%
+  mutate(id_clasi = case_when( clasi_infrac == "Faltas contra las personas"         ~ "FvsPer",
+                               clasi_infrac == "Faltas contra el patrimonio"        ~ "FvsPat",
+                               clasi_infrac == "Faltas contra intereses generales"  ~ "FvsIntGrl",
+                               clasi_infrac == "Faltas contra el orden público"     ~ "FvsOrdPubl",
+                               TRUE ~id_clasi))
 ```
 
 \startlandscape
