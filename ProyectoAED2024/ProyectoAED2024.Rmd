@@ -215,6 +215,16 @@ for (type in unique(df_delitos_menores$clasi_infrac)){
 }
 
 df_delitos_menores <- df_delitos_menores[seleccion,]
+
+# Añadimos una columna con los identificadores estilizados
+
+ident <- sub( " .*" , "" ,unique(df_delitos_menores$clasi_infrac))
+ident[13:16]<- c("vsPer", "vsPat", "vsInterGnrl", "vsOrdPub")
+names(ident)<- unique(df_delitos_menores$clasi_infrac)
+ident<- ident[df_delitos_menores$clasi_infrac]
+
+df_delitos_menores <- df_delitos_menores %>%
+  mutate(id_clasi = ident)
 ```
 
 \startlandscape
