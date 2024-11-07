@@ -227,7 +227,7 @@ df_totales <- delitos_menores_raw %>%
 # Análisis
 
 ## Análisis de las variables
-```{r analisis_variables}
+```{r analisis_variables_1}
 # WIP:
 #   - Análisis de las variables (individualmente, explicación de los datos,
 #                                estadísticos.) (CARLOS)
@@ -310,7 +310,7 @@ Estos sucesos provocaron la cancelación de la mayor parte del sector laboral es
 Es fácil imaginar así que estos tipos de delitos, de naturaleza más escolar y/o física, tengan un descenso en número ante la situación pandémica.
 
 Otro gráfico que nos puede desvelar cierta información es el de delitos totales según edad:
-```{r analisis_variables}
+```{r analisis_variables_2}
 df_delitos_edad <- df_delitos_menores %>%
   mutate(edad = factor(edad)) %>%
   group_by(año,edad)%>%
@@ -354,7 +354,7 @@ ggplot() +
 
 
 
-```{r analisis_variables}
+```{r analisis_variables_3}
 
 #   - Análisis de las variables (relaciones) (JOAN)
 # 
