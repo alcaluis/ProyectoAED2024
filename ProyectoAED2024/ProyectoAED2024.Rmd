@@ -63,7 +63,8 @@ librerias <- c("readr",       # Lectura de ficheros con formato
                "ggplot2",     # Visualización mediante gráficas elegantes
                "kableExtra",  # Kable para ajutar las tablas
                "visdat",      # Visualizacion de valores faltantes
-               "stringr")     # Operaciones con caracteres
+               "stringr",     # Operaciones con caracteres
+               "cowplot")     # Manipulación de gráficos
 pacman::p_load(char=librerias)
 
 # Carga de datos
@@ -269,7 +270,7 @@ knitr::kable(mat_celdas,
 #                                estadísticos.) (CARLOS)
 df_delitos_tipo <- df_delitos_menores %>%
   #filter(clasi_infrac== "3 Lesiones")%>%
-  group_by(año,clasi_infrac) %>%
+  group_by(año,id_clasi) %>%
   mutate(suma_por_tipo = sum(total_delitos,na.rm=TRUE)) %>%
   ungroup(año) %>%
   mutate(suma_decada_por_tipo = sum(total_delitos,na.rm=TRUE)) %>%
@@ -280,13 +281,13 @@ EvolucionTiempoSegunDelito<- ggplot( data = df_delitos_tipo, aes(x=año, y=suma_
   geom_line()+
   #geom_area()+
   labs(x = "Año", y = "Suma por Tipo")+
-  facet_wrap(~factor(clasi_infrac, levels = as.character(unique(clasi_infrac)) ) , scales = "free_y",ncol=4) 
+  facet_wrap(~factor(id_clasi, levels = as.character(unique(id_clasi)) ) , scales = "free_y",ncol=4) 
 EvolucionTiempoSegunDelito
 
 BoxPlotSegunDelito <- ggplot( data = df_delitos_tipo, aes(x=año, y=suma_por_tipo))+
   geom_boxplot()+
   labs(x = "Año", y = "Suma por Tipo")+
-  facet_wrap(~factor(clasi_infrac, levels = as.character(unique(clasi_infrac))), scales = "free_y",ncol=4)+
+  facet_wrap(~factor(id_clasi, levels = as.character(unique(id_clasi)) ), scales = "free_y",ncol=4)+
   theme_bw() +
   theme(axis.text.y = element_text(size=8), axis.text.x = element_text(size=6))+
   scale_x_continuous(breaks = seq(2013, 2023, by = 2),limits = c(2013,2023),label = as.character(seq(13,23,by=2)))+
@@ -316,7 +317,7 @@ EvolucionTiempoSegunDelito<- ggplot( data = df_delitos_tipo, aes(x=año, y=suma_
   geom_point(color = "#444444", alpha = 0.7, size = 0.75)+
 
   labs(x = "Año", y = "Suma por Tipo", fill= "Suma Total (década) por Tipo")+
-  facet_wrap(~factor(clasi_infrac, levels = as.character(unique(clasi_infrac)) ) , scales = "free_y",ncol=4 ) +
+  facet_wrap(~factor(id_clasi, levels = as.character(unique(id_clasi)) ) , scales = "free_y",ncol=4 ) +
  # A partir de aquí estético
   theme_bw() +
   scale_y_continuous(expand = expansion(mult = c(0.05, 0.05)))+
@@ -327,6 +328,27 @@ EvolucionTiempoSegunDelito<- ggplot( data = df_delitos_tipo, aes(x=año, y=suma_
   ggtitle("Evolución en el tiempo según tipo de delito")
 
 EvolucionTiempoSegunDelito
+
+# Leyenda:
+leyenda_texto <- "1: Homicidio y sus formas                            3: Lesiones\n
+                  6: Contra la Libertad                                7: Torturas e integridad moral\n
+                  8: Contra la libertad e indemnidad sexuales          10: Contra la intimidad, derecho a la propia imagen\n
+                  13: Contra el patrimonio y el orden socioeconómico   17: Contra la seguridad colectiva\n
+                  18: Falsedades                                       20: Contra la Administración de Justicia\n
+                  FvsPer: Faltas contra las personas                   FvsPat: Faltas contra el patrimonio\n
+                  FvsIntGrl: Faltas contra intereses generales         FvsOrdPubl: Faltas contra el orden público"
+
+
+grafico_con_leyenda <- EvolucionTiempoSegunDelito + 
+  annotation_custom(
+    grid::textGrob(leyenda_texto, x = 1.05, y = 0.5, just = "left", gp = grid::gpar(fontsize = 8)),
+      xmin = 12, xmax = 12.5, ymin = -Inf, ymax = Inf
+  )+
+  coord_cartesian(clip = "off")
+
+# Mostrar el gráfico con la leyenda
+print(grafico_con_leyenda)
+
 
 ```
 
