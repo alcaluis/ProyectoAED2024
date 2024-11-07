@@ -37,7 +37,9 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE,
+                      out.width="100%",
+                      warning=FALSE)
 ```
 
 # Introducción
@@ -278,10 +280,15 @@ BoxPlotSegunDelito
 
 
 df_delitos_summary_por_tipo <- df_delitos_menores %>%
-  group_by(clasi_infrac,año) %>%
-  summarise( total_anual = sum(total_delitos, na.rm=TRUE)) %>%
+  group_by(clasi_infrac, año) %>%
+  summarise(total_anual = sum(total_delitos, na.rm=TRUE),
+            .groups = 'keep') %>%
   ungroup(año) %>%
-  summarise( d.mean = mean(total_anual, na.rm=TRUE), d.sd = sd(total_anual, na.rm=TRUE), d.Q1 = quantile(total_anual, 0.25, na.rm =TRUE), d.Q2_median = quantile(total_anual, 0.5, na.rm =TRUE) , d.Q3 = quantile(total_anual, 0.75, na.rm =TRUE)) 
+  summarise(d.mean = mean(total_anual, na.rm=TRUE),
+            d.sd = sd(total_anual, na.rm=TRUE),
+            d.Q1 = quantile(total_anual, 0.25, na.rm =TRUE),
+            d.Q2_median = quantile(total_anual, 0.5, na.rm =TRUE),
+            d.Q3 = quantile(total_anual, 0.75, na.rm =TRUE)) 
 
 df_delitos_summary_por_tipo
 
@@ -369,9 +376,6 @@ ggplot() +
                arrow = arrow(type = "closed", length = unit(0.1, "inches")), 
                color = "black", size = 1)
 ```
-# Hacer más hincapié en análisis de estadísticos (máximos, mínimos, ordenes)
-
-
 
 ```{r analisis_variables_3}
 
