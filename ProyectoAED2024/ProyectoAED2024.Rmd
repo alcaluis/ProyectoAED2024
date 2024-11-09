@@ -339,16 +339,6 @@ leyenda_texto <- "1: Homicidio y sus formas                            3: Lesion
                   FvsIntGrl: Faltas contra intereses generales         FvsOrdPubl: Faltas contra el orden público"
 
 
-grafico_con_leyenda <- EvolucionTiempoSegunDelito + 
-  annotation_custom(
-    grid::textGrob(leyenda_texto, x = 1.05, y = 0.5, just = "left", gp = grid::gpar(fontsize = 8)),
-      xmin = 12, xmax = 12.5, ymin = -Inf, ymax = Inf
-  )+
-  coord_cartesian(clip = "off")
-
-# Mostrar el gráfico con la leyenda
-print(grafico_con_leyenda)
-
 
 ```
 
