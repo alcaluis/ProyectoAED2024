@@ -448,7 +448,6 @@ total_infrac_años <- df_delitos_menores %>%
   group_by(año, delito_falta) %>%  # Agrupamos segun el tipo de infracción
   summarise(total = sum(total_delitos), .groups = 'drop')  # Sumar el total de infracciones
 
-print(total_infrac_años)
 
 
 ```
@@ -476,7 +475,6 @@ delitos_clasi <- df_delitos_menores %>%
   group_by(año, clasi_infrac) %>%  # Agrupamos segun el tipo de infracción
   summarise(total = sum(total_delitos), .groups = 'drop')  # Sumar el total de infracciones
 
-print(delitos_clasi)
 
 ```
 
@@ -512,7 +510,6 @@ delitos_subclasi_13 <- df_delitos_menores %>%
   summarise(total = sum(total_delitos), .groups = 'drop') %>%  # Sumar el total de infracciones
   filter(clasi_infrac == "13 Contra el patrimonio y el orden socioeconómico")  # Filtrar solo el tipo de delito deseado
 
-print(delitos_subclasi_13)
 
 ```
 
@@ -541,8 +538,6 @@ delitos_subclasi_17 <- df_delitos_menores %>%
   summarise(total = sum(total_delitos), .groups = 'drop') %>%  # Sumar el total de infracciones
   filter(clasi_infrac == "17 Contra la seguridad colectiva")  # Filtrar solo el tipo de delito deseado
 
-print(delitos_subclasi_17)
-
 ```
 
 ```{r}
@@ -569,8 +564,6 @@ delitos_subclasi_20 <- df_delitos_menores %>%
   group_by(año, clasi_infrac, sub_clasi_infrac) %>%  # Agrupamos por año y subclasificación
   summarise(total = sum(total_delitos), .groups = 'drop') %>%  # Sumar el total de infracciones
   filter(clasi_infrac == "20 Contra la Administración de Justicia")  # Filtrar solo el tipo de delito deseado
-
-print(delitos_subclasi_20)
 
 ```
 
@@ -601,8 +594,6 @@ delitos_subclasi_22 <- df_delitos_menores %>%
   summarise(total = sum(total_delitos), .groups = 'drop') %>%  # Sumar el total de infracciones
   filter(clasi_infrac == "22 Contra el orden público")  # Filtrar solo el tipo de delito deseado
 
-print(delitos_subclasi_22)
-
 
 ```
 
@@ -632,8 +623,6 @@ delitos_subclasi_6 <- df_delitos_menores %>%
   summarise(total = sum(total_delitos), .groups = 'drop') %>%  # Sumar el total de infracciones
   filter(clasi_infrac == "6 Contra la libertad")  # Filtrar solo el tipo de delito deseado
 
-print(delitos_subclasi_6)
-
 ```
 
 
@@ -660,8 +649,6 @@ delitos_subclasi_8 <- df_delitos_menores %>%
   group_by(año, clasi_infrac, sub_clasi_infrac) %>%  # Agrupamos por año y subclasificación
   summarise(total = sum(total_delitos), .groups = 'drop') %>%  # Sumar el total de infracciones
   filter(clasi_infrac == "8 Contra la libertad e indemnidad sexuales")  # Filtrar solo el tipo de delito deseado
-
-print(delitos_subclasi_8)
 
 ```
 
@@ -701,8 +688,6 @@ delitos_clasi_2 <- delitos_clasi %>%
   filter(!grepl('Resto de delitos',clasi_infrac)) # Quitamos resto de delitos
   
 
-print(delitos_clasi_2)
-
 ```
 
 
@@ -713,7 +698,6 @@ print(delitos_clasi_2)
 
 delitos_ancho_clasi <- delitos_clasi_2 %>%
   pivot_wider(names_from = clasi_infrac, values_from = total, values_fill = list(total= 0))
-print(delitos_ancho_clasi)
 
 # Calculamos la matriz de correlación
 
@@ -740,14 +724,9 @@ correlaciones_clasi <- as.data.frame(as.table(matriz_correlacion_clasi)) %>%
   arrange(desc(Freq))  # Ordena por el valor de la correlación
 
 # Visualiza las correlaciones más relevantes
-print(correlaciones_clasi)
-
 
 
 ```
-
-
-Notamos que las correlaciones más significativas se presentan entre las faltas. Esto tiene mucho sentido, ya que, como mencionamos anteriormente, las faltas han ido disminuyendo desde la reforma del código penal en 2015 hasta llegar a desaparecer en los años posteriores. También es notable la alta correlación entre los delitos por lesiones y los delitos contra la libertad. Estos dos tipos de delitos también muestran una correlación muy baja con las faltas contra las personas, lo que refuerza la idea de que las faltas contra las personas se reclasificaron como delitos por lesiones y contra la libertad tras la reforma. Esto explicaría su aumento paralelo junto con la disminución de las faltas. Además, es relevante señalar la fuerte correlación entre los delitos por lesiones y los delitos contra la libertad e indemnidad sexuales. Esto puede deberse a la naturaleza de estos delitos. Ambos tipos de delito a menudo involucran violencia física, lo que puede llevar a una relacion directa en su ocurrencia.  Por ejemplo, los delitos de lesiones pueden ocurrir en el contexto de delitos sexuales, donde la violencia puede ser un factor predominante.
 
 El siguiente gráfico muestra todas las correlaciones entre cada tipo de delito. 
 
@@ -766,6 +745,8 @@ corrplot(matriz_correlacion_clasi, tl.labels = numeros,tl.cex = 0.7)
 
 ```
 
+Notamos que las correlaciones más significativas se presentan entre las faltas. Esto tiene mucho sentido, ya que, como mencionamos anteriormente, las faltas han ido disminuyendo desde la reforma del código penal en 2015 hasta llegar a desaparecer en los años posteriores. También es notable la alta correlación entre los delitos por lesiones y los delitos contra la libertad. Estos dos tipos de delitos también muestran una correlación muy baja con las faltas contra las personas, lo que refuerza la idea de que las faltas contra las personas se reclasificaron como delitos por lesiones y contra la libertad tras la reforma. Esto explicaría su aumento paralelo junto con la disminución de las faltas. Además, es relevante señalar la fuerte correlación entre los delitos por lesiones y los delitos contra la libertad e indemnidad sexuales. Esto puede deberse a la naturaleza de estos delitos. Ambos tipos de delito a menudo involucran violencia física, lo que puede llevar a una relacion directa en su ocurrencia.  Por ejemplo, los delitos de lesiones pueden ocurrir en el contexto de delitos sexuales, donde la violencia puede ser un factor predominante.
+
 
 A continuación, realizaremos el mismo análisis para las diferentes subclasificaciones de los delitos contra el patrimonio y el orden socioeconómico.
 
@@ -776,8 +757,6 @@ A continuación, realizaremos el mismo análisis para las diferentes subclasific
 
 delitos_subclasi_13_2<- delitos_subclasi_13 %>% select(-clasi_infrac)
 
-print(delitos_subclasi_13_2)
-
 ```
 
 
@@ -787,7 +766,7 @@ print(delitos_subclasi_13_2)
 
 delitos_ancho_subclasi <- delitos_subclasi_13_2 %>%
   pivot_wider(names_from = sub_clasi_infrac, values_from = total, values_fill = list(total= 0))
-print(delitos_ancho_subclasi)
+
 
 # Calculamos la matriz de correlación
 
@@ -813,7 +792,7 @@ correlaciones_subclasi <- as.data.frame(as.table(matriz_correlacion_subclasi)) %
   arrange(desc(Freq))  # Ordena por el valor de la correlación
 
 # Visualiza las correlaciones más relevantes
-print(correlaciones_subclasi)
+
 
 
 
@@ -835,18 +814,6 @@ corrplot(matriz_correlacion_subclasi, tl.labels = numeros,tl.cex = 0.7)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 A continuación, analizaremos las relaciones entre las variables de edad y tipo de delito, con el objetivo de identificar qué delitos son más comunes en función de las distintas edades. Para llevar a cabo este análisis, nos centraremos en los delitos clasificados por subcategorías. Es decir, en aquellos delitos que presentan subclasificaciones, utilizaremos estas para el estudio, mientras que para los delitos que no las tienen, emplearemos su clasificación general.
 
 
@@ -863,8 +830,6 @@ delitos_por_edad <- df_delitos_menores %>%
   filter(!is.na(edad) & !is.na(total_delitos)) %>% # Quitamos los NA's
   group_by(edad, clasi_subclasi) %>%  # Agrupamos segun el tipo de infracción
   summarise(total = sum(total_delitos), .groups = 'drop')  # Sumar el total de infracciones
-
-print(delitos_por_edad)
 
 
 ```
@@ -886,7 +851,6 @@ ggplot(total_delitos_por_edad, aes(x = edad, y = total_delitos, fill = edad)) +
   labs(title = "Distribución de Delitos por Edad") 
  
 
-
 ```
 Observamos que el gráfico revela una clara tendencia crecientea, lo que indica que, a medida que los menores se acercan a la mayoría de edad, la frecuencia de delitos que cometen aumenta.
 
@@ -898,8 +862,6 @@ top_10_delitos_por_edad <- delitos_por_edad %>%
   group_by(edad) %>%
   slice_max(order_by = total, n = 10) %>%
   ungroup()
-
-print(top_10_delitos_por_edad)
 
 
 ```
@@ -938,8 +900,6 @@ delitos_por_edad_i_año <- df_delitos_menores %>%
 
 top_10_delitos_por_edad_i_año<- delitos_por_edad_i_año %>%
   semi_join(top_10_delitos_por_edad, by = c("edad", "clasi_subclasi"))
-
-print(top_10_delitos_por_edad_i_año)
 
 ```
 
