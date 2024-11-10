@@ -115,10 +115,10 @@ cat("Columna 'delitos_n2':")
 (table(delitos_menores_raw$delitos_n2, useNA = "always"))
 
 # 3. delitos_n3, N4, N5
-cat("Columna 'delitos_n3,4,5' (últimos 5):")
-(tail(table(delitos_menores_raw$delitos_n3, useNA = "always"), 5))
-(tail(table(delitos_menores_raw$delitos_n4, useNA = "always"), 5))
-(tail(table(delitos_menores_raw$delitos_n5, useNA = "always"), 5))
+cat("Columna 'delitos_n3,4,5' (últimos 3):")
+(tail(table(delitos_menores_raw$delitos_n3, useNA = "always"), 3))
+(tail(table(delitos_menores_raw$delitos_n4, useNA = "always"), 3))
+(tail(table(delitos_menores_raw$delitos_n5, useNA = "always"), 3))
 
 # 4. edad
 cat("Columna 'edad':")
@@ -304,7 +304,7 @@ BoxPlotSegunDelito <- ggplot(data = df_delitos_tipo,
 BoxPlotSegunDelito
 
 df_delitos_summary_por_tipo <- df_delitos_menores %>%
-  group_by(clasi_infrac, año) %>%
+  group_by(id_clasi, año) %>%
   summarise(total_anual = sum(total_delitos, na.rm = TRUE),
             .groups = 'keep') %>%
   ungroup(año) %>%
@@ -376,11 +376,13 @@ Estos sucesos provocaron la cancelación de la mayor parte del sector laboral es
 Es fácil imaginar así que estos tipos de delitos, de naturaleza más escolar y/o física, tengan un descenso en número ante la situación pandémica.
 
 Otro gráfico que nos puede desvelar cierta información es el de delitos totales según edad:
+
 ```{r analisis_variables_2}
 df_delitos_edad <- df_delitos_menores %>%
   mutate(edad = factor(edad)) %>%
   group_by(año, edad)%>%
-  summarize(suma_por_edad = sum(total_delitos, na.rm = TRUE))
+  summarize(suma_por_edad = sum(total_delitos, na.rm = TRUE),
+            .groups = "keep")
 
 totales_por_edad <- ggplot(data = df_delitos_edad,
                            aes(x = año, y = suma_por_edad,color = edad)) +
@@ -398,6 +400,7 @@ totales_por_edad
 ```
 
 De nuevo se hace evidente el valle ocasionado por la pandemia y también una aparente correlación lineal positiva entre la edad y el total de delitos.
+
 ```{r}
 # Suponiendo que ya tienes tus data frames df_delitos_edad y df_totales_calculados
 df_media <- df_delitos_edad %>%
@@ -680,17 +683,22 @@ correlaciones_clasi <- as.data.frame(as.table(matriz_correlacion_clasi)) %>%
   select(Delitos, Freq) %>%
   # Ordena por el valor de la correlación
   arrange(desc(Freq))
-
 ```
 
-El siguiente gráfico muestra todas las correlaciones entre cada tipo de delito. 
+El siguiente gráfico muestra todas las correlaciones entre cada tipo de delito.
+
 ```{r}
 # Visualiza las correlaciones más relevantes
 plot.new()
-dev.off()
 
 delitos <- colnames(delitos_ancho_clasi) %>% .[-1]
 numeros <- str_extract(delitos,'[0-9]+')
+
+column_n <- colnames(matriz_correlacion_clasi)
+colnames(matriz_correlacion_clasi) <- 
+  ifelse(nchar(column_n) > 20,
+         paste(substring(column_n, 1, 16), "..."),
+         column_n)
 
 corrplot(matriz_correlacion_clasi,
          tl.labels = numeros,
@@ -740,10 +748,15 @@ correlaciones_subclasi <-
 
 # Visualiza las correlaciones más relevantes
 plot.new()
-dev.off()
 
 delitos <- colnames(delitos_ancho_subclasi) %>% .[-1]
 numeros <- str_extract(delitos,'[0-9]+')
+
+column_n <- colnames(matriz_correlacion_subclasi)
+colnames(matriz_correlacion_subclasi) <- 
+  ifelse(nchar(column_n) > 20,
+         paste(substring(column_n, 1, 16), "..."),
+         column_n)
 
 corrplot(matriz_correlacion_subclasi,
          tl.labels = numeros,
@@ -751,8 +764,6 @@ corrplot(matriz_correlacion_subclasi,
 ```
 
 A continuación, analizaremos las relaciones entre las variables de edad y tipo de delito, con el objetivo de identificar qué delitos son más comunes en función de las distintas edades. Para llevar a cabo este análisis, nos centraremos en los delitos clasificados por subcategorías. Es decir, en aquellos delitos que presentan subclasificaciones, utilizaremos estas para el estudio, mientras que para los delitos que no las tienen, emplearemos su clasificación general.
-
-
 
 ```{r}
 # Delitos vs edades (usando las subclasificaciones) 
@@ -794,10 +805,15 @@ Asimismo, podemos analizar qué delitos son más frecuentes en función de la ed
 top_10_delitos_por_edad <- delitos_por_edad %>%
   group_by(edad) %>%
   slice_max(order_by = total, n = 10) %>%
-  ungroup()
+  ungroup() %>%
+  mutate(label_clasi_subclasi = ifelse(nchar(as.character(clasi_subclasi)) > 20,
+                                   paste(substring(as.character(clasi_subclasi),
+                                                 1, 16),
+                                       "..."),
+                                   as.character(clasi_subclasi)))
 
 ggplot(top_10_delitos_por_edad,
-       aes(x = reorder(clasi_subclasi, -total), y = total)) +
+       aes(x = reorder(label_clasi_subclasi, -total), y = total)) +
   geom_bar(stat = "identity") +
   labs(title = "Top 10 Delitos por Edad",
        x = "Tipo de Delito",
@@ -828,7 +844,12 @@ delitos_por_edad_i_año <- df_delitos_menores %>%
 
 top_10_delitos_por_edad_i_año <- delitos_por_edad_i_año %>%
   semi_join(top_10_delitos_por_edad,
-            by = c("edad", "clasi_subclasi"))
+            by = c("edad", "clasi_subclasi")) %>%
+  mutate(label_clasi_subclasi = ifelse(nchar(as.character(clasi_subclasi)) > 30,
+                                   paste(substring(as.character(clasi_subclasi),
+                                                 1, 26),
+                                       "..."),
+                                   as.character(clasi_subclasi)))
 
 edades <- c(14, 15, 16, 17)
 graficos <- list()
@@ -839,7 +860,7 @@ for (ed in edades) {
 
   grafico <- 
     ggplot(data = datos_edad,
-           aes(x = año, y = total, color = clasi_subclasi)) +
+           aes(x = año, y = total, color = label_clasi_subclasi)) +
     geom_line() +
     geom_point() +
     labs(title = paste("Evolución del Total de Delitos para Edad", ed),
