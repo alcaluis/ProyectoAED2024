@@ -1038,7 +1038,9 @@ delitos_8 <- df_delitos_menores %>%
 head(delitos_8)
 ```
 
-Si ahora cogemos y los ordenamos estos dos por años podemos ver el efecto de la Ley Orgánica 4/2023 donde se incluyen en estos delitos a los menores de edad.
+Como vemos hay 36 datos faltantes por cada delito. Que si los dividimos entre 4 edades, nos dan 9 años con valores faltantes.
+
+Si ahora cogemos y los ordenamos estos dos por años podemos ver el efecto de la Ley Orgánica 10/2022 donde se incluyen en estos delitos a los menores de edad.
 
 ```{r analisis_outliers_imputacion5_5, out.width="100%"}
 delitos_sexuales_faltantes <- c("8.2 BIS Abusos y agresiones sexuales a menores de 16 años",
@@ -1051,7 +1053,7 @@ df_delitos_menores %>%
   ggtitle("Valores faltantes de faltas ordenado descendientemente por años")
 ```
 
-Finalmente podemos confirmar que los dos casos de daltos faltantes están justificados. Uno debido a la reforma relacionada con la clasificación de las infracciones en faltas o delitos, y el otro caso debido a LO 4/2023, donde a partir de 2023 se consideran nuevos delitos en menores, faltando datos previamente.
+Finalmente podemos confirmar que los dos casos de daltos faltantes están justificados. Uno debido a la reforma relacionada con la clasificación de las infracciones en faltas o delitos, y el otro caso debido a LO 10/2022, donde a partir de 2022 se consideran nuevos delitos en menores, faltando datos previamente.
 
 ## Visualización Explicatoria
 ```{r visualizacion_explicatoria}
