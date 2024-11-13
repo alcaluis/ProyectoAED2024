@@ -48,10 +48,11 @@ La delincuencia en España es un tema de conversación latente. Un estudio impor
 
 1. ¿Cuáles son los delitos más frecuentes y qué edades los perpetran? ¿Han aumentado o han disminuido en los últimos años?
 2. ¿Cómo evoluciona la cantidad de delitos dependiendo de la edad del delincuente?
-3. Analizar los picos de delitos (mínimos y máximos) y valores faltanes, relacionándolos con hechos reales. (Desde sucesos hasta leyes or reformas)
+3. Analizar los picos de delitos (mínimos y máximos) y valores faltanes, relacionándolos con hechos reales. (Desde sucesos hasta leyes o reformas)
 
-## Carga de librerías y datos
-```{r intro_setup_carga, echo=TRUE}
+<!-- ## Carga de librerías y datos -->
+
+```{r intro_setup_carga, echo=FALSE}
 # Carga de librerias
 librerias <- c("readr",       # Lectura de ficheros con formato
                "dplyr",       # Gramática de manipulación de datos
@@ -159,8 +160,9 @@ Como podemos observar, el total de "13.2 Robos", es igual a la suma de "13.2.1" 
 
 En resumen, las columnas de delitos n1 y n5 no son necesarias y pueden ser eliminadas sin problemas.Ya que hemos averiguado que los delitos de N5 se suman para los delitos de N4, es decir no perdemos datos. Las columnas de clasifiación de delitos restantes serán convertidas a factor. La columna edad será modificada para mayor fidelidad al dato y un adecuado uso más adelante. 
 
-### Acondicionamiento y preparación de los datos
-```{r intro_acondicionamiento, echo=TRUE}
+<!-- ### Acondicionamiento y preparación de los datos -->
+
+```{r intro_acondicionamiento, echo=FALSE}
 df_delitos_menores <- delitos_menores_raw %>%
   # Retiramos las filas que se dividan/clasifiquen hasta el nivel 5
   filter(is.na(delitos_n5)) %>%
@@ -232,9 +234,9 @@ df_delitos_menores <- df_delitos_menores %>%
 
 \startlandscape
 
-### Code Book
+<!-- ### Code Book -->
 
-```{r intro_codebook}
+```{r intro_codebook,include=FALSE}
 columnas <- c("Nombre", "Tipo", "Valores",
               "Descripción", "Comentarios")
 celdas <- c("delito_falta",     "caracter", "delito, falta", "-", "-",
@@ -278,7 +280,13 @@ EvolucionTiempoSegunDelito <- ggplot(data = df_delitos_tipo,
   facet_wrap(~factor(id_clasi,
                      levels = as.character(unique(id_clasi))),
              scales = "free_y",
-             ncol = 4)
+             ncol = 4) +
+  scale_x_continuous(breaks = seq(2013, 2023, by = 2),
+                     limits = c(2013,2023),
+                     label = as.character(seq(13, 23, by = 2))) +
+  ggtitle("Evolución en el tiempo de cada tipo de delito")
+  
+  
 
 EvolucionTiempoSegunDelito
 
@@ -296,7 +304,7 @@ BoxPlotSegunDelito <- ggplot(data = df_delitos_tipo,
   scale_x_continuous(breaks = seq(2013, 2023, by = 2),
                      limits = c(2013,2023),
                      label = as.character(seq(13, 23, by = 2))) +
-  ggtitle("Evolución en el tiempo según tipo de delito")
+  ggtitle("Distribución de cada tipo de delito en el tiempo")
 
 BoxPlotSegunDelito
 
@@ -444,9 +452,9 @@ total_infrac_años <- df_delitos_menores %>%
 ggplot(data = total_infrac_años,
        aes(x = año, y = total, fill = delito_falta)) + 
   geom_bar(stat = "identity", position = "dodge") + 
-  labs(title = "Distribución de Delitos vs. Faltas por Año", 
+  labs(title = "Distribución de Delitos y Faltas por Año", 
        x = "Año", 
-       y = "Total de Incidencias") +
+       y = "Total de Incidencias",fill='Infracción') +
   scale_x_continuous(breaks = seq(min(df_delitos_menores$año),
                                   max(df_delitos_menores$año),
                                   by = 1))
@@ -503,7 +511,7 @@ ggplot(data = delitos_subclasi_13,
   geom_bar(stat = "identity") +
   labs(title = "13 Contra el patrimonio y el orden socioeconómico", 
        x = "Año", 
-       y = "Total de Delitos") +
+       y = "Total de Delitos",fill='Subclasificación') +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         strip.text = element_text(size = 6))
 ```
@@ -528,7 +536,7 @@ ggplot(data = delitos_subclasi_17,
   geom_bar(stat = "identity") +
   labs(title = "17 Contra la seguridad colectiva", 
        x = "Año", 
-       y = "Total de Delitos") +
+       y = "Total de Delitos",fill='Subclasificación') +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         strip.text = element_text(size = 6))
 ```
@@ -552,7 +560,7 @@ ggplot(data = delitos_subclasi_20,
   geom_bar(stat = "identity") +
   labs(title = "20 Contra la Administración de Justicia", 
        x = "Año", 
-       y = "Total de Delitos") +
+       y = "Total de Delitos",fill='Subclasificación') +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         strip.text = element_text(size = 6))
 ```
@@ -577,7 +585,7 @@ ggplot(data = delitos_subclasi_22,
   geom_bar(stat = "identity") +
   labs(title = "22 Contra el orden público", 
        x = "Año", 
-       y = "Total de Delitos") +
+       y = "Total de Delitos",fill='Subclasificación') +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         strip.text = element_text(size = 6))
 ```
@@ -602,7 +610,7 @@ ggplot(data = delitos_subclasi_6,
   geom_bar(stat = "identity") +
   labs(title = "6 Contra la libertad", 
        x = "Año", 
-       y = "Total de Delitos") +
+       y = "Total de Delitos",fill='Subclasificación') +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         strip.text = element_text(size = 6))
 ```
@@ -627,7 +635,7 @@ ggplot(data = delitos_subclasi_8,
   geom_bar(stat = "identity") +
   labs(title = "8 Contra la libertad e indemnidad sexuales", 
        x = "Año", 
-       y = "Total de Delitos") +
+       y = "Total de Delitos",fill='Subclasificación') +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         strip.text = element_text(size = 6))
 ```
@@ -785,13 +793,11 @@ En primer lugar, resulta interesante observar en qué rangos de edad se registra
 total_delitos_por_edad <- delitos_por_edad %>%
   group_by(edad) %>%
   summarise(total_delitos = sum(total, na.rm = TRUE))
-
-print(total_delitos_por_edad)
   
 ggplot(total_delitos_por_edad,
        aes(x = edad, y = total_delitos, fill = edad)) +
   geom_bar(stat = "identity") +
-  labs(title = "Distribución de Delitos por Edad") 
+  labs(title = "Distribución de Delitos por Edad",x='Edad',y='Total delitos',fill='Edad') 
 ```
 
 Observamos que el gráfico revela una clara tendencia crecientea, lo que indica que, a medida que los menores se acercan a la mayoría de edad, la frecuencia de delitos que cometen aumenta.
@@ -812,7 +818,7 @@ top_10_delitos_por_edad <- delitos_por_edad %>%
 ggplot(top_10_delitos_por_edad,
        aes(x = reorder(label_clasi_subclasi, -total), y = total)) +
   geom_bar(stat = "identity") +
-  labs(title = "Top 10 Delitos por Edad",
+  labs(title = "Delitos más frecuentes por Edad",
        x = "Tipo de Delito",
        y = "Frecuencia de Delitos") +
   theme_minimal() +
