@@ -259,6 +259,189 @@ knitr::kable(mat_celdas,
 ```
 \finishlandscape
 
+## Análisis de 'outliers', métodos de imputación aplicados y análisis de datos perdidos
+
+### Restricciones de Rango
+
+Primeramente comprobaremos que los valores numéricos se encuentran dentro de los rangos esperados. Utilizando la instrucción 'stopifnot' comporbando los mínimos y máximos esperados.
+
+```{r analisis_outliers_imputacion1, include=FALSE}
+# Comprobaciones de limites
+stopifnot(min(df_delitos_menores$edad) == 14,
+          max(df_delitos_menores$edad) == 17,
+          min(df_delitos_menores$año)  == 2013,
+          max(df_delitos_menores$año)  == 2023,
+          min(df_delitos_menores$total_delitos, na.rm = TRUE)  >= 0)
+```
+
+### Restricciones de unicidad. Duplicados (enteros y parciales)
+
+En este apartado analizaremos si hay alguna observación faltante o repetida. Es decir, que tenemos para cada delito (y sus subclasificaciones) un año y una edad específica. Para ello, vamos a contar cuantas veces aparece cada delito esperando obtener un único valor que es 44 (11 años * 4 edades * cada delito en específico). Efectivamente obtenemos dicho valor, para todos los delitos.
+
+```{r analisis_outliers_imputacion2, include=FALSE}
+df_delitos_menores %>%
+  count(delito_falta, clasi_infrac, sub_clasi_infrac) %>%
+  distinct(n)
+```
+
+Hemos averiguado que no tenemos observaciones repetidas, pero ello se puede deber a que hayan fallos tipográficos o de ortografía. Es decir, hemos considerado que "13 delitoo" y "13 delito" no son duplicados. En este apartado trataremos este caso si es necesario.
+
+```{r analisis_outliers_imputacion2_1}
+comprobar_duplicados <- df_delitos_menores %>%
+  count(delito_falta, clasi_infrac, sub_clasi_infrac) %>%
+  mutate(delito_compl = paste(delito_falta,
+                              clasi_infrac,
+                              sub_clasi_infrac,
+                              sep=" ")) %>%
+  mutate(delito_compl = paste(substring(delito_compl,
+                                        1,
+                                        15),
+                              "...",
+                              substring(delito_compl,
+                                        nchar(delito_compl)  - 15,
+                                        nchar(delito_compl)))) %>%
+  select(delito_compl, n)
+comprobar_duplicados$delito_compl <- gsub("NA", "", comprobar_duplicados$delito_compl)
+head(table(comprobar_duplicados), 10)
+```
+
+Tras echarle un vistazo a la lista de combinaciones "delito_falta" + "clasi_infrac" + "sub_clasi_infrac" podemos confirmar que no hay errores.
+
+### Validar totales (validación cruzada)
+
+Para validar que los datos se han acondicionado correctamente vamos a sacar las columnas/filas totales originales y compararlas con nuestro dataframe haciendo agrupaciones de los datos y sumas de los valores.
+
+```{r analisis_outliers_imputacion3}
+# Obtener los totales de las infracciones
+cat("Comparación infracciones totales por año:")
+df_totales <- delitos_menores_raw %>%
+  filter(is.na(delitos_n2)) %>%
+  filter(edad == "Total") %>%
+  select(año, total_delitos) %>%
+  arrange(año) %>%
+  rename(total_proporcionado = total_delitos)
+
+df_suma_totales <- df_delitos_menores %>%
+  group_by(año) %>%
+  summarize(total_validacion_datos = sum(total_delitos, na.rm=TRUE)) %>%
+  arrange(año) %>%
+  select(total_validacion_datos)
+  
+
+(head(cbind(df_totales, df_suma_totales)))
+
+# Comprobar la agrupación para delitos y faltas
+cat("Comparación delitos y faltas totales por año:")
+df_totales_infracciones <- delitos_menores_raw %>%
+  filter(!is.na(delitos_n2)) %>%
+  filter(is.na(delitos_n3)) %>%
+  filter(edad == "Total") %>%
+  select(delitos_n2, año, total_delitos) %>%
+  arrange(año) %>%
+  rename(total_proporcionado = total_delitos)
+
+df_suma_totales_infracciones <- df_delitos_menores %>%
+  group_by(delito_falta, año) %>%
+  summarize(total_validacion_datos = sum(total_delitos, na.rm=TRUE),
+            .groups = "drop_last") %>%
+  arrange(año)
+
+(head(cbind(df_totales_infracciones, df_suma_totales_infracciones["total_validacion_datos"])))
+
+# Comprobar un tipo de delito
+cat("Comparación delitos totales para el delito 13 año:")
+df_totales_delito13 <- delitos_menores_raw %>%
+  filter(!is.na(delitos_n2)) %>%
+  filter(delitos_n3 == "13 Contra el patrimonio y el orden socioeconómico") %>%
+  filter(is.na(delitos_n4)) %>%
+  filter(edad == "Total") %>%
+  select(año, total_delitos) %>%
+  arrange(año) %>%
+  rename(total_proporcionado = total_delitos)
+
+delito_13 <- "13 Contra el patrimonio y el orden socioeconómico"
+
+df_suma_totales_delito13 <- df_delitos_menores %>%
+  filter(clasi_infrac == delito_13) %>%
+  group_by(clasi_infrac, año) %>%
+  summarize(total_validacion_datos = sum(total_delitos, na.rm=TRUE),
+            .groups = "drop_last") %>%
+  arrange(año)
+
+(head(cbind(df_totales_delito13, df_suma_totales_delito13[3])))
+
+rm(list=c("df_totales", "df_suma_totales", "df_totales_infracciones",
+          "df_suma_totales_infracciones", "df_totales_delito13",
+          "df_suma_totales_delito13"))
+```
+
+Como podemos comprobar los valores coinciden entre los totales proporcionados por la fuente de datos y los nuestros calculados haciendo agrupaciones de los datos acondicionados.
+
+Para el cálculo hemos omitido todas aquellos valores de la columna "total_delitos" que eran NA. Al obtener los mismos resultados podemos confirmar que han considerado como 0 aquellos valores faltantes.
+
+### Explorar valores faltantes
+
+Primeramente vamos a visualizar los datos faltantes de la columna "total_delitos"; pues la otra columnas que tiene valores faltantes "sub_clasi_infrac" ya está justificada. A partir de aquí vamos a tratar de razonar si estos datos son faltantes debido a un factor aleatorio o hay un razonamiento detrás.
+
+```{r analisis_outliers_imputacion4_1, out.width="100%"}
+vis_miss(df_delitos_menores["total_delitos"])
+```
+
+De la visualización podemos apreciar dos grupos de datos faltantes en la columna "total_delitos". De los casos, al estar el dataframe inicialmente organizado por los delitos, podemos decir que:
+* El grupo de datos faltantes del final corresponden a las "faltas" que se convirtieron en "delitos". Si recogemos solo las faltas y organizamos por año confirmaremos este caso.
+* Pero tenemos otro caso extra que analizaremos a continuación.
+
+Primero la confirmación de las faltas:
+
+```{r analisis_outliers_imputacion4_2, out.width="100%"}
+df_delitos_menores %>%
+  filter(delito_falta == "Falta") %>%
+  arrange(desc(año)) %>%
+  select(total_delitos) %>%
+  vis_miss() +
+  ggtitle("Valores faltantes de faltas ordenado descendientemente por años")
+```
+
+A continuación vamos a tratar el otro grupo de datos faltantes, ignorando las "faltas" y agrupando por delitos:
+
+```{r analisis_outliers_imputacion4_3, out.width="100%"}
+delitos_na <- df_delitos_menores %>%
+  filter(delito_falta != "Falta") %>%
+  group_by(clasi_infrac) %>%
+  summarize(na_delitos = sum(is.na(total_delitos))) %>%
+  arrange(desc(na_delitos))
+
+head(delitos_na)
+```
+
+Podemos ver que todos los datos faltantes corresponden al delito "8 Contra la libertad e indemnidad sexuales". Y dentro de los delitos contra la libertad sexual tenemos solo datos faltantes en dos delitos en concreto "BIS Abusos y agresiones sexuales a menores de 16 años" y "Prostitución y corrupción menores"
+
+```{r analisis_outliers_imputacion4_4}
+delitos_8 <- df_delitos_menores %>%
+  filter(str_detect(clasi_infrac, "8")) %>%
+  group_by(sub_clasi_infrac) %>%
+  summarize(na_delitos = sum(is.na(total_delitos))) %>%
+  arrange(desc(na_delitos))
+
+head(delitos_8)
+```
+
+Como vemos hay 36 datos faltantes por cada delito. Que si los dividimos entre 4 edades, nos dan 9 años con valores faltantes.
+
+Si ahora cogemos y los ordenamos estos dos por años podemos ver el efecto de la Ley Orgánica 10/2022 donde se incluyen en estos delitos a los menores de edad.
+
+```{r analisis_outliers_imputacion4_5, out.width="100%"}
+delitos_sexuales_faltantes <- c("8.2 BIS Abusos y agresiones sexuales a menores de 16 años",
+                                "8.5 Prostitución y corrupción menores")
+df_delitos_menores %>%
+  filter(sub_clasi_infrac %in% delitos_sexuales_faltantes) %>%
+  arrange(desc(año)) %>%
+  select(total_delitos) %>%
+  vis_miss() +
+  ggtitle("Valores faltantes del delito 8 ordenado descendientemente por años")
+```
+
+Finalmente podemos confirmar que los dos casos de daltos faltantes están justificados. Uno debido a la reforma relacionada con la clasificación de las infracciones en faltas o delitos, y el otro caso debido a LO 10/2022, donde a partir de 2022 se consideran nuevos delitos en menores, faltando datos previamente.
 
 # Análisis
 
@@ -311,15 +494,14 @@ En la tabla se puede observar que hay mucha disparidad en la escala de *total_de
 
 En lo referente al boxplot, destacan por su anormalidad (seguramente no sigan una distribución normal ni nada que se le parezca) las faltas: 
 
-#### Faltas contra las personas
-#### Faltas contra el patrimonio
-#### Faltas contra el orden público
-#### Faltas contra el interés general
+* Faltas contra las personas
+* Faltas contra el patrimonio
+* Faltas contra el orden público
+* Faltas contra el interés general
 
 Todos estos diagramas de caja muestran su mediana en el $0$, cosa que indica que almenos en la mitad de los años hubo 0 casos de este tipo de delito.
 
-También podemos comentar que solo un diagrama muestra un outlier, y este es el asociado a
-#### 1. Homicidio y sus formas
+También podemos comentar que solo un diagrama muestra un outlier, y este es el asociado a *1. Homicidio y sus formas*.
 
 Empezamos ahora con una visualización más elaborada según la clasificación: veamos su evolución en el tiempo:
 
@@ -434,10 +616,15 @@ delitos_subclasi_13 <- df_delitos_menores %>%
   # Sumar el total de infracciones
   summarise(total = sum(total_delitos), .groups = 'drop') %>%
   # Filtrar solo el tipo de delito deseado
-  filter(clasi_infrac == "13 Contra el patrimonio y el orden socioeconómico")
+  filter(clasi_infrac == "13 Contra el patrimonio y el orden socioeconómico") %>%
+  mutate(label_clasi_subclasi = ifelse(nchar(as.character(sub_clasi_infrac)) > 20,
+                                   paste(substring(as.character(sub_clasi_infrac),
+                                                 1, 16),
+                                       "..."),
+                                   as.character(sub_clasi_infrac)))
 
 ggplot(data = delitos_subclasi_13,
-       aes(x = año, y = total, fill = sub_clasi_infrac)) + 
+       aes(x = año, y = total, fill = label_clasi_subclasi)) + 
   geom_bar(stat = "identity") +
   labs(title = "13 Contra el patrimonio y el orden socioeconómico", 
        x = "Año", 
@@ -459,10 +646,15 @@ delitos_subclasi_6 <- df_delitos_menores %>%
   # Sumar el total de infracciones
   summarise(total = sum(total_delitos), .groups = 'drop') %>%
   # Filtrar solo el tipo de delito deseado
-  filter(clasi_infrac == "6 Contra la libertad")
+  filter(clasi_infrac == "6 Contra la libertad") %>%
+  mutate(label_clasi_subclasi = ifelse(nchar(as.character(sub_clasi_infrac)) > 20,
+                                   paste(substring(as.character(sub_clasi_infrac),
+                                                 1, 16),
+                                       "..."),
+                                   as.character(sub_clasi_infrac)))
 
 ggplot(data = delitos_subclasi_6,
-       aes(x = año, y = total, fill = sub_clasi_infrac)) + 
+       aes(x = año, y = total, fill = label_clasi_subclasi)) + 
   geom_bar(stat = "identity") +
   labs(title = "6 Contra la libertad", 
        x = "Año", 
@@ -485,10 +677,15 @@ delitos_subclasi_8 <- df_delitos_menores %>%
   # Sumar el total de infracciones
   summarise(total = sum(total_delitos), .groups = 'drop') %>%
   # Filtrar solo el tipo de delito deseado
-  filter(clasi_infrac == "8 Contra la libertad e indemnidad sexuales")
+  filter(clasi_infrac == "8 Contra la libertad e indemnidad sexuales") %>%
+  mutate(label_clasi_subclasi = ifelse(nchar(as.character(sub_clasi_infrac)) > 20,
+                                   paste(substring(as.character(sub_clasi_infrac),
+                                                 1, 16),
+                                       "..."),
+                                   as.character(sub_clasi_infrac)))
 
 ggplot(data = delitos_subclasi_8,
-       aes(x = año, y = total, fill = sub_clasi_infrac)) + 
+       aes(x = año, y = total, fill = label_clasi_subclasi)) + 
   geom_bar(stat = "identity") +
   labs(title = "8 Contra la libertad e indemnidad sexuales", 
        x = "Año", 
@@ -534,7 +731,7 @@ delitos_subclasi_20 <- df_delitos_menores %>%
   # Sumar el total de infracciones
   summarise(total = sum(total_delitos), .groups = 'drop') %>%
   # Filtrar solo el tipo de delito deseado
-  filter(clasi_infrac == "20 Contra la Administración de Justicia")
+  filter(clasi_infrac == "20 Contra la Administración de Justicia") 
 
 ggplot(data = delitos_subclasi_20,
        aes(x = año, y = total, fill = sub_clasi_infrac)) + 
@@ -558,10 +755,15 @@ delitos_subclasi_22 <- df_delitos_menores %>%
   # Sumar el total de infracciones
   summarise(total = sum(total_delitos), .groups = 'drop') %>%
   # Filtrar solo el tipo de delito deseado
-  filter(clasi_infrac == "22 Contra el orden público")
+  filter(clasi_infrac == "22 Contra el orden público") %>%
+  mutate(label_clasi_subclasi = ifelse(nchar(as.character(sub_clasi_infrac)) > 20,
+                                   paste(substring(as.character(sub_clasi_infrac),
+                                                 1, 16),
+                                       "..."),
+                                   as.character(sub_clasi_infrac)))
 
 ggplot(data = delitos_subclasi_22,
-       aes(x = año, y = total, fill = sub_clasi_infrac)) + 
+       aes(x = año, y = total, fill = label_clasi_subclasi)) + 
   geom_bar(stat = "identity") +
   labs(title = "22 Contra el orden público", 
        x = "Año", 
@@ -572,19 +774,13 @@ ggplot(data = delitos_subclasi_22,
 
 Estos picos podrían estar vinculados a varios factores derivados del contexto post-pandemia. Durante el confinamiento, las restricciones de movimiento y otras medidas sanitarias generaron tensiones entre autoridades y ciudadanos, con numerosos episodios de resistencia frente a las normativas restrictivas.La relajación de las restricciones en 2021 llevó a un incremento generalizado de la actividad social, lo cual también se pudo traducir en un aumento de ciertos tipos de delitos, como altercados y confrontaciones con las autoridades.
 
-
-
-
 ### Analisis bivariante
-
 
 A continuación, nos enfocaremos en el análisis bivariante. Es decir, analizaremos las relaciones entre las variables para detectar patrones que nos permitan describir la evolución de la delincuencia juvenil a lo largo del tiempo. Para ello, realizaremos visualizaciones que ilustrarán estas relaciones facilitando su interpretación. 
 
 En primer lugar, realizaremos un análisis de las relaciones entre los tipos de delitos por clasificación. Tenemos un total de 16 clasificaciones diferentes, algunas de las cuales cuentan con subclasificaciones. Como se observa en las gráficas anteriores, la mayoría de las clasificaciones con subcategorías tienen un número reducido de estas, y suele predominar una subclasificación en particular. Por ello, no resulta particularmente relevante realizar el análisis usando las subclasificaciones. Sin embargo, en el caso de los delitos contra el patrimonio y el orden socioeconómico, hay un total de 8 subcategorías, y las frecuencias de cada una de ellas están más distribuidas. Dado que esta es, además, la clasificación mayor índice de frecuencia, resulta interesante realizar un análisis bivariante con las subclasificaciones de este tipo de delito. Por consiguiente, primero llevaremos a cabo un análisis bivariante entre clasificaciones para examinar la correlación entre los distintos tipos de delitos, y posteriormente haremos lo mismo para las subcategorías de los delitos contra el patrimonio.
 
 Para llevar a cabo el análisis por clasificaciones, hemos optado por eliminar las categorías menos relevantes. En el gráfico *Evolución en el tiempo de cada tipo de delito* se puede observar que tanto los delitos de falsedades como las faltas contra intereses generales presentan una frecuencia muy baja en los últimos diez años, lo que reduce su relevancia para el análisis. Además, la categoría "Resto de delitos" también muestra una baja frecuencia y aporta poca información al no corresponder a un tipo específico de delito. Por estos motivos, hemos decidido excluir estas categorías, y así poder centrar el análisis en los tipos de delito con mayor impacto  y especificidad.
-
-
 
 ```{r}
 # Creamos un nuevo dataframe eliminando las infracciones poco relevantes para el análisis
@@ -655,7 +851,7 @@ A continuación, realizaremos el mismo análisis para las diferentes subclasific
 ```{r}
 # Repetimos el análisis para la categoría de delitos contra el patrimonio
 delitos_subclasi_13_2 <- delitos_subclasi_13 %>%
-  select(-clasi_infrac)
+  select(-c(clasi_infrac, label_clasi_subclasi))
 
 # Creamos un dataframe que tenga por columnas los delitos y por filas los años
 delitos_ancho_subclasi <- delitos_subclasi_13_2 %>%
@@ -705,7 +901,6 @@ corrplot(matriz_correlacion_subclasi,
          tl.labels = numeros,
          tl.cex = 0.7)
 
-
 ```
 
 Por lo general, no se observan correlaciones tan altas como en el gráfico anterior. Podemos destacar una alta correlación entre delitos de usurpación y robos. Esto puede deberse a que la usurpación (ocupación ilegal de propiedades) y los robos suelen ocurrir en contextos donde hay vulnerabilidades en la seguridad de viviendas, locales u otros espacios. Es posible que en algunos casos, los delitos de usurpación estén relacionados con robos, ya que la ocupación ilegal de un espacio podría facilitar el acceso a bienes o recursos presentes en el lugar. Por ejemplo, una persona que usurpa una propiedad podría incurrir también en el robo de bienes de ese inmueble. También podemos destacar una alta correlación entre daños y hurtos. Estos delitos a menudo son cometidos por jóvenes en situaciones de rebeldía o frustración social. Ambos delitos pueden estar vinculados a un patrón de comportamiento de vandalismo o robo.
@@ -740,7 +935,10 @@ total_delitos_por_edad <- delitos_por_edad %>%
 ggplot(total_delitos_por_edad,
        aes(x = edad, y = total_delitos, fill = edad)) +
   geom_bar(stat = "identity") +
-  labs(title = "Distribución de Delitos por Edad",x='Edad',y='Total delitos',fill='Edad') 
+  labs(title = "Distribución de Delitos por Edad",
+       x='Edad',
+       y='Total delitos',
+       fill='Edad') 
 ```
 
 Observamos que el gráfico revela una clara tendencia creciente, lo que indica que, a medida que los menores se acercan a la mayoría de edad, tienden a delinquir con más frecuencia. Podemos también visualizar la distribución en el tiempo de esta distribución:
@@ -810,261 +1008,39 @@ delitos_por_edad_i_año <- df_delitos_menores %>%
   # Quitamos los NA's
   filter(!is.na(edad) & !is.na(total_delitos)) %>%
   # Agrupamos segun el tipo de infracción
-  group_by(edad, año, clasi_subclasi) %>%
+  group_by(edad, año, clasi_subclasi, id_clasi) %>%
   # Sumar el total de infracciones
   summarise(total = sum(total_delitos), .groups = 'drop')
 
 top_10_delitos_por_edad_i_año <- delitos_por_edad_i_año %>%
   semi_join(top_10_delitos_por_edad,
             by = c("edad", "clasi_subclasi")) %>%
-  mutate(label_clasi_subclasi = ifelse(nchar(as.character(clasi_subclasi)) > 30,
+  mutate(label_clasi_subclasi = ifelse(nchar(as.character(clasi_subclasi)) > 20,
                                    paste(substring(as.character(clasi_subclasi),
-                                                 1, 26),
+                                                 1, 16),
                                        "..."),
-                                   as.character(clasi_subclasi)))
+                                   as.character(clasi_subclasi))) %>%
+  mutate(label_clasi_subclasi =
+           ifelse(startsWith(label_clasi_subclasi, "Faltas"),
+                  id_clasi,
+                  label_clasi_subclasi))
 
-edades <- c(14, 15, 16, 17)
-graficos <- list()
-
-for (ed in edades) {
-  datos_edad <- top_10_delitos_por_edad_i_año %>%
-    filter(edad == ed)
-
-  grafico <- 
-    ggplot(data = datos_edad,
-           aes(x = año, y = total, color = label_clasi_subclasi)) +
-    geom_line() +
-    geom_point() +
-    labs(title = paste("Evolución del Total de Delitos para Edad", ed),
-         x = "Año",
-         y = "Total de Delitos",
-         color = "Tipo de Delito") +
-    theme_minimal() +
-    scale_x_continuous(breaks = seq(2013, 2023, by = 2),
-                       limits = c(2013, 2023),
-                       labels = as.character(seq(13, 23, by = 2)))
-  
-  graficos[[paste("Edad", ed)]] <- grafico
-  print(grafico)
-}
-
-
+ggplot(data = top_10_delitos_por_edad_i_año,
+       aes(x = año, y = total, color = label_clasi_subclasi)) +
+geom_line() +
+geom_point() +
+labs(title = paste("Evolución del Total de Delitos para Edad"),
+     x = "Año",
+     y = "Total de Delitos",
+     color = "Tipo de Delito") +
+theme_minimal() +
+scale_x_continuous(breaks = seq(2013, 2023, by = 2),
+                   limits = c(2013, 2023),
+                   labels = as.character(seq(13, 23, by = 2))) +
+facet_wrap(~ edad)
 ```
 
 Se observa que todos los delitos que se repiten para cada grupo de edad, que son la mayoría, siguen una tendencia similar. Se puede observar el aumento de delitos por lesiones en todos los grupos. Además, los robos tienden a disminuir de manera constante en todas las edades. Los hurtos, en cambio, alcanzan sus picos entre 2016 y 2019, para luego descender. En cuanto al resto de delitos, tienen menor frecuencia y se mantienen bastante estables a lo largo del tiempo.
-
-
-
-
-
-```{r}
-
-
-    ggplot(data = top_10_delitos_por_edad_i_año,
-           aes(x = año, y = total, color = clasi_subclasi)) +
-    geom_line() +
-    geom_point() +
-    labs(title = paste("Evolución del Total de Delitos para Edad"),
-         x = "Año",
-         y = "Total de Delitos",
-         color = "Tipo de Delito") +
-    theme_minimal() +
-    scale_x_continuous(breaks = seq(2013, 2023, by = 2),
-                       limits = c(2013, 2023),
-                       labels = as.character(seq(13, 23, by = 2))) +
-  facet_wrap(~ edad)
-
-
-
-
-```
-
-
-
-
-
-
-
-
-
-
-
-
-## Análisis de 'outliers', métodos de imputación aplicados y análisis de datos perdidos
-
-### Restricciones de Rango
-
-Primeramente comprobaremos que los valores numéricos se encuentran dentro de los rangos esperados. Utilizando la instrucción 'stopifnot' comporbando los mínimos y máximos esperados.
-
-```{r analisis_outliers_imputacion1, include=FALSE}
-# Comprobaciones de limites
-stopifnot(min(df_delitos_menores$edad) == 14,
-          max(df_delitos_menores$edad) == 17,
-          min(df_delitos_menores$año)  == 2013,
-          max(df_delitos_menores$año)  == 2023,
-          min(df_delitos_menores$total_delitos, na.rm = TRUE)  >= 0)
-```
-
-### Restricciones de unicidad. Duplicados (enteros y parciales)
-
-En este apartado analizaremos si hay alguna observación faltante o repetida. Es decir, que tenemos para cada delito (y sus subclasificaciones) un año y una edad específica. Para ello, vamos a contar cuantas veces aparece cada delito esperando obtener un único valor que es 44 (11 años * 4 edades * cada delito en específico). Efectivamente obtenemos dicho valor, para todos los delitos.
-
-```{r analisis_outliers_imputacion2, include=FALSE}
-df_delitos_menores %>%
-  count(delito_falta, clasi_infrac, sub_clasi_infrac) %>%
-  distinct(n)
-```
-
-### Validar totales (validación cruzada)
-
-Para validar que los datos se han acondicionado correctamente vamos a sacar las columnas/filas totales originales y compararlas con nuestro dataframe haciendo agrupaciones de los datos y sumas de los valores.
-
-```{r analisis_outliers_imputacion3}
-# Obtener los totales de las infracciones
-cat("Comparación infracciones totales por año:")
-df_totales <- delitos_menores_raw %>%
-  filter(is.na(delitos_n2)) %>%
-  filter(edad == "Total") %>%
-  select(año, total_delitos) %>%
-  arrange(año) %>%
-  rename(total_proporcionado = total_delitos)
-
-df_suma_totales <- df_delitos_menores %>%
-  group_by(año) %>%
-  summarize(total_validacion_datos = sum(total_delitos, na.rm=TRUE)) %>%
-  arrange(año) %>%
-  select(total_validacion_datos)
-  
-
-(head(cbind(df_totales, df_suma_totales)))
-
-# Comprobar la agrupación para delitos y faltas
-cat("Comparación delitos y faltas totales por año:")
-df_totales_infracciones <- delitos_menores_raw %>%
-  filter(!is.na(delitos_n2)) %>%
-  filter(is.na(delitos_n3)) %>%
-  filter(edad == "Total") %>%
-  select(delitos_n2, año, total_delitos) %>%
-  arrange(año) %>%
-  rename(total_proporcionado = total_delitos)
-
-df_suma_totales_infracciones <- df_delitos_menores %>%
-  group_by(delito_falta, año) %>%
-  summarize(total_validacion_datos = sum(total_delitos, na.rm=TRUE),
-            .groups = "drop_last") %>%
-  arrange(año)
-
-(head(cbind(df_totales_infracciones, df_suma_totales_infracciones["total_validacion_datos"])))
-
-# Comprobar un tipo de delito
-cat("Comparación delitos totales para el delito 13 año:")
-df_totales_delito13 <- delitos_menores_raw %>%
-  filter(!is.na(delitos_n2)) %>%
-  filter(delitos_n3 == "13 Contra el patrimonio y el orden socioeconómico") %>%
-  filter(is.na(delitos_n4)) %>%
-  filter(edad == "Total") %>%
-  select(año, total_delitos) %>%
-  arrange(año) %>%
-  rename(total_proporcionado = total_delitos)
-
-delito_13 <- "13 Contra el patrimonio y el orden socioeconómico"
-
-df_suma_totales_delito13 <- df_delitos_menores %>%
-  filter(clasi_infrac == delito_13) %>%
-  group_by(clasi_infrac, año) %>%
-  summarize(total_validacion_datos = sum(total_delitos, na.rm=TRUE),
-            .groups = "drop_last") %>%
-  arrange(año)
-
-(head(cbind(df_totales_delito13, df_suma_totales_delito13[3])))
-
-rm(list=c("df_totales", "df_suma_totales", "df_totales_infracciones",
-          "df_suma_totales_infracciones", "df_totales_delito13",
-          "df_suma_totales_delito13"))
-```
-
-Como podemos comprobar los valores coinciden entre los totales proporcionados por la fuente de datos y los nuestros calculados haciendo agrupaciones de los datos acondicionados.
-
-Para el cálculo hemos omitido todas aquellos valores de la columna "total_delitos" que eran NA. Al obtener los mismos resultados podemos confirmar que han considerado como 0 aquellos valores faltantes.
-
-### Validar variables categóricas
-
-En el apartado 2.2.2 hemos averiguado que no tenemos observaciones repetidas, pero ello se puede deber a que hayan fallos tipográficos o de ortografía. Es decir, hemos considerado que "13 delitoo" y "13 delito" no son duplicados. En este apartado trataremos este caso si es necesario.
-
-```{r analisis_outliers_imputacion4, include=FALSE}
-df_delitos_menores %>%
-  count(delito_falta, clasi_infrac, sub_clasi_infrac) %>%
-  mutate(delito_compl = paste(delito_falta,
-                              clasi_infrac,
-                              sub_clasi_infrac, sep=" ")) %>%
-  select(delito_compl, n)
-```
-
-Tras echarle un vistazo a la lista de combinaciones "delito_falta" + "clasi_infrac" + "sub_clasi_infrac" podemos confirmar que no hay errores.
-
-### Explorar valores faltantes
-
-Primeramente vamos a visualizar los datos faltantes de la columna "total_delitos"; pues la otra columnas que tiene valores faltantes "sub_clasi_infrac" ya está justificada. A partir de aquí vamos a tratar de razonar si estos datos son faltantes debido a un factor aleatorio o hay un razonamiento detrás.
-
-```{r analisis_outliers_imputacion5_1, out.width="100%"}
-vis_miss(df_delitos_menores["total_delitos"])
-```
-
-De la visualización podemos apreciar dos grupos de datos faltantes en la columna "total_delitos". De los casos, al estar el dataframe inicialmente organizado por los delitos, podemos decir que:
-* El grupo de datos faltantes del final corresponden a las "faltas" que se convirtieron en "delitos". Si recogemos solo las faltas y organizamos por año confirmaremos este caso.
-* Pero tenemos otro caso extra que analizaremos a continuación.
-
-Primero la confirmación de las faltas:
-
-```{r analisis_outliers_imputacion5_2, out.width="100%"}
-df_delitos_menores %>%
-  filter(delito_falta == "Falta") %>%
-  arrange(desc(año)) %>%
-  select(total_delitos) %>%
-  vis_miss() +
-  ggtitle("Valores faltantes de faltas ordenado descendientemente por años")
-```
-
-A continuación vamos a tratar el otro grupo de datos faltantes, ignorando las "faltas" y agrupando por delitos:
-
-```{r analisis_outliers_imputacion5_3, out.width="100%"}
-delitos_na <- df_delitos_menores %>%
-  filter(delito_falta != "Falta") %>%
-  group_by(clasi_infrac) %>%
-  summarize(na_delitos = sum(is.na(total_delitos))) %>%
-  arrange(desc(na_delitos))
-
-head(delitos_na)
-```
-
-Podemos ver que todos los datos faltantes corresponden al delito "8 Contra la libertad e indemnidad sexuales". Y dentro de los delitos contra la libertad sexual tenemos solo datos faltantes en dos delitos en concreto "BIS Abusos y agresiones sexuales a menores de 16 años" y "Prostitución y corrupción menores"
-
-```{r analisis_outliers_imputacion5_4}
-delitos_8 <- df_delitos_menores %>%
-  filter(str_detect(clasi_infrac, "8")) %>%
-  group_by(sub_clasi_infrac) %>%
-  summarize(na_delitos = sum(is.na(total_delitos))) %>%
-  arrange(desc(na_delitos))
-
-head(delitos_8)
-```
-
-Como vemos hay 36 datos faltantes por cada delito. Que si los dividimos entre 4 edades, nos dan 9 años con valores faltantes.
-
-Si ahora cogemos y los ordenamos estos dos por años podemos ver el efecto de la Ley Orgánica 10/2022 donde se incluyen en estos delitos a los menores de edad.
-
-```{r analisis_outliers_imputacion5_5, out.width="100%"}
-delitos_sexuales_faltantes <- c("8.2 BIS Abusos y agresiones sexuales a menores de 16 años",
-                                "8.5 Prostitución y corrupción menores")
-df_delitos_menores %>%
-  filter(sub_clasi_infrac %in% delitos_sexuales_faltantes) %>%
-  arrange(desc(año)) %>%
-  select(total_delitos) %>%
-  vis_miss() +
-  ggtitle("Valores faltantes del delito 8 ordenado descendientemente por años")
-```
-
-Finalmente podemos confirmar que los dos casos de daltos faltantes están justificados. Uno debido a la reforma relacionada con la clasificación de las infracciones en faltas o delitos, y el otro caso debido a LO 10/2022, donde a partir de 2022 se consideran nuevos delitos en menores, faltando datos previamente.
 
 ## Visualización Explicatoria y conclusiones
 
