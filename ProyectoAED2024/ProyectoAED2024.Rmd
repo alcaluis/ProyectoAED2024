@@ -32,6 +32,8 @@ keywords: |
 output: 
   rticles::mdpi_article:
     extra_dependencies: longtable
+header-includes:
+   - \usepackage{animate}
 ---
 
 ```{r setup, include=FALSE}
@@ -62,7 +64,9 @@ librerias <- c("readr",       # Lectura de ficheros con formato
                "stringr",     # Operaciones con caracteres
                "cowplot",     # Manipulación de gráficos
                "tidyr",       # Tidy Messy Data
-               "corrplot")    # Gráficos de correlaciones
+               "corrplot",    # Gráficos de correlaciones
+               "gganimate")   # Permite animar gráficas
+
 pacman::p_load(char = librerias)
 
 # Carga de datos
@@ -668,7 +672,7 @@ Como podemos observar, los más comunes son los delitos por amenazas, los cuales
 
 Finalmente, resulta relevante analizar los delitos contra la libertad e indemnidad sexuales, dada su importancia y evolución en los últimos años.
 
-```{r}
+```{r delitos_sexuales, fig.cap = "8 Contra la libertad e indemnidad sexuales"}
 delitos_subclasi_8 <- df_delitos_menores %>%
   # Quitamos los NA's
   filter(!is.na(año) & !is.na(total_delitos) & !is.na(sub_clasi_infrac)) %>%
@@ -826,7 +830,7 @@ correlaciones_clasi <- as.data.frame(as.table(matriz_correlacion_clasi)) %>%
 
 Mediante el cálculo de una matriz de correlación hemos realizado el siguiente gráfico, que muestra todas las correlaciones entre cada tipo de delito.
 
-```{r}
+```{r correlaciones_delitos, fig.cap = "Correlaciones delitos más relevantes"}
 # Visualiza las correlaciones más relevantes
 plot.new()
 
@@ -998,7 +1002,7 @@ Notamos que la mayoría de delitos siguen una distribución similar. Además, se
 
 Por último, examinaremos la evolución de cada uno de estos delitos a lo largo de los últimos diez años, para cada grupo de edad.
 
-```{r}
+```{r cant_delitos_edad_delincuente, fig.cap="Evolución del Total de Delitos para Edad"}
 delitos_por_edad_i_año <- df_delitos_menores %>%
   # Creamos nueva columna con todas las las subclasificaciones
   mutate(clasi_subclasi = ifelse(is.na(as.character(sub_clasi_infrac)), 
@@ -1044,21 +1048,18 @@ Se observa que todos los delitos que se repiten para cada grupo de edad, que son
 
 ## Visualización Explicatoria y conclusiones
 
+Durante este apartado resolveremos aquellas preguntas que nos planteamos al principio del proyecto.
 
-```{r visualizacion_explicatoria}
-# WIP:
-#   - Visualización enfocada a los objetivos (encontrar una respuesta al problema). (TODOS)
-#
-# - NOTA: Junto a la visualización se debe aportar una explicación.
+### 1. ¿Cuáles son los delitos más frecuentes y qué edades los perpetran? ¿Han aumentado o han disminuido en los últimos años?
 
-# WIP:
-#  - Conclusiones finales.
-#    - Objetivos.
-#    - Proyecto.
-#  - NOTA: Visualizaciones interactivas para finalizar/resumir, puede ser un buen punto.
-```
+Analizando primaremente la cantidad de delitos sin centrarnos en la edad, podemos ver que que los delitos más relevantes son los siguientes:
 
-```{r, Version Explicativa}
+* 13. Contra el patrimonio y el orden socioeconómico. Que incluyen, robos, hurtos, defraudaciones, ... Es un delito bastante amplio.
+* 3.  Lesiones. Este incluye todo tipo de lesiones ocasionadas por el menor.
+* 6.  Contra la libertad. Incluyendo coacciones, amenazas y secuestros.
+* Faltas contras las personas. Este, como ya hemos analizado, carecer de relevancia actual así que nos centraremos en los otros 3. Ya que su importancia se ve reflejada en los delitos 3 y 6.
+
+```{r, visualizacion_explicatoria_pre_1}
 EvolucionTiempoSegunDelito <- ggplot(
     data = df_delitos_tipo,
     aes(x = año, y = suma_por_tipo, fill = suma_decada_por_tipo)) +
@@ -1085,10 +1086,61 @@ EvolucionTiempoSegunDelito <- ggplot(
   ggtitle("Evolución en el tiempo según tipo de delito")
 
 EvolucionTiempoSegunDelito
+```
+Gracias al siguiente gráfico animado (comprobar carpeta "figuras/delitos_relevantes.gif") podemos comprobar que los delitos más ocasionados a lo largo de los años son el 13 y el 3. Siendo más frecuentados a mayor edad del delincuente, teniendo prácticamente la misma cantidad de delitos entre delincuentes de 16 y 17 años.
 
+Si evaluamos los últimos 5 años, podemos ver el efecto del covid y parece que tiene una tendencia a descender. Sin embargo, si comprobamos con el 2013 vemos que prácticamente se han duplicado la cantidad de delitos.
+
+```{r, visualizacion_explicatoria_pre_2, include=FALSE}
+delitos_relevantes <- df_delitos_menores %>%
+  filter(clasi_infrac %in%
+         c("3 Lesiones",
+           "6 Contra la libertad",
+           "13 Contra el patrimonio y el orden socioeconómico")) %>%
+  group_by(id_clasi, edad, año) %>%
+  summarise(total = sum(total_delitos), .groups="keep")
+
+delitos_relevantes_g <- ggplot(delitos_relevantes) +
+  geom_col(aes(fill = id_clasi, x = edad, y = total)) +
+  labs(x = "Edad del infractor", 
+       y = "Acumulación total de delitos",
+       fill = 'Tipos de delito') +
+  ## GGANIMATE
+  theme_bw() +
+  labs(title = paste("Año: {round(frame_time)}")) +
+  transition_states(
+    año,
+    transition_length = 2,
+    state_length = 1
+  ) +
+  ease_aes('sine-in-out') +
+  transition_time(año)
+
+# anim_save("../figuras/delitos_relevantes.gif", delitos_relevantes_g)
 ```
 
-```{r}
+### 2. ¿Cómo evoluciona la cantidad de delitos dependiendo de la edad del delincuente?
+
+Si echamos un vistazo a la gráfica \ref{fig:cant_delitos_edad_delincuente}, podemos apreciar que las edades parecen dividirse en dos grupos según la edad, 14 y 15 por un lado; y 16 y 17 por otro. Aunque para todos la distribución de los delitos es similar, no lo es la cantidad. Siendo superior en 16 y 17 años.
+
+Sin embargo, podemos apreciar unas tendencias:
+
+* Las lesiones han crecido debido a las faltas. Pero en los últimos dos años están disminuyendo.
+* Los robos están disminuyendo.
+* Los hurtos que habían crecido en 2016-2017 han disminuido y se han estabilizado.
+* Los demás delitos parecen estar estabilizados.
+
+Podemos concluir de esta cuestión que la edad del delincuente no es un factor determinante en qué delitos se cometen o dejan de cometer pero sí en la cantidad.
+
+### 3. Analizar los picos de delitos (mínimos y máximos) y valores faltanes, relacionándolos con hechos reales. (Desde sucesos hasta leyes o reformas)
+
+Tras el estudio exploratorio hemos podido diferenciar claramente un suceso y dos leyes o reformas.
+
+* *Covid-19*. Teniendo una gran decaimiento en la cantidad de delitos en 2020-2021, como podemos apreciar en la siguite gráfica \ref{fig:visualizacion_explicatoria_pre_3}.
+* *Reforma del código penal el año 2015*. Retirando las Faltas y considerandolas delitos. Aprenciandose claramente al analizar el gráfico de correlaciones \ref{fig:correlaciones_delitos}. Donde están fuertemente correlacionadas, de manera inversa, las faltas con los delitos 3 y 6.
+* *Ley Orgánica 10/2022*. Agregando dos nuevos delitos "Contra la libertad e indemnidad sexuales" debido al crecimiento de los delitos sexuales \ref{fig:delitos_sexuales} en los últimos años requiriendo una clasificación y tratamiento personalizado.
+
+```{r visualizacion_explicatoria_pre_3, fig.cap="Evolución Delitos totales"}
 # Suponiendo que ya tienes tus data frames df_delitos_edad y df_totales_calculados
 df_media <- df_delitos_edad %>%
   ungroup(edad) %>%
