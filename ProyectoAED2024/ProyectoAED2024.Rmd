@@ -23,10 +23,8 @@ authorcitation: |
 simplesummary: |
   Estudio de los delitos causados por menores en España entre 2013 y 2023.
 abstract: |
-  Proyecto de tratamiento de datos para la asignatura de Análisis exploratorio
-  de datos. El tópico es la delincuencia en España provocado por menores de entre
-  14 y 17 años (ambos inclusives). Donde se estudiarán los delitos causados con
-  mayor frecuencia.
+  Proyecto de tratamiento de datos para la asignatura de Análisis Exploratorio de Datos. El tópico es la delincuencia en España provocado por menores de entre
+  14 y 17 años (ambos inclusives). En este estudio se analizarán los delitos causados con mayor frecuencia.
 keywords: |
   Delito; Delincuencia; Menores; Datos; Ciencia de Datos;
 output: 
@@ -38,8 +36,9 @@ header-includes:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE,
-                      out.width="100%",
-                      warning=FALSE)
+                      out.width="80%",
+                      warning=FALSE,
+                      fig.align="center")
 ```
 
 # Introducción
@@ -50,9 +49,8 @@ La delincuencia en España es un tema de conversación latente. Un estudio impor
 
 1. ¿Cuáles son los delitos más frecuentes y qué edades los perpetran? ¿Han aumentado o han disminuido en los últimos años?
 2. ¿Cómo evoluciona la cantidad de delitos dependiendo de la edad del delincuente?
-3. Analizar los picos de delitos (mínimos y máximos) y valores faltanes, relacionándolos con hechos reales. (Desde sucesos hasta leyes o reformas)
+3. Analizar los picos de delitos (mínimos y máximos) y valores faltantes, relacionándolos con hechos reales. (Desde sucesos hasta leyes o reformas)
 
-<!-- ## Carga de librerías y datos -->
 
 ```{r intro_setup_carga, echo=FALSE}
 # Carga de librerias
@@ -78,6 +76,9 @@ col_names <- c("delitos_n1", "delitos_n2", "delitos_n3",
                "año", "total_delitos")
 
 delitos_menores_raw <- read_delim(
+  # RUN ALL:
+  # file = "./data/delitos_menores_2013_2023.csv",
+  # KNIT:
   file = "../data/delitos_menores_2013_2023.csv", 
   delim = ";",
   escape_double = FALSE,
@@ -94,7 +95,7 @@ delitos_menores_raw <- read_delim(
 
 ### Análisis de la estructura y valores iniciales de los datos.
 
-Comenzamos ejecutando "summary" del conjunto de datos, recien cargado, para analizarlo.
+Comenzamos ejecutando "summary" del conjunto de datos, recién cargado, para analizarlo.
 
 ```{r intro_analisis_inicial_1}
 # Análisis de la estructura y valores iniciales de los datos.
@@ -106,7 +107,7 @@ Gracias a "summary" podemos apreciar qué columnas numéricas contienen NAs y si
 
 Teniendo para la columna **año** valores esperados, desde 2013 hasta 2023 y la media obviamente en 2018. Respecto a la columna **total_delitos**, podemos apreciar que tiene un número relevante de valores faltantes (210) y confirmamos que los valores se han importado correctamente (manteniendo los millares). Además hemos identificado que la columna **edad** se ha importado como tipo "character". Tras hacer una visualización del archivo nos damos cuenta que los años se han importado como "14 años" agregando el sustantivo para todos los valores y en algunos casos agregando un "Total". Acondicionamiento de la columna será necesario.
 
-Las columnas restantes, que son de tipo "character", representan el delito en distintos niveles de clasificación. Habremos de factorizar estas variable categóricas. El uso de la función "str" o "glimpse" en este caso no nos ha aportado información adicional.
+Las columnas restantes, que son de tipo "character", representan el delito en distintos niveles de clasificación. Habremos de factorizar estas variables categóricas. El uso de la función "str" o "glimpse" en este caso no nos ha aportado información adicional.
 
 A continuación, ejecutaremos "table" por columna para analizar la cantidad de "NA" y si hay variedad en los elementos. 
 
@@ -165,7 +166,7 @@ knitr::kable(df_total_delitos[c(4,5,8)], format = "latex",
 
 Como podemos observar, el total de "13.2 Robos", es igual a la suma de "13.2.1" y "13.2.2", a su vez el delito contra el patrimonio es la suma de los delitos "13.1", "13.2", ... Este hecho agrega redundancia a los datos. Por ende no solo tendremos que eliminar las filas que representen totales, valor "total" en edad, pero también aquellas filas que son las agrupaciones de otras con el objeto de tener un conjunto __Tidy__.
 
-En resumen, las columnas de delitos n1 y n5 no son necesarias y pueden ser eliminadas sin problemas.Ya que hemos averiguado que los delitos de N5 se suman para los delitos de N4, es decir no perdemos datos. Las columnas de clasifiación de delitos restantes serán convertidas a factor. La columna edad será modificada para mayor fidelidad al dato y un adecuado uso más adelante. 
+En resumen, las columnas de delitos n1 y n5 no son necesarias y pueden ser eliminadas sin problemas.Ya que hemos averiguado que los delitos de N5 se suman para los delitos de N4, es decir no perdemos datos. Las columnas de clasificación de delitos restantes serán convertidas a factor. La columna edad será modificada para mayor fidelidad al dato y un adecuado uso más adelante. 
 
 <!-- ### Acondicionamiento y preparación de los datos -->
 
@@ -270,7 +271,7 @@ knitr::kable(mat_celdas,
 
 ### Restricciones de Rango
 
-Primeramente comprobaremos que los valores numéricos se encuentran dentro de los rangos esperados. Utilizando la instrucción 'stopifnot' comporbando los mínimos y máximos esperados.
+Primeramente comprobaremos que los valores numéricos se encuentran dentro de los rangos esperados. Utilizando la instrucción 'stopifnot' comprobando los mínimos y máximos esperados.
 
 ```{r analisis_outliers_imputacion1, include=FALSE}
 # Comprobaciones de limites
@@ -283,7 +284,7 @@ stopifnot(min(df_delitos_menores$edad) == 14,
 
 ### Restricciones de unicidad. Duplicados (enteros y parciales)
 
-En este apartado analizaremos si hay alguna observación faltante o repetida. Es decir, que tenemos para cada delito (y sus subclasificaciones) un año y una edad específica. Para ello, vamos a contar cuantas veces aparece cada delito esperando obtener un único valor que es 44 (11 años * 4 edades * cada delito en específico). Efectivamente obtenemos dicho valor, para todos los delitos.
+En este apartado analizaremos si hay alguna observación faltante o repetida. Es decir, para cada delito (y sus subclasificaciones) tenemos un año y una edad específica. Para ello, vamos a contar cuantas veces aparece cada delito esperando obtener un único valor que es 44 (11 años * 4 edades * cada delito en específico). Tras realizar la prueba efectivamente obtenemos dicho valor, para todos los delitos.
 
 ```{r analisis_outliers_imputacion2, include=FALSE}
 df_delitos_menores %>%
@@ -316,7 +317,7 @@ Tras echarle un vistazo a la lista de combinaciones "delito_falta" + "clasi_infr
 
 ### Validar totales (validación cruzada)
 
-Para validar que los datos se han acondicionado correctamente vamos a sacar las columnas/filas totales originales y compararlas con nuestro dataframe haciendo agrupaciones de los datos y sumas de los valores.
+Para validar que los datos se han acondicionado correctamente vamos a sacar las filas totales originales y compararlas con nuestro dataframe haciendo agrupaciones de los datos y sumas de los valores.
 
 ```{r analisis_outliers_imputacion3}
 # Obtener los totales de las infracciones
@@ -384,18 +385,19 @@ rm(list=c("df_totales", "df_suma_totales", "df_totales_infracciones",
 
 Como podemos comprobar los valores coinciden entre los totales proporcionados por la fuente de datos y los nuestros calculados haciendo agrupaciones de los datos acondicionados.
 
-Para el cálculo hemos omitido todas aquellos valores de la columna "total_delitos" que eran NA. Al obtener los mismos resultados podemos confirmar que han considerado como 0 aquellos valores faltantes.
+Para el cálculo hemos omitido todos aquellos valores de la columna "total_delitos" que eran NA. Al obtener los mismos resultados podemos confirmar que han considerado como 0 aquellos valores faltantes.
 
 ### Explorar valores faltantes
 
-Primeramente vamos a visualizar los datos faltantes de la columna "total_delitos"; pues la otra columnas que tiene valores faltantes "sub_clasi_infrac" ya está justificada. A partir de aquí vamos a tratar de razonar si estos datos son faltantes debido a un factor aleatorio o hay un razonamiento detrás.
+Primeramente vamos a visualizar los datos faltantes de la columna "total_delitos"; pues la otra columna que tiene valores faltantes "sub_clasi_infrac" ya está justificada. A partir de aquí vamos a tratar de razonar si estos datos son faltantes debido a un factor aleatorio o hay un razonamiento detrás.
 
 ```{r analisis_outliers_imputacion4_1, out.width="100%"}
 vis_miss(df_delitos_menores["total_delitos"])
 ```
 
 De la visualización podemos apreciar dos grupos de datos faltantes en la columna "total_delitos". De los casos, al estar el dataframe inicialmente organizado por los delitos, podemos decir que:
-* El grupo de datos faltantes del final corresponden a las "faltas" que se convirtieron en "delitos". Si recogemos solo las faltas y organizamos por año confirmaremos este caso.
+
+* El grupo de datos faltantes del final corresponden a las "faltas" que se convirtieron en "delitos", hecho que analizaremos más adelante en el análisis. Si recogemos solo las faltas y organizamos por año confirmaremos este caso.
 * Pero tenemos otro caso extra que analizaremos a continuación.
 
 Primero la confirmación de las faltas:
@@ -510,11 +512,11 @@ Todos estos diagramas de caja muestran su mediana en el $0$, cosa que indica que
 
 También podemos comentar que solo un diagrama muestra un outlier, y este es el asociado a *1. Homicidio y sus formas*.
 
-Empezamos ahora con una visualización más elaborada según la clasificación: veamos su evolución en el tiempo:
+Empezamos ahora con una visualización más elaborada según la clasificación viendo su evolución en el tiempo:
 
 ### Análisis univariante
-```{r analisis_variables_1}
 
+```{r analisis_variables_1, fig.cap="Evolución en el tiempo de cada tipo de delito"}
 EvolucionTiempoSegunDelito <- ggplot(data = df_delitos_tipo,
                                      aes(x = año, y = suma_por_tipo)) +
   geom_line()+
@@ -528,10 +530,7 @@ EvolucionTiempoSegunDelito <- ggplot(data = df_delitos_tipo,
                      label = as.character(seq(13, 23, by = 2))) +
   ggtitle("Evolución en el tiempo de cada tipo de delito")
   
-  
-
 EvolucionTiempoSegunDelito
-
 ```
 
 Observamos aquí una visualización de la evolución de la cantidad de delitos a lo largo del tiempo según tipo de delito. Se pueden destacar la existencia de un valle ( descenso puntual ) de varios tipos de delito entre el 2020 y 2021.
@@ -587,15 +586,15 @@ ggplot(data = total_infrac_años,
 
 Como podemos observar, hay una clara tendencia creciente de los delitos de menores desde el 2016 hasta el 2019. En el 2020 hay una gran disminución de delitos. Esto se debe, sin duda, a la cuarentena que hubo durante la pandemia del COVID-19. Pero, a partir del 2021, notamos que la cantidad de delitos vuelve a subir, tomando unas cifras similares a las del 2019. En general, podemos observar un notable aumento de delitos juveniles en los últimos diez años. Por otra parte, notamos que el número de faltas va disminuyendo hasta el año 2017, y a partir del 2018 no hay registros sobre faltas.
 
-Esta tendencia de aumento de delitos y disminución de faltas puede deberse a diferentes motivos. El cambio mas notable se observa entre el 2015 y el 2016. Este fenómeno puede deberse a la reforma del Código Penal en España del 2015, en la cual se llevó a cabo la supresión de muchas infracciones consideradas faltas, que pasaron a ser clasificadas como delitos leves. Esto explicaría el aumento de delitos en contraposición con la disminución de faltas a partir del año 2015. 
+Esta tendencia de aumento de delitos y disminución de faltas puede deberse a diferentes motivos. El cambio mas notable se observa entre el 2015 y el 2016. Este fenómeno se debe a la reforma del Código Penal en España del 2015, en la cual se llevó a cabo la supresión de muchas infracciones consideradas faltas, que pasaron a ser clasificadas como delitos leves. Esto explicaría el aumento de delitos en contraposición con la disminución de faltas a partir del año 2015. 
 
-Si nos enfocamos nuevamente en el gráfico *Evolución en el tiempo de cada tipo de delito*, se puede apreciar cómo todas las faltas disminuyen de manera drástica hasta desaparecer por completo de los registros a partir del año 2015. Por otro lado, se observa un aumento significativo en delitos como los relacionados con lesiones o contra la libertad. Esto podría deberse a que, tras la reforma mencionada anteriormente, muchas conductas como agresiones físicas leves, amenazas o coacciones, que previamente se consideraban faltas contra las personas, pasaron a clasificarse como delitos por lesiones o contra la libertad, respectivamente. Un razonamiento similar puede aplicarse a la disminución de faltas contra el patrimonio y el orden público, frente al incremento de delitos en estos ámbitos. Este cambio también explica la anomalía observada previamente en los gráficos boxplots de las faltas.
+Si nos enfocamos nuevamente en el gráfico \ref{fig:analisis_variables_1}, se puede apreciar cómo todas las faltas disminuyen de manera drástica hasta desaparecer por completo de los registros a partir del año 2015. Por otro lado, se observa un aumento significativo en delitos como los relacionados con lesiones o contra la libertad. Esto podría deberse a que, tras la reforma mencionada anteriormente, muchas conductas como agresiones físicas leves, amenazas o coacciones, que previamente se consideraban faltas contra las personas, pasaron a clasificarse como delitos por lesiones o contra la libertad, respectivamente. Un razonamiento similar puede aplicarse a la disminución de faltas contra el patrimonio y el orden público, frente al incremento de delitos en estos ámbitos. Este cambio también explica la anomalía observada previamente en los gráficos boxplots de las faltas.
 
 Como mencionamos anteriormente, algunos delitos se dividen en subclasificaciones debido a la amplitud de ciertas categorías. Por ejemplo, aunque el robo y el hurto son diferentes (el primero implica el uso de fuerza o amenazas, mientras que el segundo no), ambos se engloban dentro de los delitos contra el patrimonio y el orden socioeconómico. Por ello, resulta fundamental analizar cómo se distribuyen estas subcategorías. Para ello, emplearemos gráficos de barras apiladas que nos permitirán visualizar las distribuciones de las subclasificaciones más relevantes. La selección se ha realizado considerando aquellas categorías con mayor número de subclasificaciones o las que presentan índices de frecuencia más altos.
 
 
 ```{r, echo = FALSE, include=FALSE} 
-delitos_clasi <- df_delitos_menores %>%   # ESTE GRÁFICO AL FINAL NO VAMOS A METERLO (CARLOS)
+delitos_clasi <- df_delitos_menores %>%
   # Quitamos los NA's
   filter(!is.na(año) & !is.na(total_delitos)) %>%
   # Agrupamos segun el tipo de infracción
@@ -639,10 +638,9 @@ ggplot(data = delitos_subclasi_13,
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         strip.text = element_text(size = 6))
 ```
-Como podemos observar, los delitos contra el patrimonio mas frecuentes son los robos y los hurtos.
+Como podemos observar, los delitos contra el patrimonio más frecuentes son los robos y los hurtos.
 
-
-Conviene también analizar de forma más detallada los delitos contra la libertad, pues son de los más frecuentes y cuentan con diversas subcategorías.
+Conviene también analizar de forma más detallada los delitos contra la libertad, pues son de los más perpetuados y cuentan con diversas subcategorías.
 
 ```{r}
 delitos_subclasi_6 <- df_delitos_menores %>%
@@ -779,15 +777,15 @@ ggplot(data = delitos_subclasi_22,
         strip.text = element_text(size = 6))
 ```
 
-Estos picos podrían estar vinculados a varios factores derivados del contexto post-pandemia. Durante el confinamiento, las restricciones de movimiento y otras medidas sanitarias generaron tensiones entre autoridades y ciudadanos, con numerosos episodios de resistencia frente a las normativas restrictivas.La relajación de las restricciones en 2021 llevó a un incremento generalizado de la actividad social, lo cual también se pudo traducir en un aumento de ciertos tipos de delitos, como altercados y confrontaciones con las autoridades.
+Estos picos podrían estar vinculados a varios factores derivados del contexto post-pandemia. Durante el confinamiento, las restricciones de movimiento y otras medidas sanitarias generaron tensiones entre autoridades y ciudadanos, con numerosos episodios de resistencia frente a las normativas restrictivas. La relajación de las restricciones en 2021 llevó a un incremento generalizado de la actividad social, lo cual también se pudo traducir en un aumento de ciertos tipos de delitos, como altercados y confrontaciones con las autoridades.
 
 ### Analisis bivariante
 
 A continuación, nos enfocaremos en el análisis bivariante. Es decir, analizaremos las relaciones entre las variables para detectar patrones que nos permitan describir la evolución de la delincuencia juvenil a lo largo del tiempo. Para ello, realizaremos visualizaciones que ilustrarán estas relaciones facilitando su interpretación. 
 
-En primer lugar, realizaremos un análisis de las relaciones entre los tipos de delitos por clasificación. Tenemos un total de 16 clasificaciones diferentes, algunas de las cuales cuentan con subclasificaciones. Como se observa en las gráficas anteriores, la mayoría de las clasificaciones con subcategorías tienen un número reducido de estas, y suele predominar una subclasificación en particular. Por ello, no resulta particularmente relevante realizar el análisis usando las subclasificaciones. Sin embargo, en el caso de los delitos contra el patrimonio y el orden socioeconómico, hay un total de 8 subcategorías, y las frecuencias de cada una de ellas están más distribuidas. Dado que esta es, además, la clasificación mayor índice de frecuencia, resulta interesante realizar un análisis bivariante con las subclasificaciones de este tipo de delito. Por consiguiente, primero llevaremos a cabo un análisis bivariante entre clasificaciones para examinar la correlación entre los distintos tipos de delitos, y posteriormente haremos lo mismo para las subcategorías de los delitos contra el patrimonio.
+En primer lugar, realizaremos un análisis de las relaciones entre los tipos de delitos por clasificación. Tenemos un total de 16 clasificaciones diferentes, algunas de las cuales cuentan con subclasificaciones. Como se observa en las gráficas anteriores, la mayoría de las clasificaciones con subcategorías tienen un número reducido de estas, y suele predominar una subclasificación en particular. Por ello, no resulta particularmente relevante realizar el análisis usando las subclasificaciones. Sin embargo, en el caso de los delitos contra el patrimonio y el orden socioeconómico, hay un total de 8 subcategorías, y las frecuencias de cada una de ellas están más distribuidas. Dado que esta es, además, la clasificación con mayor índice de frecuencia, resulta interesante realizar un análisis bivariante con las subclasificaciones de este tipo de delito. Por consiguiente, primero llevaremos a cabo un análisis bivariante entre clasificaciones para examinar la correlación entre los distintos tipos de delitos, y posteriormente haremos lo mismo para las subcategorías de los delitos contra el patrimonio.
 
-Para llevar a cabo el análisis por clasificaciones, hemos optado por eliminar las categorías menos relevantes. En el gráfico *Evolución en el tiempo de cada tipo de delito* se puede observar que tanto los delitos de falsedades como las faltas contra intereses generales presentan una frecuencia muy baja en los últimos diez años, lo que reduce su relevancia para el análisis. Además, la categoría "Resto de delitos" también muestra una baja frecuencia y aporta poca información al no corresponder a un tipo específico de delito. Por estos motivos, hemos decidido excluir estas categorías, y así poder centrar el análisis en los tipos de delito con mayor impacto  y especificidad.
+Para llevar a cabo el análisis por clasificaciones, hemos optado por eliminar las categorías menos relevantes. En el gráfico \ref{fig:analisis_variables_1} se puede observar que tanto los delitos de falsedades como las faltas contra intereses generales presentan una frecuencia muy baja en los últimos diez años, lo que reduce su relevancia para el análisis. Además, la categoría "Resto de delitos" también muestra una baja frecuencia y aporta poca información al no corresponder a un tipo específico de delito. Por estos motivos, hemos decidido excluir estas categorías, y así poder centrar el análisis en los tipos de delito con mayor impacto  y especificidad.
 
 ```{r}
 # Creamos un nuevo dataframe eliminando las infracciones poco relevantes para el análisis
@@ -831,7 +829,7 @@ correlaciones_clasi <- as.data.frame(as.table(matriz_correlacion_clasi)) %>%
   arrange(desc(Freq))
 ```
 
-Mediante el cálculo de una matriz de correlación hemos realizado el siguiente gráfico, que muestra todas las correlaciones entre cada tipo de delito.
+Mediante el cálculo de una matriz de correlación hemos realizado el gráfico \ref{fig:correlaciones_delitos}, que muestra todas las correlaciones entre cada tipo de delito.
 
 ```{r correlaciones_delitos, fig.cap = "Correlaciones delitos más relevantes"}
 # Visualiza las correlaciones más relevantes
@@ -1003,7 +1001,7 @@ ggplot(top_10_delitos_por_edad,
 
 Notamos que la mayoría de delitos siguen una distribución similar. Además, se evidencia un aumento en la frecuencia de los delitos conforme avanzamos en los grupos de edad. Los delitos más comunes en todas las edades son, sin duda, los delitos por lesiones y los robos, seguidos por los hurtos.
 
-Por último, examinaremos la evolución de cada uno de estos delitos a lo largo de los últimos diez años, para cada grupo de edad.
+Por último, examinaremos la evolución de cada uno de estos delitos a lo largo de los últimos diez años mediante el gráfico \ref{fig:cant_delitos_edad_delincuente}, para cada grupo de edad.
 
 ```{r cant_delitos_edad_delincuente, fig.cap="Evolución del Total de Delitos para Edad"}
 delitos_por_edad_i_año <- df_delitos_menores %>%
@@ -1055,12 +1053,12 @@ Durante este apartado resolveremos aquellas preguntas que nos planteamos al prin
 
 ### 1. ¿Cuáles son los delitos más frecuentes y qué edades los perpetran? ¿Han aumentado o han disminuido en los últimos años?
 
-Analizando primaremente la cantidad de delitos sin centrarnos en la edad, podemos ver que que los delitos más relevantes son los siguientes:
+Analizando primeramente la cantidad de delitos sin centrarnos en la edad, podemos ver que que los delitos más relevantes son los siguientes:
 
 * 13. Contra el patrimonio y el orden socioeconómico. Que incluyen, robos, hurtos, defraudaciones, ... Es un delito bastante amplio.
 * 3.  Lesiones. Este incluye todo tipo de lesiones ocasionadas por el menor.
 * 6.  Contra la libertad. Incluyendo coacciones, amenazas y secuestros.
-* Faltas contras las personas. Este, como ya hemos analizado, carecer de relevancia actual así que nos centraremos en los otros 3. Ya que su importancia se ve reflejada en los delitos 3 y 6.
+* Faltas contras las personas. Este, como ya hemos analizado, carece de relevancia actual así que nos centraremos en los otros 3. Ya que su importancia se ve reflejada en los delitos 3 y 6.
 
 ```{r, visualizacion_explicatoria_pre_1}
 EvolucionTiempoSegunDelito <- ggplot(
@@ -1139,8 +1137,8 @@ Podemos concluir de esta cuestión que la edad del delincuente no es un factor d
 
 Tras el estudio exploratorio hemos podido diferenciar claramente un suceso y dos leyes o reformas.
 
-* *Covid-19*. Teniendo una gran decaimiento en la cantidad de delitos en 2020-2021, como podemos apreciar en la siguite gráfica \ref{fig:visualizacion_explicatoria_pre_3}.
-* *Reforma del código penal el año 2015*. Retirando las Faltas y considerandolas delitos. Aprenciandose claramente al analizar el gráfico de correlaciones \ref{fig:correlaciones_delitos}. Donde están fuertemente correlacionadas, de manera inversa, las faltas con los delitos 3 y 6.
+* *Covid-19*. Teniendo una gran decaimiento en la cantidad de delitos en 2020-2021, como podemos apreciar en la siguiente gráfica \ref{fig:visualizacion_explicatoria_pre_3}.
+* *Reforma del código penal el año 2015*. Retirando las Faltas y considerandolas delitos. Apreciándose claramente al analizar el gráfico de correlaciones \ref{fig:correlaciones_delitos}. Donde están fuertemente correlacionadas, de manera inversa, las faltas con los delitos 3 y 6.
 * *Ley Orgánica 10/2022*. Agregando dos nuevos delitos "Contra la libertad e indemnidad sexuales" debido al crecimiento de los delitos sexuales \ref{fig:delitos_sexuales} en los últimos años requiriendo una clasificación y tratamiento personalizado.
 
 ```{r visualizacion_explicatoria_pre_3, fig.cap="Evolución Delitos totales"}
@@ -1172,161 +1170,13 @@ ggplot() +
              color = "black", size = 1)
 ```
 
-```{r visualizacion_explicatoria_pre_4}
+Para finalizar y con el objetivo de un mayor entendimiento del tema, proporcionamos un archivo R (en /shiny/shiny_ProyectoAED2024.R) con una app realizada mediante SHINY. Ejecutando la aplicación, podréis interactuar con dos gráficos. El primero os permitirá graficar los delitos más frecuentes a partir de la edad del infractor. El segundo os ayudará a visualizar todos los delitos y sus clasificaciones a lo largo de los años.
 
-ui <- fluidPage(
-  sliderInput('n', 'Número de delitos en el top:', min= 1, max = 10, value = 1), 
-  sliderInput('edad','Edad:', min = 14, max = 17, value = 14),
-  plotly::plotlyOutput('plot_clasi_infrac')
+```{r guardar_datasets}
+save(list = c("delitos_por_edad", "df_delitos_menores"),
+     # RUN ALL:
+     # file = "./data/delitos_shiny.Rdata"
+     # KNIT:
+     file = "../data/delitos_shiny.Rdata"
 )
-
-server <- function(input, output, session){
-  # Function to plot trends in a name
-  plot_clasific <- function(){
-    
-        top_n_delitos_por_edad <- delitos_por_edad %>%
-              filter(edad == input$edad) %>%
-              slice_max(order_by = total, n = input$n) %>%
-              mutate(label_clasi_subclasi = ifelse(nchar(as.character(clasi_subclasi)) > 20,
-                                               paste(substring(as.character(clasi_subclasi),
-                                                             1, 16),
-                                                   "..."),
-                                               as.character(clasi_subclasi)))
-    
-        delitos_por_edad_i_año <- df_delitos_menores %>%
-              filter(edad == input$edad) %>%
-              # Creamos nueva columna con todas las las subclasificaciones
-              mutate(clasi_subclasi = ifelse(is.na(as.character(sub_clasi_infrac)), 
-                                             as.character(clasi_infrac), 
-                                             as.character(sub_clasi_infrac))) %>%
-              mutate(clasi_subclasi = as.factor(clasi_subclasi)) %>%
-              # Quitamos los NA's
-              filter(!is.na(edad) & !is.na(total_delitos)) %>%
-              # Agrupamos segun el tipo de infracción
-              group_by(año, clasi_subclasi, id_clasi) %>%
-              # Sumar el total de infracciones
-              summarise(total = sum(total_delitos), .groups = 'drop')
-            
-        top_n_delitos_por_edad_i_año <- delitos_por_edad_i_año %>%
-              semi_join(top_n_delitos_por_edad,
-                        by = c("clasi_subclasi")) %>%
-              mutate(label_clasi_subclasi = ifelse(nchar(as.character(clasi_subclasi)) > 20,
-                                               paste(substring(as.character(clasi_subclasi),
-                                                             1, 16),
-                                                   "..."),
-                                               as.character(clasi_subclasi))) %>%
-              mutate(label_clasi_subclasi =
-                       ifelse(startsWith(label_clasi_subclasi, "Faltas"),
-                              id_clasi,
-                              label_clasi_subclasi))
-        
-            
-            ggplot(data = top_n_delitos_por_edad_i_año,
-                   aes(x = año, y = total, color = label_clasi_subclasi)) +
-            geom_line() +
-            geom_point() +
-            labs(title = paste("Evolución del Total de Delitos para Edad"),
-                 x = "Año",
-                 y = "Total de Delitos",
-                 color = "Tipo de Delito") +
-            theme_minimal() +
-            scale_x_continuous(breaks = seq(2013, 2023, by = 2),
-                               limits = c(2013, 2023),
-                               labels = as.character(seq(13, 23, by = 2)))
-                       
-  }
-  # CODE BELOW: Render a plotly output named 'plot_trendy_names'
-  output$plot_clasi_infrac <- plotly::renderPlotly({
-    plot_clasific()
-  })
-  
-  
-}
-
-shinyApp(ui = ui, server = server)
-
 ```
-
-```{r visualizacion_explicatoria_pre_5}
-
-choices <- unique( df_delitos_menores$id_clasi )
-choices <- choices[c(-1,-2,-4)]
-choices <- choices[ -(  (length(choices)-4):length(choices) )]
-
-ui <- fluidPage(
-  selectInput('clase', 'Tipo de delito:', choices = choices), 
-  
-  plotly::plotlyOutput('plot_clasi_infrac')
-)
-
-server <- function(input, output, session){
-  # Function to plot trends in a name
-  plot_clasific <- function(){
-   clase <-  input$clase
-
-delitos_subclasi_n <- df_delitos_menores %>%
-  # Quitamos los NA's
-  filter(!is.na(año) & !is.na(total_delitos) & !is.na(sub_clasi_infrac)) %>%
-  # Agrupamos por año y subclasificación
-  group_by(año, id_clasi, sub_clasi_infrac) %>%
-  # Sumar el total de infracciones
-  summarise(total = sum(total_delitos), .groups = 'drop') %>%
-  # Filtrar solo el tipo de delito deseado
-  filter(id_clasi == clase) %>%
-  mutate(label_clasi_subclasi = ifelse(nchar(as.character(sub_clasi_infrac)) > 20,
-                                   paste(substring(as.character(sub_clasi_infrac),
-                                                 1, 16),
-                                       "..."),
-                                   as.character(sub_clasi_infrac)))
-
-ggplot(data = delitos_subclasi_n,
-       aes(x = año, y = total, fill = label_clasi_subclasi)) + 
-  geom_bar(stat = "identity") +
-  labs(title = as.character(unique(df_delitos_menores$clasi_infrac))[ which( unique(df_delitos_menores$id_clasi) == clase)], 
-       x = "Año", 
-       y = "Total de Delitos",fill='Subclasificación') +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        strip.text = element_text(size = 6))                  
-  }
-  # CODE BELOW: Render a plotly output named 'plot_trendy_names'
-  output$plot_clasi_infrac <- plotly::renderPlotly({
-    plot_clasific()
-  })
-  
-  
-}
-
-shinyApp(ui = ui, server = server)
-
-```
-
-```{r, echo = FALSE}
-# Pruebas shiny
-clase <- "8"
-
-delitos_subclasi_n <- df_delitos_menores %>%
-  # Quitamos los NA's
-  filter(!is.na(año) & !is.na(total_delitos) & !is.na(sub_clasi_infrac)) %>%
-  # Agrupamos por año y subclasificación
-  group_by(año, id_clasi, sub_clasi_infrac) %>%
-  # Sumar el total de infracciones
-  summarise(total = sum(total_delitos), .groups = 'drop') %>%
-  # Filtrar solo el tipo de delito deseado
-  filter(id_clasi == clase) %>%
-  mutate(label_clasi_subclasi = ifelse(nchar(as.character(sub_clasi_infrac)) > 20,
-                                   paste(substring(as.character(sub_clasi_infrac),
-                                                 1, 16),
-                                       "..."),
-                                   as.character(sub_clasi_infrac)))
-
-ggplot(data = delitos_subclasi_n,
-       aes(x = año, y = total, fill = label_clasi_subclasi)) + 
-  geom_bar(stat = "identity") +
-  labs(title = clase, 
-       x = "Año", 
-       y = "Total de Delitos",fill='Subclasificación') +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        strip.text = element_text(size = 6))
-```
-
-
