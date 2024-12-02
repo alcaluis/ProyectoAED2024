@@ -76,9 +76,6 @@ col_names <- c("delitos_n1", "delitos_n2", "delitos_n3",
                "año", "total_delitos")
 
 delitos_menores_raw <- read_delim(
-  # RUN ALL:
-  # file = "./data/delitos_menores_2013_2023.csv",
-  # KNIT:
   file = "../data/delitos_menores_2013_2023.csv", 
   delim = ";",
   escape_double = FALSE,
@@ -1174,9 +1171,5 @@ Para finalizar y con el objetivo de un mayor entendimiento del tema, proporciona
 
 ```{r guardar_datasets}
 save(list = c("delitos_por_edad", "df_delitos_menores"),
-     # RUN ALL:
-     # file = "./data/delitos_shiny.Rdata"
-     # KNIT:
-     file = "../data/delitos_shiny.Rdata"
-)
+     file = "../data/delitos_shiny.Rdata")
 ```
