@@ -1,0 +1,1 @@
+Proyecto para la asignatura de **AED** del **Máster en Ciencia de Datos**. Durante este proyecto realizaremos un análisis exploratorio del conjunto de datos relacionado con la delincuencia juvenil en España.
